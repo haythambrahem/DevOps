@@ -20,4 +20,6 @@ public class Role {
     @Enumerated(STRING)
     private ERole roleName;
 
+    public Role(ERole eRole) {
+    }
 }
