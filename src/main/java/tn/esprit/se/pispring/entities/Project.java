@@ -101,4 +101,8 @@ public class Project {
     public void setBudget(Budget budget) {
         this.budget = budget;
     }
+
+    public boolean isCompleted() {
+        return projectStatus == ProjectStatus.COMPLETED; // Replace with the actual value representing a completed status
+    }
 }

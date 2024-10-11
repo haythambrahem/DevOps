@@ -93,6 +93,7 @@ public List<Project> getProjectsByBudgetId(Long budgetId) {
 
 
 
+
     @Override
     public Date findLatestTaskEndDate(Project project) {
         Date latestTaskEndDate = null;
@@ -129,6 +130,18 @@ public List<Project> getProjectsByBudgetId(Long budgetId) {
             return ((double) completedFutureProjects.size() / allProjects.size()) * 100;
         }
     }
+
+    public double calculateCompletedFuturePercentage(List<Project> projects) {
+        if (projects.isEmpty()) {
+            return 0.0; // return 0 if no projects
+        }
+
+        long totalProjects = projects.size();
+        long completedProjects = projects.stream().filter(Project::isCompleted).count();
+
+        return (double) completedProjects / totalProjects * 100.0;
+    }
+
 
     @Override
     public List<Project> getProjectsForCurrentUser() {
