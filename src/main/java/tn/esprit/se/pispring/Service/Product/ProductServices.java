@@ -2,6 +2,7 @@ package tn.esprit.se.pispring.Service.Product;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -28,37 +29,15 @@ import java.util.stream.Collectors;
 public class ProductServices implements IProductServices{
     private final CartItemRepository cartItemRepository;
     private final LikeDislikeRepository likeDislikeRepository;
-    private final ProductRepository productRepository;
+   private final ProductRepository productRepository;
     private final BarcodeServiceImpl barcodeService;
 private final ProductionRepository productionRepository;
+
     @Override
     public Product addProduct(Product product) {
         return productRepository.save(product);
     }
-//    @Override
-//    public Product addProductWithBarcode(Product product) {
-//        try {
-//            // Générer le code-barres pour la référence du produit
-//            ResponseEntity<byte[]> response = barcodeService.generateBarcode(product.getReference());
-//
-//            if (response.getStatusCode() == HttpStatus.OK) {
-//                // Récupérer le code-barres sous forme d'octets
-//                byte[] barcodeBytes = response.getBody();
-//
-//                // Associer le code-barres au produit
-//                product.setBarcode(Base64.getEncoder().encodeToString(barcodeBytes));
-//
-//                // Enregistrer le produit dans la base de données
-//                return productRepository.save(product);
-//            } else {
-//                log.error("Failed to generate barcode for product reference: {}", product.getReference());
-//                return null; // Ou lancez une exception appropriée si nécessaire
-//            }
-//        } catch (Exception e) {
-//            log.error("Error adding product with barcode: {}", e.getMessage());
-//            return null; // Ou lancez une exception appropriée si nécessaire
-//        }
-//    }
+
 @Override
 public Product addProductWithBarcodeAndAssignProduction(Product product, Long productionId) {
     try {
@@ -125,7 +104,7 @@ public Product addProductWithBarcodeAndAssignProduction(Product product, Long pr
             return productRepository.findByTitleContainingIgnoreCaseOrDescriptionContainingIgnoreCase(searchKey, searchKey);
         }
   }
-
+////////////////fct avancee//////////////////
 @Override
 
 public List<Object[]> calculateAveragePriceByType() {

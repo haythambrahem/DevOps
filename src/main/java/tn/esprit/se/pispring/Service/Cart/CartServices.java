@@ -86,7 +86,7 @@ public Cart addCart(Cart cart) {
         cartRepository.save(cart); // Sauvegarde les modifications du panier
     }
 
-
+///////////////////////////avanceeee/////////////////////
     @Override
     public float calculateTotalPrice(Long cartId) {
         Cart cart = cartRepository.findById(cartId)
