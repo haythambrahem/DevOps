@@ -17,4 +17,5 @@ public class MessageDTO {
     private String senderEmail;
     private String replymessage;
     private int chatId;
+    ///
 }
