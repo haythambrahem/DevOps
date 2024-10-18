@@ -144,6 +144,7 @@
                 </configuration>
             </plugin>
         </plugins>
+        <finalName>DevOps</finalName>
     </build>
 
 </project>
