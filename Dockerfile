@@ -1,19 +1,21 @@
 # Étape 1 : Construire l'application Spring Boot à l'aide de Maven
  # Utilise l'image Maven avec OpenJDK 17 comme environnement de construction
-FROM maven:3.9.9-openjdk-17 AS build
+FROM maven:3.9.9-eclipse-temurin-17 AS build
 # Définit le répertoire de travail dans le conteneur
 WORKDIR /app
+# Copier uniquement le fichier pom.xml pour permettre le cache des dépendances Maven
+COPY pom.xml ./
+RUN mvn dependency:go-offline -B
 
-# Copier les fichiers du projet Maven
-# Copie le fichier pom.xml dans le conteneur
-
-COPY pom.xml .
- # Copie le répertoire source du projet dans le conteneur
-COPY src ./src
 
 # Construire l'application Spring Boot
-# Exécute la commande Maven pour construire le projet, en sautant les tests
+# Copier tout le code source et construire l'application (Jenkins gère déjà la compilation Maven, donc ce sera une étape de sécurité)
+COPY src ./src
 RUN mvn clean package -DskipTests
+# Renommer le fichier JAR généré pour qu'il soit nommé 'DevOps.jar'
+RUN mv target/*.jar target/DevOps.jar
+#--------step2 with alpine os---------------
+
 
 # Étape 2 : Créer une image Docker légère
 # Utilise une image OpenJDK 17 légère basée sur Alpine
@@ -32,3 +34,4 @@ EXPOSE 8080  # Indique que le conteneur écoute sur le port 8080
 # Définit la commande à exécuter lorsque le conteneur démarre
 
 ENTRYPOINT ["java", "-jar", "DevOps.jar"]
+#delivered by ingineering student
