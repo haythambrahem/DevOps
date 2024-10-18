@@ -1,4 +1,4 @@
-package tn.esprit.se.pispring.Service.Product;
+package tn.esprit.se.pispring;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

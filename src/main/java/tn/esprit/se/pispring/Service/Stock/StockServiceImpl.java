@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tn.esprit.se.pispring.Repository.MouvementStockRepository;
 import tn.esprit.se.pispring.Repository.ProductRepository;
-import tn.esprit.se.pispring.Service.Product.ProductServices;
+import tn.esprit.se.pispring.ProductServices;
 import tn.esprit.se.pispring.entities.MouvementStock;
 import tn.esprit.se.pispring.entities.Product;
 import tn.esprit.se.pispring.entities.TypeMouvement;

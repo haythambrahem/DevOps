@@ -24,7 +24,7 @@ public class Product {
     private Long productId;
     //    private Integer quantity;
     private String reference;
-  //  private String barcode;
+   private String barcode;
     private String title;
 
     @Column(columnDefinition = "MEDIUMTEXT")
@@ -66,7 +66,7 @@ public class Product {
     private List<MouvementStock> mouvementsStock;
 
 
-  public void setBarcode(String s) {
-  }
+//  public void setBarcode(String s) {
+//  }
 }
 

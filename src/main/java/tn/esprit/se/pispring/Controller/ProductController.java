@@ -5,12 +5,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.se.pispring.Repository.ProductRepository;
-import tn.esprit.se.pispring.Service.Product.ProductServices;
+import tn.esprit.se.pispring.ProductServices;
 import tn.esprit.se.pispring.Service.ProductionService.ProductionServiceImpl;
 import tn.esprit.se.pispring.entities.Product;
-import tn.esprit.se.pispring.entities.Production;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @RestController

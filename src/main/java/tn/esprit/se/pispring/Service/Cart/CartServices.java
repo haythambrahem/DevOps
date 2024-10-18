@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import tn.esprit.se.pispring.Repository.CartItemRepository;
 import tn.esprit.se.pispring.Repository.CartRepository;
 import tn.esprit.se.pispring.Repository.ProductRepository;
-import tn.esprit.se.pispring.Service.Product.ProductServices;
+import tn.esprit.se.pispring.ProductServices;
 import tn.esprit.se.pispring.entities.Cart;
 import tn.esprit.se.pispring.entities.CartItem;
 import tn.esprit.se.pispring.entities.Product;

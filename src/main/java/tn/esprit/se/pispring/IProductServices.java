@@ -1,4 +1,4 @@
-package tn.esprit.se.pispring.Service.Product;
+package tn.esprit.se.pispring;
 
 import org.springframework.scheduling.annotation.Scheduled;
 import tn.esprit.se.pispring.entities.Product;
