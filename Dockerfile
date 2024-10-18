@@ -14,6 +14,7 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 # Renommer le fichier JAR généré pour qu'il soit nommé 'DevOps.jar'
 RUN mv target/*.jar target/DevOps.jar
+#--------step2 with alpine os---------------
 
 
 # Étape 2 : Créer une image Docker légère
