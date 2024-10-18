@@ -3,8 +3,6 @@
 FROM maven:3.9.9-eclipse-temurin-17 AS build
 # Définit le répertoire de travail dans le conteneur
 WORKDIR /app
-
-
 # Copier uniquement le fichier pom.xml pour permettre le cache des dépendances Maven
 COPY pom.xml ./
 RUN mvn dependency:go-offline -B
