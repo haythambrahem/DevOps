@@ -9,11 +9,8 @@ import tn.esprit.se.pispring.Repository.UserRepository;
 import tn.esprit.se.pispring.Service.UserImp;
 import tn.esprit.se.pispring.entities.*;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
@@ -28,70 +25,42 @@ class UserServiceImplMockTest {
     private UserImp userService;
 
     @Test
-    void testGetUsersTaskStatus_AllTasksCompleted() {
-        // Create ROLE_USER
+    void testGetUsersTaskStatus_MultipleCases() {
         Role roleUser = new Role();
         roleUser.setRoleName(ERole.ROLE_USER);
 
-        // Create completed tasks
-        Task completedTask1 = new Task();
-        completedTask1.setTaskStatus(TaskStatus.COMPLETED);
+        List<User> userList = new ArrayList<>();
 
-        Task completedTask2 = new Task();
-        completedTask2.setTaskStatus(TaskStatus.COMPLETED);
+        // Loop to create multiple users and vary the task statuses
+        for (int i = 1; i <= 6; i++) {
+            User user = new User();
+            user.setRoles(Collections.singletonList(roleUser));
 
-        // Create user with ROLE_USER and all completed tasks
-        User user1 = new User();
-        user1.setRoles(Collections.singletonList(roleUser));
-        Set<Task> tasks = new HashSet<>(Arrays.asList(completedTask1, completedTask2));
-        user1.setTasks(tasks);
+            // Randomly assign completed or incomplete tasks based on the loop index
+            Set<Task> tasks = new HashSet<>();
+            int finalI = i;
+            IntStream.range(1, 4).forEach(j -> {
+                Task task = new Task();
+                task.setTaskStatus(finalI % 2 == 0 ? TaskStatus.COMPLETED : TaskStatus.IN_PROGRESS);  // Alternate between completed and incomplete
+                tasks.add(task);
+            });
 
-        // Mock repository response
-        when(userRepository.findAll()).thenReturn(Collections.singletonList(user1));
+            user.setTasks(tasks);
+            userList.add(user);
+        }
+
+        // Mock the repository to return the user list
+        when(userRepository.findAll()).thenReturn(userList);
 
         // Call the service method
         Map<String, Object> result = userService.getUsersTaskStatus();
 
-        // Debugging outputs
-        System.out.println("Result: " + result); // Debugging output to verify the result
+        // Output the result for debugging purposes
+        System.out.println("Result: " + result);
 
         // Verify the results
-        assertEquals(1, result.get("totalUsers"));  // There is one user
-        assertEquals(1, result.get("usersWithAllTasksCompleted"));  // This user has all tasks completed
-        assertEquals(0, result.get("usersWithIncompleteTasks"));  // No users have incomplete tasks
-    }
-
-    @Test
-    void testGetUsersTaskStatus_WithIncompleteTasks() {
-        // Create ROLE_USER
-        Role roleUser = new Role();
-        roleUser.setRoleName(ERole.ROLE_USER);
-
-        // Create tasks (one completed, one incomplete)
-        Task completedTask = new Task();
-        completedTask.setTaskStatus(TaskStatus.COMPLETED);
-
-        Task incompleteTask = new Task();
-        incompleteTask.setTaskStatus(TaskStatus.IN_PROGRESS);  // Not completed
-
-        // Create user with ROLE_USER and tasks
-        User user2 = new User();
-        user2.setRoles(Collections.singletonList(roleUser));
-        Set<Task> tasks = new HashSet<>(Arrays.asList(completedTask, incompleteTask));
-        user2.setTasks(tasks);
-
-        // Mock repository response
-        when(userRepository.findAll()).thenReturn(Collections.singletonList(user2));
-
-        // Call the service method
-        Map<String, Object> result = userService.getUsersTaskStatus();
-
-        // Debugging outputs
-        System.out.println("Result: " + result); // Debugging output to verify the result
-
-        // Verify the results
-        assertEquals(1, result.get("totalUsers"));  // There is one user
-        assertEquals(0, result.get("usersWithAllTasksCompleted"));  // This user has incomplete tasks
-        assertEquals(1, result.get("usersWithIncompleteTasks"));  // The user has incomplete tasks
+        assertEquals(6, result.get("totalUsers"));  // There are five users in total
+        assertEquals(3, result.get("usersWithAllTasksCompleted"));  // Two users have all tasks completed
+        assertEquals(3, result.get("usersWithIncompleteTasks"));  // Three users have incomplete tasks
     }
 }
