@@ -7,6 +7,7 @@ WORKDIR /app
 COPY pom.xml ./
 RUN mvn dependency:go-offline -B
 
+
 # Construire l'application Spring Boot
 # Copier tout le code source et construire l'application (Jenkins gère déjà la compilation Maven, donc ce sera une étape de sécurité)
 COPY src ./src
