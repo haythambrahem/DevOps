@@ -1,0 +1,69 @@
+version: '3.8'
+
+services:
+  # Service pour la base de données MySQL
+  mysql:
+    image: mysql:5.7  # Utilisez une version plus récente si nécessaire
+    container_name: mysql-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword  # Mot de passe root MySQL
+      MYSQL_DATABASE: mydb  # Nom de la base de données
+      MYSQL_USER: user  # Utilisateur MySQL
+      MYSQL_PASSWORD: password  # Mot de passe utilisateur
+    ports:
+      - "3306:3306"  # MySQL sera accessible sur ce port
+    volumes:
+      - db_data:/var/lib/mysql  # Volume pour la persistance des données
+    networks:
+      - app-network  # Réseau partagé avec les autres services
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 30s  # Vérifie la santé toutes les 30 secondes
+      timeout: 10s   # Attente de 10 secondes avant un échec
+      retries: 5     # Tentatives avant de déclarer le conteneur non sain
+      start_period: 30s  # Période d'attente avant de démarrer les contrôles
+
+  # Service phpMyAdmin pour gérer la base de données via une interface web
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: mysql  # Connexion à MySQL
+      MYSQL_ROOT_PASSWORD: rootpassword  # Mot de passe root MySQL
+    ports:
+      - "8081:80"  # PhpMyAdmin sera accessible sur http://localhost:8081
+    depends_on:
+      - mysql  # phpMyAdmin ne démarre qu'après MySQL
+    networks:
+      - app-network
+
+  # Service pour le frontend Angular
+  angular:
+    image: node:16-alpine  # Node.js pour construire et servir Angular
+    container_name: angular-app
+    restart: always
+    working_dir: /app
+    volumes:
+      - ./frontend:/app  # Assurez-vous que le projet Angular est dans un dossier "frontend"
+    command: sh -c "npm install && npm run start"
+    ports:
+      - "4200:4200"  # Angular accessible sur http://localhost:4200
+    networks:
+      - app-network
+    depends_on:
+      - mysql  # Angular ne démarre qu'après MySQL
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:4200 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+volumes:
+  db_data:
+
+networks:
+  app-network:
+    driver: bridge
