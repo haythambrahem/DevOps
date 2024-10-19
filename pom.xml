@@ -180,6 +180,33 @@
                     </excludes>
                 </configuration>
             </plugin>
+            <!-- OWASP Dependency-Check Plugin -->
+            <plugin>
+                <groupId>org.owasp</groupId>
+                <artifactId>dependency-check-maven</artifactId>
+                <version>6.5.0</version> <!-- Use the latest stable version -->
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <!-- Instead of apiKey element, set it through a system property -->
+                    <dataDirectory>${project.build.directory}/dependency-check-data</dataDirectory>
+
+                    <!-- Optionally reduce the update frequency (in hours) -->
+                    <cveValidForHours>24</cveValidForHours>
+
+                    <!-- Disable automatic updates if not needed for each build -->
+                    <autoUpdate>true</autoUpdate>
+
+                    <!-- Optional: Use suppression file for false positives -->
+                    <suppressionFile>dependency-check-suppression.xml</suppressionFile>
+                </configuration>
+            </plugin>
+
         </plugins>
         <finalName>DevOps</finalName>
     </build>
