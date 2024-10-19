@@ -61,6 +61,32 @@ services:
       retries: 5
       start_period: 30s
 
+  # Service pour le backend Spring Boot
+  backend:
+    image: openjdk:17-alpine  # Image Java pour exécuter Spring Boot
+    container_name: spring-boot-backend
+    restart: always
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/mydb  # Connexion MySQL
+      SPRING_DATASOURCE_USERNAME: user  # Utilisateur MySQL
+      SPRING_DATASOURCE_PASSWORD: password  # Mot de passe MySQL
+    volumes:
+      - ./backend:/app  # Assurez-vous que votre projet Spring Boot est dans le dossier "backend"
+    working_dir: /app
+    command: sh -c "java -jar target/myapp.jar"  # Remplacez "myapp.jar" par le nom de votre .jar
+    ports:
+      - "8080:8080"  # Le backend sera accessible sur http://localhost:8080
+    networks:
+      - app-network
+    depends_on:
+      - mysql  # Le backend attend que MySQL soit prêt
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/actuator/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
 volumes:
   db_data:
 
