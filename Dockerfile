@@ -18,3 +18,5 @@ EXPOSE 8080  # Indique que le conteneur écoute sur le port 8080
 
 ENTRYPOINT ["java", "-jar", "DevOps.jar"]
 #delivered by ingineering student
+# Ajouter un health check
+HEALTHCHECK --interval=30s --timeout=10s --retries=3 CMD curl --fail http://localhost:8080/health || exit 1
