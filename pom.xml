@@ -16,6 +16,13 @@
     <description>PiSpring</description>
     <properties>
         <java.version>17</java.version>
+<!--jacoco dpendency for code coverage-->
+        <jacoco.version>0.8.6</jacoco.version> <!-- JaCoCo version -->
+        <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+        <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis> <!-- Update with your SonarQube URL -->
+        <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath> <!-- SonarQube authentication token -->
+        <sonar.language>java</sonar.language>
+
     </properties>
     <dependencies>
 
@@ -164,6 +171,12 @@
             <version>3.19.0</version>
             <scope>test</scope>
         </dependency>
+<!--        jacoco dependency -->
+        <dependency>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.8.6</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -179,6 +192,33 @@
                         </exclude>
                     </excludes>
                 </configuration>
+            </plugin>
+<!--            jacoco plugin-->
+            <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>${jacoco.version}</version> <!-- Use the latest stable version -->
+            <executions>
+                <execution>
+                    <id>
+                        jacoco-initialize
+                    </id>
+                    <goals>
+                        <goal>prepare-agent</goal>
+                    </goals>
+
+                </execution>
+                <execution>
+                    <id>
+                        jacoco-site
+                    </id>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>report</goal>
+                    </goals>
+
+                </execution>
+            </executions>
             </plugin>
             <!-- OWASP Dependency-Check Plugin -->
             <plugin>
