@@ -9,7 +9,7 @@ WORKDIR /app
 # Copier le fichier JAR généré à partir de l'étape de build
  # Copie le fichier JAR construit à partir de l'étape précédente
 
-COPY --from=build /app/target/DevOps.jar DevOps.jar
+COPY --from=build /app/target/*.jar DevOps.jar
 # Exposer le port de l'application
 EXPOSE 8080  # Indique que le conteneur écoute sur le port 8080
 
