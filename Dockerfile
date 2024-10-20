@@ -2,7 +2,8 @@
 
 # Étape Dockerfile : Créer une image Docker légère
 # Utilise une image OpenJDK 17 légère basée sur Alpine
-FROM openjdk:17-jdk-alpine
+FROM alpine
+RUN apk add openjdk17
  # Définit le répertoire de travail dans le conteneur
 WORKDIR /app
 
