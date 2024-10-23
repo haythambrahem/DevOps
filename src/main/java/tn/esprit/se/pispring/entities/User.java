@@ -39,11 +39,6 @@ public class User {
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns  = @JoinColumn(name = "role_id"))
     private List<Role> roles = new ArrayList<>();
 
-//    @ManyToMany(fetch = EAGER)
-//    @JoinTable(name = "user_permissions", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns  = @JoinColumn(name = "permission_id"))
-//    private List<Permission> permissions = new ArrayList<>();
-
-
 
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
@@ -64,9 +59,6 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
     private Set<Leav> Leaves;
 
-    //@ManyToMany(mappedBy="users", cascade = CascadeType.ALL)
-   // private Set<Portfolio> portfolios;
-
     @ManyToMany(mappedBy="users", cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<Task> tasks;
@@ -79,8 +71,6 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
     @JsonIgnore
     private Set<NoteUser> NoteUsers;
-    //@OneToOne(mappedBy="portfolio")
-    //private Consultant consultant;
 
     @ManyToOne
     Portfolio portfolio;
