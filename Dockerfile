@@ -4,7 +4,7 @@
 # Utilise une image OpenJDK 17 légère basée sur Alpine
 FROM alpine
 RUN apk add openjdk17
-
+#docker file
  # Définit le répertoire de travail dans le conteneur
 WORKDIR /app
 
