@@ -11,12 +11,8 @@
     <distributionManagement>
         <repository>
             <id>deploymentRepo</id>
-            <url>http://192.168.142.135:8081/repository/maven-releases/</url>
+            <url>http://192.168.142.135:8081</url>
         </repository>
-        <snapshotRepository>
-            <id>nexus-snapshots</id>
-            <url>http://192.168.142.135:8081/repository/maven-snapshots/</url>
-        </snapshotRepository>
     </distributionManagement>
     <groupId>tn.esprit.se</groupId>
     <artifactId>PiSpring</artifactId>

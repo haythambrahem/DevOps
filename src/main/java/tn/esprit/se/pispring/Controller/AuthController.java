@@ -81,10 +81,8 @@ public class AuthController {
 //        Cookie cookie = createRefreshTokenCookie(refreshToken);
 //        response.addCookie(cookie);
         AuthenticationResponse auth = new AuthenticationResponse(user1.getId(), jwtUtils.generateToken(user, claims), user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
-        log.info("###########################");
-        log.info("###########################");
-        log.info("###########################");
-        log.info("###########################");
+
+
         log.info("this is the authentication response ");
         log.info("this is the token");
         log.info("=================");
@@ -92,11 +90,7 @@ public class AuthController {
         log.info("this is the id");
         log.info("=================");
         log.info(auth.getId().toString());
-        log.info("###########################");
-        log.info("###########################");
-        log.info("###########################");
-        log.info("###########################");
-        log.info("###########################");
+
         log.info("###########################");
         return ResponseEntity.ok(auth);
     }
