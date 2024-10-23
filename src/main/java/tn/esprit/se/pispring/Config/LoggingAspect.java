@@ -4,18 +4,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.slf4j.LoggerFactory;
-import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
 
 @Component
 @Aspect
-@Slf4j
+@Slf4j  // This annotation provides the 'logger' variable
 public class LoggingAspect {
-    private static final Logger logger = (Logger) LoggerFactory.getLogger(LoggingAspect.class);
+
     @Before("execution(* tn.esprit.se.pispring.Service.NotificationService.sendScheduledNotifications(..))")
     public void logBeforeSendScheduledNotifications(JoinPoint joinPoint) {
-        logger.info("Executing scheduled method: {}", joinPoint.getSignature().toShortString());
+        // The logger is provided by Lombok, and using parameterized logging
+        log.info("Executing scheduled method: {}", joinPoint.getSignature().toShortString());
     }
-
 }
