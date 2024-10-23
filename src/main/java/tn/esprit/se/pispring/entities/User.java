@@ -78,7 +78,7 @@ public class User {
     @OneToOne
     private CustomerTracking customertracking;
 
-//DHOUUUUUUUUUUUUUUUUUUHA
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
     private Set<Command> Commands;
     @JsonIgnore
