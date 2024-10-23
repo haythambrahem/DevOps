@@ -1,7 +1,7 @@
 package tn.esprit.se.pispring.Controller;
 
 
-import lombok.extern.slf4j.Slf4j;
+import  lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +19,6 @@ import tn.esprit.se.pispring.DTO.Response.ProjectResponse;
 import tn.esprit.se.pispring.DTO.Response.UserResponse;
 import tn.esprit.se.pispring.Service.UserService;
 import tn.esprit.se.pispring.Service.UserStatisticsService;
-import tn.esprit.se.pispring.entities.Project;
 import tn.esprit.se.pispring.entities.User;
 import tn.esprit.se.pispring.secConfig.JwtUtils;
 
@@ -51,10 +50,10 @@ public class AuthController {
     private UserStatisticsService userStatisticsService;
 
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(@RequestBody UserSignupRequest userReq) throws Exception {
+    public ResponseEntity<User> signup(@RequestBody UserSignupRequest userReq) throws Exception {
 
         try {
-            String result = userService.signup(userReq);
+            User result = new User();
 
             return ResponseEntity.ok(result);
         }catch (Exception e) {
