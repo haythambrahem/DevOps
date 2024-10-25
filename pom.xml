@@ -8,6 +8,7 @@
         <version>2.7.6</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+    <!-- param nexus -->
     <distributionManagement>
         <repository>
             <id>deploymentRepo</id>
