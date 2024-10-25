@@ -11,11 +11,11 @@
     <distributionManagement>
         <repository>
             <id>deploymentRepo</id>
-            <url>http://192.168.142.135:8081/repository/hbmaven-release/</url>
+            <url>http://192.168.142.135:8081/repository/HB-MAVEN2/</url>
         </repository>
         <snapshotRepository>
             <id>deploymentRepo</id>
-            <url>http://192.168.142.135:8081/repository/hbmaven-snapshot/</url>
+            <url>http://192.168.142.135:8081/repository/HB-MAVEN2/</url>
         </snapshotRepository>
     </distributionManagement>
 
