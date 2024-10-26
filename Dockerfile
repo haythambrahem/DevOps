@@ -1,6 +1,6 @@
 # Étape 1 : Construire l'application Spring Boot à l'aide de Maven
  # Utilise l'image Maven avec OpenJDK 17 comme environnement de construction
-FROM maven:3.9.9-openjdk-17 AS build
+FROM maven:3.9.4-openjdk-17 AS build
 # Définit le répertoire de travail dans le conteneur
 WORKDIR /app
 
