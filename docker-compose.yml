@@ -15,7 +15,7 @@ services:
       - mynetwork
 
   backend:
-    image: haythambrahem/backend:latest
+    image: haythambrahem/5se1-g3-devops
     container_name: backend
     restart: on-failure
     ports:
