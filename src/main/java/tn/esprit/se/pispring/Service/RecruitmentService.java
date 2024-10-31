@@ -22,6 +22,7 @@ public class RecruitmentService implements IRecruitmentService {
     private final RecruitmentRepository recruitmentRepository;
     private final CandidateRepository candidateRepository;
 
+
     @Override
     public Recruitment addOrUpdateRecruitment(Recruitment R) {
         return recruitmentRepository.save(R);

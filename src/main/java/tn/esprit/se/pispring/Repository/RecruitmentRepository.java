@@ -9,6 +9,9 @@ import tn.esprit.se.pispring.entities.RecruitmentStatus;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Repository;
+
+@Repository
 public interface RecruitmentRepository extends JpaRepository<Recruitment,Long> {
     Optional<Recruitment> findByPostTitle(String postTitle);
 
