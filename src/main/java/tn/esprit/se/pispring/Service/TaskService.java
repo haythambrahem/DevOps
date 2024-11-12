@@ -146,7 +146,7 @@ public class TaskService implements ITaskService{
                 logger.warn("Le budget avec ID {} n'est associé à aucun projet.", budget.getBudget_id());
             }
         }
-    }git 
+    }
 
     @Override
     public void updateBudgetReel(Long projectId) {
