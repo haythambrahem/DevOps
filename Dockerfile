@@ -1,4 +1,3 @@
-# Utiliser une image Java 17
 FROM openjdk:17-jdk-alpine
 
 # Définir l'argument JAR_FILE avec le nom de votre jar généré

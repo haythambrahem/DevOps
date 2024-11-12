@@ -1,0 +1,33 @@
+version: '3.1'
+services:
+  db:
+    image: mysql:8.2.4
+    container_name: db
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: root
+    networks:
+      - mynetwork
+
+  backend:
+    image: maddouri/5se1-g3-devops:latest
+    container_name: backend
+    restart: on-failure
+    ports:
+      - "7070:8089"
+    depends_on:
+      - db
+    networks:
+      - mynetwork
+
+volumes:
+  mysql_data:
+
+networks:
+  mynetwork:
+    driver: bridge
