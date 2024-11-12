@@ -12,11 +12,11 @@
     <distributionManagement>
         <repository>
             <id>deploymentRepo</id>
-            <url>http://192.168.142.135:8081/repository/HB-MAVEN2/</url>
+            <url>http://192.168.127.129:8081/repository/maddouri/</url>
         </repository>
         <snapshotRepository>
             <id>deploymentRepo</id>
-            <url>http://192.168.142.135:8081/repository/HB-MAVEN2/</url>
+            <url>http://192.168.127.129:8081/repository/maddouri/</url>
         </snapshotRepository>
     </distributionManagement>
 
