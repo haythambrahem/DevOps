@@ -13,6 +13,19 @@ services:
       MYSQL_DATABASE: root
     networks:
       - mynetwork
+  db_clone: # New service for additional instance
+    image: mysql:5.0.12
+    container_name: database_clone
+    restart: unless-stopped
+    ports:
+      - "3307:3306"  # Different port to avoid conflict with the original
+    volumes:
+      - mysql_data_clone:/var/lib/mysql  # Separate volume
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: root
+    networks:
+      - mynetwork
 
   backend:
     image: haythambrahem/5se1-g3-devops:latest
