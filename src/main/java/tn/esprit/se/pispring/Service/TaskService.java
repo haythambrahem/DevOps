@@ -139,10 +139,15 @@ public class TaskService implements ITaskService{
     public void updateRealBudgets() {
         List<Budget> budgets = budgetRepository.findAll(); // Récupérer tous les budgets
         for (Budget budget : budgets) {
-            Long projectId = budget.getProject().getProjectId();
-              updateBudgetReel(projectId);
+            if (budget.getProject() != null) {
+                Long projectId = budget.getProject().getProjectId();
+                updateBudgetReel(projectId);
+            } else {
+                logger.warn("Le budget avec ID {} n'est associé à aucun projet.", budget.getBudget_id());
+            }
         }
-    }
+    }git 
+
     @Override
     public void updateBudgetReel(Long projectId) {
         try {
