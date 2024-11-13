@@ -193,5 +193,65 @@ public class LeavService implements ILeavService {
     }
 
 
+    @Transactional
+    public Leav processLeaveRequest(Long leaveId) {
+        Leav leav = leavRepository.findById(leaveId)
+                .orElseThrow(() -> new EntityNotFoundException("Leave not found with ID: " + leaveId));
+
+        // Check for null leave type before switching
+        if (leav.getLeaveType() == null) {
+            throw new UnsupportedOperationException("Unknown leave type: null");
+        }
+
+        switch (leav.getLeaveType()) {
+            case SICK_LEAVE:
+                if (leav.getLeaveStatus() == LeaveStatus.PENDING) {
+                    leav.setLeaveStatus(LeaveStatus.APPROVED);
+                    leav.setLeaveApproved(true);
+                    log.info("Sick leave request approved.");
+                } else if (leav.getLeaveStatus() == LeaveStatus.APPROVED) {
+                    log.info("Sick leave is already approved.");
+                } else {
+                    leav.setLeaveStatus(LeaveStatus.REFUSED);
+                    leav.setLeaveApproved(false);
+                    log.info("Sick leave request refused.");
+                }
+                break;
+
+            case VACATION_LEAVE:
+                if (leav.getLeaveStatus() == LeaveStatus.PENDING) {
+                    int durationInDays = calculateLeaveDurationInDays(leav.getLeaveStartdate(), leav.getLeaveEnddate());
+                    if (leav.getLeaveDaysLeft() >= durationInDays) {
+                        leav.setLeaveStatus(LeaveStatus.APPROVED);
+                        leav.setLeaveApproved(true);
+                        leav.setLeaveDaysLeft(leav.getLeaveDaysLeft() - durationInDays);
+                        log.info("Vacation leave approved. Days deducted from available leave days.");
+                    } else {
+                        leav.setLeaveStatus(LeaveStatus.REFUSED);
+                        leav.setLeaveApproved(false);
+                        log.warn("Vacation leave request refused due to insufficient leave days left.");
+                    }
+                }
+                break;
+
+            case EMERGENCY_LEAVE:
+                if (leav.getLeaveStatus() == LeaveStatus.PENDING) {
+                    leav.setLeaveStatus(LeaveStatus.APPROVED);
+                    leav.setLeaveApproved(true);
+                    log.info("Emergency leave request automatically approved.");
+                }
+                break;
+
+            default:
+                throw new UnsupportedOperationException("Unknown leave type: " + leav.getLeaveType());
+        }
+
+        return leavRepository.save(leav);
+    }
+
+    public int calculateRemainingLeaveDays(Date leaveStartDate, Date leaveEndDate) {
+        long diffInMillis = leaveEndDate.getTime() - leaveStartDate.getTime();
+        return (int) (diffInMillis / (1000 * 60 * 60 * 24)); // Convert milliseconds to days
+    }
 
 }
