@@ -1,7 +1,13 @@
 version: '3.8'
 
 services:
-
+  appfront:
+    build: .
+    image: amalslimi/amalslimi-5se1-g3-devopsfront
+    restart: on-failure
+    container_name: frontend
+    ports:
+      - 4200:4200
 
   db:
     image: mysql:5.7
