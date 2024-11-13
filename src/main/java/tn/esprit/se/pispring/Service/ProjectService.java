@@ -6,14 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import tn.esprit.se.pispring.Repository.ProjectRepository;
-import tn.esprit.se.pispring.Repository.ResourceRepository;
-import tn.esprit.se.pispring.Repository.TaskRepository;
-import tn.esprit.se.pispring.Repository.UserRepository;
-import tn.esprit.se.pispring.entities.Project;
-import tn.esprit.se.pispring.entities.ProjectStatus;
-import tn.esprit.se.pispring.entities.Task;
-import tn.esprit.se.pispring.entities.User;
+import tn.esprit.se.pispring.Repository.*;
+import tn.esprit.se.pispring.entities.*;
 
 import javax.transaction.Transactional;
 import java.util.Date;
@@ -32,10 +26,11 @@ public class ProjectService implements IProjectService{
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private ProductRepository productRepository;
 
 
-
-@Override
+    @Override
 public List<Project> getProjectsByBudgetId(Long budgetId) {
     return projectRepository.findProjectsByBudgetId(budgetId);
 }
@@ -148,4 +143,5 @@ public List<Project> getProjectsByBudgetId(Long budgetId) {
 
         return null;
     }
+
 }

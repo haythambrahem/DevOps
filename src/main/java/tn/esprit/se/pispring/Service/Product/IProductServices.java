@@ -59,4 +59,5 @@ public interface IProductServices {
     void checkAndNotifyLowStock();
 
     Product assignProductionToProduct(Long productId, Production production);
+     String advancedProductAction(Long productId, String actionType);
 }

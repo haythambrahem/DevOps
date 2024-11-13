@@ -174,4 +174,38 @@ public class ProductServicesTest {
         verify(productRepository, times(1)).findAll();
         // Verify logging or notification (if implemented)
     }
+    @Test
+    public void testAdvancedProductAction_UpdatePrice() {
+        // Setup
+        Product product = new Product();
+        product.setProductId(1L);
+        product.setPrice(100f);
+        when(productRepository.findById(1L)).thenReturn(Optional.of(product));
+        when(productRepository.save(product)).thenReturn(product);
+
+        // Action
+        String response = productServices.advancedProductAction(1L, "UPDATE_PRICE");
+
+        // Assertions
+        assertEquals("Product price updated successfully.", response);
+        assertEquals(110f, product.getPrice(), 0.01); // Price increased by 10%
+        verify(productRepository, times(1)).save(product);
+    }
+
+    @Test
+    public void testAdvancedProductAction_CheckStock_LowStock() {
+        // Setup
+        Product product = new Product();
+        product.setProductId(1L);
+        product.setStock(5L);  // Simulate low stock
+        when(productRepository.findById(1L)).thenReturn(Optional.of(product));
+
+        // Action
+        String response = productServices.advancedProductAction(1L, "CHECK_STOCK");
+
+        // Assertions
+        assertEquals("Product stock is low!", response);
+        verify(productRepository, times(1)).findById(1L);
+    }
+
 }

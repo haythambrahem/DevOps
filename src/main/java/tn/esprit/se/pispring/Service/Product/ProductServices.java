@@ -21,7 +21,10 @@ import tn.esprit.se.pispring.entities.Rating.ProductRating;
 import javax.persistence.EntityNotFoundException;
 import java.util.Base64;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.NoSuchElementException;
 
 @Service
 @Slf4j
@@ -161,4 +164,59 @@ public List<Object[]> calculateAveragePriceByType() {
         // Enregistrer le produit mis à jour dans la base de données
         return productRepository.save(product);
     }
+    @Override
+    public String advancedProductAction(Long productId, String actionType) {
+        // Retrieve the product by ID
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new EntityNotFoundException("Product not found for this id :: " + productId));
+
+        switch (actionType.toUpperCase()) {
+            case "UPDATE_PRICE":
+                // Logic to update the product price
+                product.setPrice(product.getPrice() * 1.1f); // Example: increase price by 10%
+                productRepository.save(product);
+                return "Product price updated successfully.";
+
+            case "CHECK_STOCK":
+                // Logic to check stock and notify if low stock
+                if (product.getStock() < 10) {
+                    return "Product stock is low!";
+                } else {
+                    return "Product stock is sufficient.";
+                }
+
+            case "ASSIGN_PRODUCTION":
+
+                // Logic to assign a production to a product
+                Production production = productionRepository.findById(product.getProduction().getProductionId())
+                        .orElseThrow(() -> new EntityNotFoundException("Production not found for this id"));
+                product.setProduction(production);
+                productRepository.save(product);
+                return "Production assigned successfully.";
+
+            default:
+                return "Invalid action type provided.";
+        }
+    }
+    public float calculateDiscountedPrice(float price, float discount) {
+        if (discount < 0 || discount > 1) {
+            throw new IllegalArgumentException("Discount must be between 0 and 1");
+        }
+        return price * (1 - discount);
+    }
+
+
+    public float calculateDiscountedPrices(long productId, float discountRate) {
+        Optional<Product> productOpt = productRepository.findById(productId);
+        if (productOpt.isPresent()) {
+            Product product = productOpt.get();
+            return product.getPrice() - (product.getPrice() * discountRate);
+        }
+        throw new NoSuchElementException("Product not found");
+    }
+
+
+
+
+
 }

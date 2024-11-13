@@ -1,19 +1,7 @@
 version: '3.8'
 
 services:
-  # app:
-   # image: syrineahmed/syrineahmed-5se1-g3-devops
-    #container_name: devops-app
-    #ports:
-     # - "8089:8089"  # Mappe le port 8089 du conteneur au port 8089 de l'hôte
-   # environment:
-     # SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/mydb  # URL de la base de données
-     # SPRING_DATASOURCE_USERNAME: root
-     # SPRING_DATASOURCE_PASSWORD: root
-    #depends_on:
-     # - db  # Assurez-vous que le conteneur db est démarré avant
-   # volumes:
-     # - app_data:/app/data
+
 
   db:
     image: mysql:5.7

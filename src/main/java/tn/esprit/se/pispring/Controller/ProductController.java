@@ -101,6 +101,11 @@ public class ProductController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-    ////////////////////////////////AFFECTATION
+    ////////////////////////////////function avancee
+    @PostMapping("/advancedAction")
+    public ResponseEntity<String> advancedAction(@RequestParam Long productId, @RequestParam String actionType) {
+        String response = productServices.advancedProductAction(productId, actionType);
+        return ResponseEntity.ok(response);
+    }
 
     }

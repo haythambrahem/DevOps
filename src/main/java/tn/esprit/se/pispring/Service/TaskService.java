@@ -85,7 +85,7 @@ public class TaskService implements ITaskService{
 
 
 
-   @Override
+    @Override
     public List<Task> getCompletedTasksByProject(Long projectId) {
         return taskRepository.findTasksByProjectProjectIdAndTaskStatus(projectId, TaskStatus.COMPLETED);
     }
@@ -244,7 +244,7 @@ public class TaskService implements ITaskService{
                 .orElseThrow(() -> new RuntimeException("Resource not found with id: " + resourceId));
 
         task.getResourcess().add(resource);
-          resource.getTasks().add(task);
+        resource.getTasks().add(task);
 
         taskRepository.save(task);
         resourcesRepository.save(resource);

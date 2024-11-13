@@ -66,7 +66,30 @@ public class Product {
     private List<MouvementStock> mouvementsStock;
 
 
+
   public void setBarcode(String s) {
   }
+  public Product(Long productId, String reference, String title, String image, String description, Long stock, Float price, Long TVA, ProductType productType, Date createdAt, Cart cart, List<LikeDislike> likeDislikeProducts, List<Review> reviews, List<MouvementStock> mouvementsStock) {
+    this.productId = productId;
+    this.reference = reference;
+    this.title = title;
+    this.image = image;
+    this.description = description;
+    this.stock = stock;
+    this.price = price;
+    this.TVA = TVA;
+    this.productType = productType;
+    this.createdAt = createdAt;
+    this.cart = cart;
+    this.likeDislikeProducts = likeDislikeProducts;
+    this.reviews = reviews;
+    this.mouvementsStock = mouvementsStock;
+  }
+
+  public enum ProductType {
+    ELECTRONICS, CLOTHING, FURNITURE, // example values
+    // other product types...
+  }
+
 }
 
