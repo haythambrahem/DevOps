@@ -15,7 +15,7 @@ services:
       - mynetwork
 
   backend:
-    image: maddouri/5se1-g3-devops:latest
+    image: maddouriahmed/5se1-g3-devops:latest
     container_name: backend
     restart: on-failure
     ports:
