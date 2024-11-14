@@ -20,7 +20,7 @@ services:
     container_name: spring
     restart: on-failure
     ports:
-      - "7070:8089"
+      - "7071:8089"
     depends_on:
       - maddouridb
     networks:
