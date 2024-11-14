@@ -6,7 +6,7 @@ services:
     container_name: maddouridb
     restart: unless-stopped
     ports:
-      - "3307:3306"
+      - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
     environment:
@@ -20,7 +20,7 @@ services:
     container_name: spring
     restart: on-failure
     ports:
-      - "7071:8089"
+      - "7070:8089"
     depends_on:
       - maddouridb
     networks:
