@@ -1,9 +1,9 @@
 version: '3.1'
 
 services:
-  db:
+  maddouridb:
     image: mysql:8.0
-    container_name: db
+    container_name: maddouridb
     restart: unless-stopped
     ports:
       - "3306:3306"
@@ -15,9 +15,9 @@ services:
     networks:
       - mynetwork
 
-  backend:
+  spring:
     image: maddouriahmed/5se1-g3-devops:latest
-    container_name: backend
+    container_name: spring
     restart: on-failure
     ports:
       - "7070:8089"
