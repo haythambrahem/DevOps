@@ -26,7 +26,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
-@CrossOrigin(origins ="http://localhost:4200")
+//@CrossOrigin(origins ="http://localhost:4200")
 @RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor
@@ -128,7 +128,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_HR_ADMIN', 'ROLE_CRM_ADMIN', 'ROLE_PROJECT_ADMIN', 'ROLE_PRODUCT_ADMIN')")
+   // @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_HR_ADMIN', 'ROLE_CRM_ADMIN', 'ROLE_PROJECT_ADMIN', 'ROLE_PRODUCT_ADMIN')")
     public Iterable<User> findConnectedUsers() {
         return userRepo.findAll();
     }
