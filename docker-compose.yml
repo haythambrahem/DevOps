@@ -22,7 +22,7 @@ services:
     ports:
       - "7070:8089"
     depends_on:
-      - db
+      - maddouridb
     networks:
       - mynetwork
 
