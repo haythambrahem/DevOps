@@ -5,8 +5,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import tn.esprit.se.pispring.Repository.LeavRepository;
-import tn.esprit.se.pispring.Repository.NotificationRepository;
-import tn.esprit.se.pispring.Repository.UserRepository;
 import tn.esprit.se.pispring.Service.LeavService;
 import tn.esprit.se.pispring.entities.Leav;
 import tn.esprit.se.pispring.entities.LeaveStatus;
@@ -25,11 +23,6 @@ public class LeavServiceTest1 {
     @Mock
     private LeavRepository leavRepository;
 
-    @Mock
-    private UserRepository userRepository;
-
-    @Mock
-    private NotificationRepository notificationRepository;
 
     @InjectMocks
     private LeavService leavService;

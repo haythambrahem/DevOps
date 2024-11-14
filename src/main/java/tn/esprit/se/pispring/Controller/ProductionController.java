@@ -127,33 +127,5 @@ public class ProductionController {
         return ResponseEntity.ok(oee);
     }
 
-//    @PostMapping("/calculate-stats")
-//    public void calculateProductionStats(@RequestBody Production production) {
-//        productionService.calculateProductionStats(production);
-//    }
 
-
-
-//
-//    @GetMapping("/overall-equipment-effectiveness")
-//    public double calculateOverallEquipmentEffectiveness(@RequestBody Production production) {
-//        return productionService.calculateOverallEquipmentEffectiveness(production);
-//    }
-//
-//    @GetMapping("/average-cycle-time")
-//    public long calculateAverageCycleTime(@RequestBody List<Production> productions) {
-//        return productionService.calculateAverageCycleTime(productions);
-//    }
-//
-//    @GetMapping("/average-availability")
-//    public double calculateAverageAvailability(@RequestBody List<Production> productions) {
-//        return productionService.calculateAverageAvailability(productions);
-//    }
-
-
-//
-//    @GetMapping("/total-maintenance-cost")
-//    public double calculateTotalMachineMaintenanceCost(@RequestBody List<Production> productions) {
-//        return productionService.calculateTotalMachineMaintenanceCost(productions);
-//    }
 }

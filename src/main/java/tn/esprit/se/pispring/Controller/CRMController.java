@@ -19,7 +19,6 @@ import java.util.Map;
 @Slf4j
 @CrossOrigin(origins = "http://localhost:4200")
 
-//@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 public class CRMController {
     @Autowired
     private ConsultantService consultantService;

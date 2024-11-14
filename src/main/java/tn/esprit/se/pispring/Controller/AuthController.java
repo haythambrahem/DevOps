@@ -19,7 +19,6 @@ import tn.esprit.se.pispring.DTO.Response.ProjectResponse;
 import tn.esprit.se.pispring.DTO.Response.UserResponse;
 import tn.esprit.se.pispring.Service.UserService;
 import tn.esprit.se.pispring.Service.UserStatisticsService;
-import tn.esprit.se.pispring.entities.Project;
 import tn.esprit.se.pispring.entities.User;
 import tn.esprit.se.pispring.secConfig.JwtUtils;
 
@@ -32,7 +31,6 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/auth")
 @Slf4j
-//@CrossOrigin(origins = "http://localhost:4200")
 public class AuthController {
 
     @Autowired
@@ -76,11 +74,9 @@ public class AuthController {
 
         User user1 = userService.findByEmail(user.getUsername());
 
-//        String refreshToken = refreshTokenService.generateNewRefreshTokenForUser(user);
         Map<String, Object> claims = new HashMap<>();
         claims.put("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
-//        Cookie cookie = createRefreshTokenCookie(refreshToken);
-//        response.addCookie(cookie);
+
         AuthenticationResponse auth = new AuthenticationResponse(user1.getId(), jwtUtils.generateToken(user, claims), user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
         log.info("###########################");
         log.info("###########################");
@@ -109,27 +105,11 @@ public class AuthController {
 
     @GetMapping("/resendVerification")
     public String resendVerificationToken(@RequestParam("token") String oldToken, final HttpServletRequest httpServletRequest) throws Exception {
-//        try {
-//            VerificationToken token = userService.generateNewTokenForUser(oldToken);
-//            User user = token.getUser();
-//            resendVerificationEmail(applicationUrl(httpServletRequest), token, user);
-//
-//            return "verification link sent";
-//        }catch (Exception e) {
-//            throw new Exception("error resending the verification token please try again in 30 seconds");
-//        }
+
         return oldToken;
     }
 
-//    @GetMapping("/{userId}/task-count-per-project")
-//    public ResponseEntity<Map<ProjectResponse, Integer>> getTaskCountPerProject(@PathVariable Long userId) {
-//        Map<ProjectResponse, Integer> taskCountPerProject = userStatisticsService.getTaskCountPerProject(userId);
-//        if (taskCountPerProject == null) {
-//            // Gérer le cas où l'utilisateur n'existe pas
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//        return new ResponseEntity<>(taskCountPerProject, HttpStatus.OK);
-//    }
+
 
     @GetMapping("/task-count-per-project")
     public ResponseEntity<Map<UserResponse, Map<ProjectResponse, Integer>>> getUserTaskCountPerProject() {

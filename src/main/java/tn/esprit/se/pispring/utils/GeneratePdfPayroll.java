@@ -5,9 +5,7 @@ import com.lowagie.text.Font;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
-import org.springframework.beans.factory.annotation.Autowired;
-import tn.esprit.se.pispring.Service.ContributionService;
-import tn.esprit.se.pispring.Service.PrimeService;
+
 import tn.esprit.se.pispring.entities.Contribution;
 import tn.esprit.se.pispring.entities.Payroll;
 import tn.esprit.se.pispring.entities.PayrollConfig;
@@ -21,12 +19,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class GeneratePdfPayroll {
-    @Autowired
-    private PrimeService primeService;
-    @Autowired
-    private ContributionService contributionService;
-
-    //private static final Logger logger = (Logger) LoggerFactory.getLogger(GeneratePdfPayroll.class);
 
     public  ByteArrayInputStream payrollReport(Payroll payroll, List<Prime> primes, List<Contribution> contributions, PayrollConfig payrollConfig) {
 
@@ -67,7 +59,7 @@ public class GeneratePdfPayroll {
             table2.getDefaultCell().setBorderWidth(0);
             // Add cells to the table
             PdfPCell table2cell1 = new PdfPCell(new Phrase("Employee", headFont));
-            PdfPCell table2cell6 = new PdfPCell(new Phrase(String.valueOf(payroll.getUser().getFirstName()+" "+payroll.getUser().getLastName())));
+            PdfPCell table2cell6 = new PdfPCell(new Phrase((payroll.getUser().getFirstName()+" "+payroll.getUser().getLastName())));
             PdfPCell table2cell5 = new PdfPCell(new Phrase("Category", headFont));
             PdfPCell table2cell2 = new PdfPCell(new Phrase(String.valueOf(payroll.getCategory())));
             PdfPCell table2cell3 = new PdfPCell(new Phrase("Seniority", headFont));
@@ -143,7 +135,6 @@ public class GeneratePdfPayroll {
                 createCell(table, "1");
                 createCell(table, String.valueOf(payroll.getNet_salary()));
 
-            //Payment method and bank table
             PdfPTable table3 = new PdfPTable(3);
             table3.setHorizontalAlignment(Element.ALIGN_LEFT);
             table3.setWidthPercentage(60);

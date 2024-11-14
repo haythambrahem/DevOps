@@ -87,7 +87,6 @@ public class TaskController {
         return new ResponseEntity<>(tasks, HttpStatus.OK);
     }
 
-    // Endpoint pour trouver les tâches complétées en retard
     @GetMapping("/completed-late")
     public ResponseEntity<List<Task>> findTasksCompletedLate() {
         List<Task> tasks = iTaskService.findTasksCompletedLate();

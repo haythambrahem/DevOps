@@ -19,11 +19,7 @@ public class MvtStockController {
 
    @Autowired StockServiceImpl stockService;
 
-//    @PostMapping("/addMvt") //CREATED
-//    public ResponseEntity<MouvementStock> addMouvement(@RequestBody MouvementStock mouvementStock) {
-//        MouvementStock newMouvement = stockService.addMvt(mouvementStock);
-//        return new ResponseEntity<>(newMouvement, HttpStatus.CREATED);
-//    }
+
 
     @PostMapping("/addMvt/{productId}")
     public ResponseEntity<MouvementStock> addMvt(@RequestBody MouvementStock mouvementStock, @PathVariable Long productId) {

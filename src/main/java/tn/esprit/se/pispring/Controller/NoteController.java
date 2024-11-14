@@ -13,7 +13,6 @@ import tn.esprit.se.pispring.Service.ITaskService;
 import tn.esprit.se.pispring.Service.INoteService;
 import tn.esprit.se.pispring.Service.NoteService;
 import tn.esprit.se.pispring.entities.Note;
-import tn.esprit.se.pispring.entities.Project;
 import tn.esprit.se.pispring.entities.User;
 
 import java.util.List;

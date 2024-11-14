@@ -85,9 +85,5 @@ public class CommandController {
         List<Command> commands = commandService.findCommandsByPaymentMethod(payment);
         return ResponseEntity.ok(commands);
     }
-//    @PostMapping("/commands/{cartId}/{userEmail}")
-//    public ResponseEntity<Command> createCommandAndAssignCart(@PathVariable Long cartId, @PathVariable String userEmail) {
-//        Command command = commandService.createCommandAndAssignCart(cartId, userEmail);
-//        return new ResponseEntity<>(command, HttpStatus.CREATED);
-//    }
+
 }

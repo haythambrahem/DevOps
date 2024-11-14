@@ -73,10 +73,7 @@ public class UserController {
         }
     }
 
-//    @GetMapping("/getCurrent")
-//    public ResponseEntity<?> test () {
-//        return ResponseEntity.ok("hello word");
-//    }
+
 
     @PutMapping("/editCurrent")
     public ResponseEntity<?> editCurrent(@RequestHeader(name = "Authorization") String token, @RequestBody CurrentUserRequest request) throws Exception {
@@ -151,21 +148,7 @@ public class UserController {
 
     }
 
-//    @GetMapping("/{userId}/tasks-by-status")
-//    public ResponseEntity<Map<TaskStatus, Integer>> getTasksByStatus(@PathVariable Long userId) {
-//        Map<TaskStatus, Integer> tasksByStatus = userService.getTasksByStatus(userId);
-//        if (tasksByStatus == null) {
-//            // Handle case where user is not found
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//        return new ResponseEntity<>(tasksByStatus, HttpStatus.OK);
-//    }
 
-    //    @GetMapping("/users-per-project-and-tasks")
-//    public ResponseEntity<List<ProjectUserTask>> getUsersPerProjectAndTasks() {
-//        List<ProjectUserTask> result = userService.getUsersPerProjectAndTasks();
-//        return ResponseEntity.ok(result);
-//    }
     @GetMapping("/user-task-status")
     public ResponseEntity<List<UserTaskCountDTO>> getUsersWithTaskStatus() {
         List<UserTaskCountDTO> userTaskCountDTOs = userService.getUsersWithTaskStatus();

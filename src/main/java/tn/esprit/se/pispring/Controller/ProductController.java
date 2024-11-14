@@ -59,10 +59,6 @@ public class ProductController {
         }
     }
 
-    //    @GetMapping("/getproductdetails/{productId}")
-//    public Product getProductDetailsById(@PathVariable("productId")Long productId){
-//        return productRepository.findById(productId).get();
-//    }
     @GetMapping("/getProductById/{id}")
     public Product getProductById(@PathVariable("id") Long productId) {
         return productServices.getProductById(productId);
@@ -79,15 +75,7 @@ public class ProductController {
     }
 
 
-//    @PostMapping("/products/add-with-barcode")
-//    public ResponseEntity<Product> addProductWithBarcode(@RequestBody Product product) {
-//        Product addedProduct = productServices.addProductWithBarcode(product);
-//        if (addedProduct != null) {
-//            return new ResponseEntity<>(addedProduct, HttpStatus.CREATED);
-//        } else {
-//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
+
 
 
     @PostMapping("/add-with-barcode/{productionId}")
@@ -101,6 +89,5 @@ public class ProductController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-    ////////////////////////////////AFFECTATION
 
     }

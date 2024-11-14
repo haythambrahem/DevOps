@@ -57,11 +57,7 @@ ProjectController {
     }
 
 
-    /* @GetMapping("/projects/{projectId}/team")
-     public ResponseEntity<Set<User>> getProjectTeam(@PathVariable Long projectId) {
-         Set<User> projectTeam = iTaskService.getProjectTeam(projectId);
-         return ResponseEntity.ok(projectTeam);
-     }*/
+
     @GetMapping("/projects/{projectId}/team")
     public ResponseEntity<Set<User>> getProjectTeam(@PathVariable Long projectId) {
         return ResponseEntity.ok(iTaskService.getProjectTeam(projectId));
