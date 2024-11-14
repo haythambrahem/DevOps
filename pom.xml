@@ -12,11 +12,11 @@
     <distributionManagement>
         <repository>
             <id>deploymentRepo</id>
-            <url>http://192.168.127.129:8081/repository/maddouri/</url>
+            <url>http://192.168.121.128:8081/repository/ons/</url>
         </repository>
         <snapshotRepository>
             <id>deploymentRepo</id>
-            <url>http://192.168.127.129:8081/repository/maddouri/</url>
+            <url>http://192.168.121.128:8081/repository/ons/</url>
         </snapshotRepository>
     </distributionManagement>
 
