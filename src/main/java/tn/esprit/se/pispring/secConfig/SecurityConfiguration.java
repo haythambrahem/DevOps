@@ -33,21 +33,18 @@ import java.util.Arrays;
 )
 public class SecurityConfiguration {
 
-
     private final UserDetailsService userDetailsService;
-
     private final JwtFilter jwtFilter;
-
     private final PasswordEncoder passwordEncoder;
-
-
-
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
-                .cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()).and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .cors() // Enable CORS
+                .configurationSource(corsConfigurationSource()) // Use the CORS configuration defined below
+                .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
                 .exceptionHandling()
                 .authenticationEntryPoint((request, response, exception) -> {
                     response.sendError(HttpServletResponse.SC_UNAUTHORIZED, exception.getMessage());
@@ -55,43 +52,38 @@ public class SecurityConfiguration {
                 .authorizeRequests()
                 .antMatchers("/**", "/public/**", "/product/**", "/cart/**", "/review/**", "/command/**")
                 .permitAll()
-                .antMatchers(HttpMethod.GET, "/leav/allLeavs").permitAll()
-                .anyRequest().authenticated().and()
+                .antMatchers(HttpMethod.GET, "/leav/allLeavs").permitAll()  // Make sure the endpoint is accessible
+                .anyRequest().authenticated()
+                .and()
                 .authenticationProvider(authenticationProvider())
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);  // Correct usage
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class); // JWT filter is added before UsernamePasswordAuthenticationFilter
 
         return http.build();
     }
-
 
     // Cors Configuration Source for Global CORS policy
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://192.168.159.129:4200"));
+        configuration.setAllowedOrigins(Arrays.asList("http://192.168.159.129:4200")); // Frontend URL
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
         configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
+        source.registerCorsConfiguration("/**", configuration); // Apply to all endpoints
         return source;
     }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-
         return authenticationConfiguration.getAuthenticationManager();
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider () {
+    public AuthenticationProvider authenticationProvider() {
         final DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userDetailsService);
         authenticationProvider.setPasswordEncoder(passwordEncoder);
-
         return authenticationProvider;
     }
-
-
-
 }
