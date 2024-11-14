@@ -17,7 +17,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
+@CrossOrigin(origins = "http://192.168.111.128:4200", maxAge = 3600)
 @RestController
 @RequiredArgsConstructor
 @Slf4j
