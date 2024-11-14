@@ -32,19 +32,12 @@ import java.util.Arrays;
 )
 public class SecurityConfiguration {
 
-
     private final UserDetailsService userDetailsService;
-
     private final JwtFilter jwtFilter;
-
     private final PasswordEncoder passwordEncoder;
-
-
-
 
     @Bean
     public SecurityFilterChain securityFilterChain (HttpSecurity http) throws Exception {
-
         http.csrf().disable().cors().and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .exceptionHandling()
@@ -65,7 +58,6 @@ public class SecurityConfiguration {
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-
         return authenticationConfiguration.getAuthenticationManager();
     }
 
@@ -77,7 +69,6 @@ public class SecurityConfiguration {
 
         return authenticationProvider;
     }
-
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {

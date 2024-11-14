@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/productions")
-@CrossOrigin(origins = "http://192.168.111.128:4200")
+@CrossOrigin(origins = "*")
 public class ProductionController {
 
 
