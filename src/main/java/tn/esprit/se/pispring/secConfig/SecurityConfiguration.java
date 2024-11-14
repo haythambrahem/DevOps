@@ -53,14 +53,28 @@ public class SecurityConfiguration {
                     response.sendError(HttpServletResponse.SC_UNAUTHORIZED, exception.getMessage());
                 }).and()
                 .authorizeRequests()
-                .antMatchers("/**","/public/**", "/product/**", "/cart/**", "/review/**", "/command/**")
+                .antMatchers("/**", "/public/**", "/product/**", "/cart/**", "/review/**", "/command/**")
                 .permitAll()
                 .antMatchers(HttpMethod.GET, "/leav/allLeavs").permitAll()
                 .anyRequest().authenticated().and()
                 .authenticationProvider(authenticationProvider())
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);  // Correct usage
 
         return http.build();
+    }
+
+
+    // Cors Configuration Source for Global CORS policy
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("http://192.168.159.129:4200"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
+        configuration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 
     @Bean
@@ -79,15 +93,5 @@ public class SecurityConfiguration {
     }
 
 
-    @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://192.168.159.129:4200"));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
-        configuration.setAllowCredentials(true);
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }
+
 }
