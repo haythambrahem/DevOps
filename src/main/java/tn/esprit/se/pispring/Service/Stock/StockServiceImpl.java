@@ -3,7 +3,6 @@ package tn.esprit.se.pispring.Service.Stock;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import tn.esprit.se.pispring.Repository.MouvementStockRepository;
 import tn.esprit.se.pispring.Repository.ProductRepository;
 import tn.esprit.se.pispring.ProductServices;
@@ -29,10 +28,7 @@ public class StockServiceImpl implements IStockService {
         return mouvementStockRepository.save(mouvementStock);
     }
 
-//    @Override
-//    public MouvementStock addMvt(MouvementStock mouvementStock) {
-//        return mouvementStockRepository.save(mouvementStock);
-//    }
+
 
     @Override
     public MouvementStock updateMvt(MouvementStock mouvementStock) {
@@ -66,7 +62,7 @@ public class StockServiceImpl implements IStockService {
     }
 //le stock actuel de chaque produit
     @Override
-    @Transactional
+
     public Long calculateCurrentStock(Long productId) {
         Optional<Product> optionalProduct = productRepository.findById(productId);
         if (optionalProduct.isPresent()) {
@@ -125,10 +121,8 @@ public class StockServiceImpl implements IStockService {
             // Obtenir le stock final du produit (calculer le stock actuel)
             Long finalStock = calculateCurrentStock(productId);
 
-            // Calculer le stock moyen pour ce produit sur une période de 2
-            double averageStock = (initialStock + finalStock) / 2.0;
 
-            return averageStock;
+            return (initialStock + finalStock) / 2.0;
         } else {
             // Gérer le cas où le produit n'est pas trouvé
             throw new EntityNotFoundException("Product not found with ID: " + productId);
@@ -146,9 +140,8 @@ public class StockServiceImpl implements IStockService {
             for (MouvementStock movement : sortieMovements) {
                 totalConsumption += movement.getQuantite();
             }
-            double averageConsumption = totalConsumption / totalOutMovements;
 
-            return averageConsumption;
+            return totalConsumption / totalOutMovements;
         } else {
             throw new EntityNotFoundException("Product not found with ID: " + productId);
         }
@@ -163,39 +156,5 @@ public class StockServiceImpl implements IStockService {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//Consommation moyenne=	Somme totale des consommations / nombre total des consommations
-//@Override //pour tous les produits
-//public double calculateAverageConsumption() {
-//    // Récupérer tous les mouvements de stock de type "SORTIE"
-//    List<MouvementStock> sortieMovements = mouvementStockRepository.findByTypeMouvement(TypeMouvement.SORTIE);
-//
-//    // Initialiser la somme totale des quantités prélevées et le nombre total des sorties de stock
-//    double totalConsumption = 0.0;
-//    int totalOutMovements = sortieMovements.size();
-//
-//    // Calculer la somme totale des quantités prélevées
-//    for (MouvementStock movement : sortieMovements) {
-//        totalConsumption += movement.getQuantite();
-//    }
-//
-//    // Calculer la consommation moyenne
-//    double averageConsumption = totalConsumption / totalOutMovements;
-//
-//    return averageConsumption;
-//}
 
 }
