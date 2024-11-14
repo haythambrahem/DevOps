@@ -203,7 +203,7 @@
                 </configuration>
             </plugin>
         </plugins>
-        <finalName>DevOps</finalName>
+        <finalName>spring</finalName>
     </build>
 
 </project>

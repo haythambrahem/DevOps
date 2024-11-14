@@ -1,4 +1,4 @@
 FROM openjdk:17-jdk-alpine
 EXPOSE 8083
-COPY target/DevOps.jar DevOps.jar
-ENTRYPOINT ["java", "-jar", "DevOps.jar"]
+COPY target/spring.jar spring.jar
+ENTRYPOINT ["java", "-jar", "spring.jar"]
