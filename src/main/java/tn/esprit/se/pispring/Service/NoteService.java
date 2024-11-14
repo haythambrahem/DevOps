@@ -29,18 +29,15 @@ public class NoteService implements INoteService {
         List<Project> completedProjects = iProjectService.getCompletedProjects();
         log.info("Nombre de projets terminés : {}", completedProjects.size());
 
-        // Créer une map pour stocker les utilisateurs par projet
         Map<Long, List<User>> usersByProject = new HashMap<>();
 
         for (Project project : completedProjects) {
             Set<User> projectUsersSet = iTaskService.getProjectTeam(project.getProjectId());
             List<User> projectUsers = new ArrayList<>(projectUsersSet);
 
-            // Stocker les utilisateurs dans la map en utilisant l'ID du projet comme clé
             usersByProject.put(project.getProjectId(), projectUsers);
         }
 
-        // Parcourir la map et afficher les utilisateurs par projet
         for (Map.Entry<Long, List<User>> entry : usersByProject.entrySet()) {
             Long projectId = entry.getKey();
             List<User> projectUsers = entry.getValue();

@@ -35,30 +35,7 @@ private final ProductionRepository productionRepository;
     public Product addProduct(Product product) {
         return productRepository.save(product);
     }
-//    @Override
-//    public Product addProductWithBarcode(Product product) {
-//        try {
-//            // Générer le code-barres pour la référence du produit
-//            ResponseEntity<byte[]> response = barcodeService.generateBarcode(product.getReference());
-//
-//            if (response.getStatusCode() == HttpStatus.OK) {
-//                // Récupérer le code-barres sous forme d'octets
-//                byte[] barcodeBytes = response.getBody();
-//
-//                // Associer le code-barres au produit
-//                product.setBarcode(Base64.getEncoder().encodeToString(barcodeBytes));
-//
-//                // Enregistrer le produit dans la base de données
-//                return productRepository.save(product);
-//            } else {
-//                log.error("Failed to generate barcode for product reference: {}", product.getReference());
-//                return null; // Ou lancez une exception appropriée si nécessaire
-//            }
-//        } catch (Exception e) {
-//            log.error("Error adding product with barcode: {}", e.getMessage());
-//            return null; // Ou lancez une exception appropriée si nécessaire
-//        }
-//    }
+
 @Override
 public Product addProductWithBarcodeAndAssignProduction(Product product, Long productionId) {
     try {
@@ -165,21 +142,17 @@ public List<Object[]> calculateAveragePriceByType() {
     }
 
     private void notifyLowStock(Product product) {
-        // Ici, implémentez la logique pour notifier du stock bas,
-        // par exemple, envoyer un email, créer un événement, etc.
+
         log.info("Stock faible pour le produit {} - Quantité restante: {}", product.getTitle(), product.getStock());
     }
 
     @Override
     public Product assignProductionToProduct(Long productId, Production production) {
-        // Récupérer le produit par son identifiant
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new EntityNotFoundException("Product not found for this id :: " + productId));
 
-        // Affecter la production au produit
         product.setProduction(production);
 
-        // Enregistrer le produit mis à jour dans la base de données
         return productRepository.save(product);
     }
 }

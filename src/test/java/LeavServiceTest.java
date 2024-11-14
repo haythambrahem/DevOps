@@ -70,7 +70,7 @@ public class LeavServiceTest {
         // Assert
         assertNotNull(result);
         assertEquals(LeaveStatus.APPROVED, result.getLeaveStatus());
-        assertTrue(result.isLeaveApproved()); // Already approved, should remain so
+        assertTrue(result.isLeaveApproved());
         verify(leavRepository).save(leav);
     }
 
@@ -81,9 +81,9 @@ public class LeavServiceTest {
         Leav leav = new Leav();
         leav.setLeaveType(LeaveType.VACATION_LEAVE);
         leav.setLeaveStatus(LeaveStatus.PENDING);
-        leav.setLeaveDaysLeft(3); // 3 days available
+        leav.setLeaveDaysLeft(3);
         leav.setLeaveStartdate(new Date());
-        leav.setLeaveEnddate(new Date(System.currentTimeMillis() + (5 * 24 * 60 * 60 * 1000))); // 5 days leave
+        leav.setLeaveEnddate(new Date(System.currentTimeMillis() + (5 * 24 * 60 * 60 * 1000)));
 
         when(leavRepository.findById(leaveId)).thenReturn(Optional.of(leav));
         when(leavRepository.save(any(Leav.class))).thenReturn(leav);
@@ -94,7 +94,7 @@ public class LeavServiceTest {
         // Assert
         assertNotNull(result);
         assertEquals(LeaveStatus.REFUSED, result.getLeaveStatus());
-        assertFalse(result.isLeaveApproved()); // Should be refused due to insufficient days
+        assertFalse(result.isLeaveApproved());
         verify(leavRepository).save(leav);
     }
 
@@ -116,7 +116,7 @@ public class LeavServiceTest {
         // Assert
         assertNotNull(result);
         assertEquals(LeaveStatus.APPROVED, result.getLeaveStatus());
-        assertTrue(result.isLeaveApproved()); // Emergency leave is automatically approved
+        assertTrue(result.isLeaveApproved());
         verify(leavRepository).save(leav);
     }
 
@@ -125,7 +125,7 @@ public class LeavServiceTest {
         // Arrange
         Long leaveId = 1L;
         Leav leav = new Leav();
-        leav.setLeaveType(null); // Unknown leave type
+        leav.setLeaveType(null);
         leav.setLeaveStatus(LeaveStatus.PENDING);
 
         when(leavRepository.findById(leaveId)).thenReturn(Optional.of(leav));
@@ -145,14 +145,14 @@ public class LeavServiceTest {
         LeavService leavService = new LeavService(userRepository, leavRepository, notificationRepository);
 
         // Suppose the leave is from 1st to 5th of the month
-        Date leaveStartDate = new Date(2024, 10, 1); // November 1st, 2024
-        Date leaveEndDate = new Date(2024, 10, 5);   // November 5th, 2024
+        Date leaveStartDate = new Date(2024, 10, 1);
+        Date leaveEndDate = new Date(2024, 10, 5);
 
         // Act
         int result = leavService.calculateRemainingLeaveDays(leaveStartDate, leaveEndDate);
 
         // Assert
-        assertEquals(4, result); // Since there are 4 days from Nov 1st to Nov 5th
+        assertEquals(4, result);
     }
 
 }

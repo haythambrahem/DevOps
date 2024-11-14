@@ -119,7 +119,7 @@ public class MeetService implements MeetInterface {
         m.setMeetStatus(MeetStatus.PENDING);
         return meetRepository.save(m);
     }
-    @Scheduled(cron = "0 0 0 * * *") // Déclenche la méthode tous les jours à minuit
+    @Scheduled(cron = "0 0 0 * * *")
     @Transactional // Assure que la transaction est active
     public void updateMeetingStatus() {
         List<Meeting> meetings = meetRepository.findMeetingsBeforeCurrentDate();
@@ -171,14 +171,7 @@ public class MeetService implements MeetInterface {
 
     }
 
-   /* @Scheduled(cron = "0 0 0 * * *")
-    public void cleanUpCanceledMeetings() {
-        // Récupérer les meetings avec le statut "CANCELED"
-        List<Meeting> canceledMeetings = meetRepository.findByMeetStatus(MeetStatus.CANCELED);
 
-        // Supprimer les meetings annulés
-        meetRepository.deleteAll(canceledMeetings);
-    }*/
 
 
     public Map<String, Double> calculateMeetingStatistics() {
@@ -222,54 +215,21 @@ public class MeetService implements MeetInterface {
             long totalMeetings = 0;
 
             for (Meeting meeting : consultant.getMeetings()) {
-                // Increment total duration with meeting duration
                 totalDuration += meeting.getDureeReunion();
                 totalMeetings++;
             }
 
-            // Create a new map to store stats for the current consultant
             Map<String, Object> stats = new HashMap<>();
             stats.put("totalMeetings", totalMeetings);
             stats.put("totalDuration", totalDuration);
 
-            // Add stats to the stats map with the consultant as key
             statsMap.put(consultant, stats);
         }
 
         return statsMap;
     }
 
-   /* public Map<LocalDate, Long> countMeetingsByDateAndConsultantId(Long consultantId, Date dateBegin, Date dateEnd) {
-        Map<LocalDate, Long> meetingCountsByDate = new HashMap<>();
 
-        // Convertir les dates en LocalDate
-        LocalDate localDateBegin = dateBegin.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        LocalDate localDateEnd = dateEnd.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-
-        // Parcourir chaque date entre dateBegin et dateEnd
-        for (LocalDate date = localDateBegin; !date.isAfter(localDateEnd); date = date.plusDays(1)) {
-            meetingCountsByDate.put(date, 0L);
-        }
-
-        // Récupérer le consultant par son ID
-        Consultant consultant = consultantRepository.findById(consultantId).orElse(null);
-
-        if (consultant != null) {
-            // Récupérer les réunions du consultant entre dateBegin et dateEnd
-            List<Meeting> meetings = meetRepository.findByConsultantAndMeettdateBetween(consultant, dateBegin, dateEnd);
-
-            for (Meeting meeting : meetings) {
-                java.util.Date utilDate = new java.util.Date(meeting.getMeettdate().getTime());
-                LocalDate meetingDate = utilDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                Long count = meetingCountsByDate.getOrDefault(meetingDate, 0L);
-                meetingCountsByDate.put(meetingDate, count + 1);
-            }
-
-        }
-
-        return meetingCountsByDate;
-
-    }*/
    public List<Meeting> getMeetingsByConsultantId(Long consultantId) {
     List<Meeting> meets = meetRepository.findAll() ;
        List<Meeting> meetConsultants = new ArrayList<>() ;
@@ -282,7 +242,6 @@ public class MeetService implements MeetInterface {
 
             return meetConsultants ;
    }
-        // Recherchez la réunion en attente pour l'utilisateur donné
         public List<Meeting> findFirstPendingOrApprovedMeetingByUserId(Long userId) {
          List<Meeting> meetings = meetRepository.findAll() ;
          List<Meeting> userMeeting =  new ArrayList<>() ;
@@ -313,11 +272,10 @@ public class MeetService implements MeetInterface {
          }
 
     public Map<String, Map<String, Integer>> calculateMonthlyMeetingStats(Long consultantId) {
-        Map<String, Map<String, Integer>> monthlyStats = new LinkedHashMap<>(); // linked pour assurer l'ordre des mois
+        Map<String, Map<String, Integer>> monthlyStats = new LinkedHashMap<>();
         List<Date> months = getMonths();
 
         for (Date month : months) {
-            // Calculer la date de début et de fin pour chaque mois
             Date startDate = month;
             Date endDate = DateUtils.getEndDateOfMonth(startDate);
 
@@ -363,7 +321,6 @@ public class MeetService implements MeetInterface {
         Map<String, Integer> stats = new HashMap<>();
 
 
-        //Long totalMeetings = meetRepository.countTotalMeetings(consultantId, startDate, endDate);
         Long canceledMeetings = meetRepository.countCanceledMeetings(consultantId, startDate, endDate);
         Long succeededMeetings = meetRepository.countSucceededMeetings(consultantId, startDate, endDate);
         Long PASSEDNOUVEAU= 0L ;
@@ -373,9 +330,7 @@ public class MeetService implements MeetInterface {
         Long countPASSEDMeetingFailed = meetRepository.countPASSEDMeetingFailed(consultantId, startDate, endDate);
         Long countMeetingAncienClient = meetRepository.countMeetingAncienClient(consultantId, startDate, endDate);
 
-        //stats.put("PASSEDNOUVEAU", countPASSEDMeetingFailed.intValue()+ succeededMeetings.intValue());
 
-       // stats.put("PASSEDNOUVEAU", countPASSEDMeetingsetNonaffecter.intValue()+ succeededMeetings.intValue());
 
 
         PASSEDNOUVEAU= (long) (countPASSEDMeetingFailed.intValue()+ succeededMeetings.intValue());

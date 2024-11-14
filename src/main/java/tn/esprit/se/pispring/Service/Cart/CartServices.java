@@ -31,20 +31,7 @@ public class CartServices implements ICartServices {
     private ProductServices productService;
 
 
-//    @Override  //temchi
-//    public void addProductToCart(Long cartId, Long productId, Long quantity) {
-//    Cart cart = cartRepository.findById(cartId)
-//            .orElseThrow(() -> new RuntimeException("Cart not found with id " + cartId));
-//    Product product = productRepository.findById(productId)
-//            .orElseThrow(() -> new RuntimeException("Product not found with id " + productId));
-//    CartItem cartItem = new CartItem();
-//    cartItem.setCart(cart);
-//    cartItem.setProduct(product);
-//    cartItem.setQuantity(quantity);
-//    cart.setDateLastItem(new Date());
-//    cartRepository.save(cart);
-//    cartItemRepository.save(cartItem);
-//}
+
 @Override
 public Cart addCart(Cart cart) {
     return cartRepository.save(cart);
@@ -137,22 +124,7 @@ public Cart addCart(Cart cart) {
 
         return cartRepository.save(cart);
     }
-//@Override
-//    public List<CartItem> getCartItemsWithProducts(Long cartId) {
-//        Optional<Cart> optionalCart = cartRepository.findById(cartId);
-//
-//        if (optionalCart.isPresent()) {
-//            Cart cart = optionalCart.get();
-//            List<CartItem> cartItems = cart.getCartItems();
-//
-//            cartItems.forEach(cartItem -> cartItem.getProduct().getTitle());
-//
-//            return cartItems;
-//        } else {
-//
-//            return Collections.emptyList();
-//        }
-//    }
+
     @Override
 public Product getProductById(Long productId) {
     Product product = productRepository.findById(productId).get();
@@ -190,17 +162,7 @@ public Product getProductById(Long productId) {
         cartItemDTO.setProduct(cartItem.getProduct()); // Définir le produit associé
         return cartItemDTO;
     }
-//    @Override
-//    @Transactional
-//    public boolean updateCartItemCount(Long cartId, int itemCount) {
-//        Cart cart = cartRepository.findById(cartId).orElse(null);
-//        if (cart != null) {
-//            cart.setNumberOfItems(itemCount);
-//            cartRepository.save(cart);
-//            return true;
-//        }
-//        return false;
-//    }
+
 }
 
 

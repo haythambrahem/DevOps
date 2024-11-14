@@ -29,10 +29,7 @@ public class StockServiceImpl implements IStockService {
         return mouvementStockRepository.save(mouvementStock);
     }
 
-//    @Override
-//    public MouvementStock addMvt(MouvementStock mouvementStock) {
-//        return mouvementStockRepository.save(mouvementStock);
-//    }
+
 
     @Override
     public MouvementStock updateMvt(MouvementStock mouvementStock) {
@@ -58,13 +55,11 @@ public class StockServiceImpl implements IStockService {
             throw new EntityNotFoundException("Mouvement not found with ID: " + mvtId);
         }
     }
-    // Méthode pour calculer le nombre de mouvements de stock par type
 
     @Override
     public List<MouvementStock> getMovementsByType(TypeMouvement type) {
         return mouvementStockRepository.findByTypeMouvement(type);
     }
-//le stock actuel de chaque produit
     @Override
     @Transactional
     public Long calculateCurrentStock(Long productId) {
@@ -89,10 +84,7 @@ public class StockServiceImpl implements IStockService {
             return null;
         }
     }
-///////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    //Valeur du stock moyen	Somme (quantité article x prix unitaire) du stock moyen
-    //ne9s logique ama it works
     @Override
     public double calculateAverageStockValue() {
         List<Product> products = productRepository.findAll();
@@ -110,7 +102,6 @@ public class StockServiceImpl implements IStockService {
         return totalStockValue;
     }
 
-    //Stock moyen = (Stock initial + Stock final)/2
     @Override
     public double calculateAverageStockValueForPeriods(Long productId) {
         // Trouver le produit par son ID

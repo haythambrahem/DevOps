@@ -34,43 +34,38 @@ import java.util.Arrays;
 public class SecurityConfiguration {
 
     private final UserDetailsService userDetailsService;
-    private final JwtFilter jwtFilter;
+    private final JwtFilter jwtFilter; // Ensure this is correctly defined
     private final PasswordEncoder passwordEncoder;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .cors() // Enable CORS
-                .configurationSource(corsConfigurationSource()) // Use the CORS configuration defined below
+        http
+                .csrf().disable()
+                .cors().and() // Ensure CORS is enabled
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Stateless session for JWT
                 .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .exceptionHandling()
-                .authenticationEntryPoint((request, response, exception) -> {
-                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, exception.getMessage());
-                }).and()
                 .authorizeRequests()
-                .antMatchers("/**", "/public/**", "/product/**", "/cart/**", "/review/**", "/command/**")
-                .permitAll()
-                .antMatchers(HttpMethod.GET, "/leav/allLeavs").permitAll()  // Make sure the endpoint is accessible
+                .antMatchers("/**").permitAll() // Adjust based on your security requirements
                 .anyRequest().authenticated()
                 .and()
-                .authenticationProvider(authenticationProvider())
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class); // JWT filter is added before UsernamePasswordAuthenticationFilter
+                .exceptionHandling()
+                .authenticationEntryPoint((request, response, authException) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized"))
+                .and()
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class); // Add JWT filter
 
         return http.build();
     }
 
-    // Cors Configuration Source for Global CORS policy
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://192.168.159.129:4200")); // Frontend URL
+        configuration.setAllowedOrigins(Arrays.asList("http://192.168.159.129:4200"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
-        configuration.setAllowCredentials(true);
+        configuration.setAllowCredentials(true); // Allow cookies or authentication headers
+
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration); // Apply to all endpoints
+        source.registerCorsConfiguration("/**", configuration);
         return source;
     }
 

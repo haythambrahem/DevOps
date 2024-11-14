@@ -65,7 +65,6 @@ public class ProductionServiceImpl implements IProductionService {
 
 
 
-    //Mesure du pourcentage de produits finis sans défaut par rapport au nombre total
     @Override
     public double calculateYieldRate(Production production) {
         int totalProducts = production.getTotalProducts();
@@ -91,7 +90,6 @@ public class ProductionServiceImpl implements IProductionService {
     }
 
 /////////////////////////////////////////////////////////
-    //SOURCE: https://www.leanproduction.com/oee/
 @Override //ok
 public double calculateQuality(Production production) {
     int totalProducts = production.getTotalProducts();
@@ -118,8 +116,6 @@ public double calculateQuality(Production production) {
         long downtimeMilliseconds = production.getProductionStoppage(); // Convertir le temps d'arrêt de jours en millisecondes
         return (double) (plannedProductionTimeDay - downtimeMilliseconds) / plannedProductionTimeDay;
     }
-//Calcul de performance source link
-//https://www.spectraltms.com/blog/calcul-du-trs-d%C3%A9finitions-formules-et-exemples#:~:text=La%20fa%C3%A7on%20la%20plus%20simple,)%20%2F%20Temps%20de%20production%20planifi%C3%A9.
 
     @Override
     public double calculatePerformance(Production production) {
@@ -140,22 +136,16 @@ public double calculateQuality(Production production) {
 
     // Méthode pour calculer le temps de cycle idéal
     private double calculateIdealCycleTime(Production production) {
-        // Vous devez définir le temps de cycle idéal pour votre processus de fabrication.
-        // Ce temps est le temps de cycle le plus rapide que votre processus peut atteindre
-        // dans des conditions optimales.
-        // Par exemple, si vous savez que le temps de cycle idéal est de 900 secondes (en millisecondes),
-        // vous pouvez le retourner ici.
+
         double idealCycleTime = 900000; // 900 secondes en millisecondes
         return idealCycleTime;
     }
 
-    // Méthode pour calculer le temps d'exécution
     private double calculateExecutionTime(Production production) {
         double executionTime = calculateTotalProductionTimeMilliseconds(production);
         return executionTime;
     }
 
-    // Méthode pour calculer le temps de production total (en millisecondes)
     private long calculateTotalProductionTimeMilliseconds(Production production) {
         if (production.getStartDate() != null && production.getEndDate() != null) {
             return production.getEndDate().getTime() - production.getStartDate().getTime();
@@ -176,7 +166,7 @@ public double calculateQuality(Production production) {
         double totalCost = production.getLaborCost() + production.getRawMaterialCost() + production.getMachineMaintenanceCost();
         return totalCost;
     }
-    //Coût de revient par produit ou bien l'indice de productivité
+
     @Override //KPI  ne9s controlleur
     public double calculateCostPerProduct(Production production) {
         // Somme des coûts liés au cycle de production
@@ -190,7 +180,7 @@ public double calculateQuality(Production production) {
 
         return costPerProduct;
     }
-//KPI pourcentage  Défauts de fabrication
+
     @Override
     public double calculateScrapRate(Production production) {
         int totalProducts = production.getTotalProducts();
@@ -206,7 +196,6 @@ public double calculateQuality(Production production) {
 
 
 
-/////////////////////////////////////////////////////////////////////////////////////////
 
     public int calculateProductionEnCours(Date startDate, Date endDate) {
         List<Production> productionsEnCours = productionRepository.findByProductionStatusAndStartDateBeforeAndEndDateAfter(

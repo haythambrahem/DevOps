@@ -70,7 +70,7 @@ public class PrimeImp implements PrimeService {
     public List<Prime> getListPrimeByUserAndMonth(User user, String primeMonth, Integer primeYear) {
         return primeRepository.findPrimesByUserAndMonthAndYear(user,primeMonth,primeYear);
     }
-    //@Scheduled(cron = "*/10 * * * * *") // Execute at 00:00:00 on the 26th of each month
+
     public void generatePrimeForCurrentMonth() {
         String monthName = LocalDate.now().getMonth().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
         int year = Year.now().getValue();
@@ -90,7 +90,6 @@ public class PrimeImp implements PrimeService {
         }
     }
 
-    //@Scheduled(cron = "*/7 * * * * *")
     public void primeByNotePerfermance(){
         Map<User, Long> notes = noteService.countUserOccurrencesForNote1();
         String monthName = LocalDate.now().getMonth().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
