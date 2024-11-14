@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/productions")
-@CrossOrigin(origins = "*")
+@CrossOrigin("*")
 public class ProductionController {
 
 

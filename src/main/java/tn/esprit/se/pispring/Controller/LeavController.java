@@ -17,7 +17,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin("*")
 @RestController
 @RequiredArgsConstructor
 @Slf4j
