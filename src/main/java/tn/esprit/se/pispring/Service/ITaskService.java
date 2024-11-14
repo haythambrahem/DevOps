@@ -1,6 +1,5 @@
 package tn.esprit.se.pispring.Service;
 
-
 import tn.esprit.se.pispring.entities.Task;
 import tn.esprit.se.pispring.entities.TaskStatus;
 import tn.esprit.se.pispring.entities.User;
@@ -14,10 +13,10 @@ public interface ITaskService {
 
 
     Task addTask (Task task);
-
+    Task  updateTask (Task task);
     void   deleteTask (Long task_id);
     Task getTask (Long task_id);
-   List<Task > getAllTask ();
+     List<Task > getAllTask ();
 
     List<Task> getTasksByProject(Long projectId);
 
@@ -29,7 +28,7 @@ public interface ITaskService {
 
     double calculateTaskBudget(Task task, Set<User> users);
 
-   double calculateProjectBudget(Long projectId);
+    double calculateProjectBudget(Long projectId);
     List<Task> getCompletedTasksByProject(Long projectId);
 
     void updateBudgetReel(Long projectId);

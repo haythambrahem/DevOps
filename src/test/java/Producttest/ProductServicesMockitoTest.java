@@ -18,14 +18,14 @@ import java.util.Optional;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
- class productServicesMockitoTest {
+class ProductServicesMockitoTest {
     private AutoCloseable closeable;
     @Mock
     private ProductRepository productRepository;
 
 
     @InjectMocks
-    private tn.esprit.se.pispring.Service.Product.productServices productServices;
+    private tn.esprit.se.pispring.Service.Product.ProductServices productServices;
 
     @BeforeEach
     public void setup() {
@@ -38,7 +38,7 @@ import static org.junit.jupiter.api.Assertions.*;
     }
 
     @Test
-   void testAdvancedProductAction_UpdatePrice() {
+    void testAdvancedProductAction_UpdatePrice() {
 
         Product product = new Product();
         product.setProductId(1L);
@@ -56,7 +56,7 @@ import static org.junit.jupiter.api.Assertions.*;
     }
 
     @Test
-     void testAdvancedProductAction_CheckStock_LowStock() {
+    void testAdvancedProductAction_CheckStock_LowStock() {
 
         Product product = new Product();
         product.setProductId(1L);
@@ -70,14 +70,14 @@ import static org.junit.jupiter.api.Assertions.*;
         assertEquals("Product stock is low!", response);
         verify(productRepository, times(1)).findById(1L);
     }
-     @Test
-      void testAdvancedProductAction_ProductNotFound() {
-         when(productRepository.findById(1L)).thenReturn(Optional.empty());
+    @Test
+    void testAdvancedProductAction_ProductNotFound() {
+        when(productRepository.findById(1L)).thenReturn(Optional.empty());
 
-         assertThrows(EntityNotFoundException.class, () ->
-                 productServices.advancedProductAction(1L, "UPDATE_PRICE")
-         );
-     }
+        assertThrows(EntityNotFoundException.class, () ->
+                productServices.advancedProductAction(1L, "UPDATE_PRICE")
+        );
+    }
 
 
 

@@ -15,7 +15,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
- class ProductServicesTest {
+class ProductServicesTest {
     private AutoCloseable closeable;
     @Mock
     private ProductRepository productRepository;
@@ -57,7 +57,7 @@ import static org.mockito.Mockito.*;
     }
 
     @Test
-  void testGetProductById_ProductExists() {
+    void testGetProductById_ProductExists() {
         Product product = new Product();
         product.setProductId(1L);
         when(productRepository.findById(1L)).thenReturn(Optional.of(product));
@@ -69,14 +69,14 @@ import static org.mockito.Mockito.*;
     }
 
     @Test
- void testGetProductById_ProductNotFound() {
+    void testGetProductById_ProductNotFound() {
         when(productRepository.findById(1L)).thenReturn(Optional.empty());
 
         assertThrows(EntityNotFoundException.class, () -> productServices.getProductById(1L));
     }
 
     @Test
- void testDeleteProduct_ProductExists() {
+    void testDeleteProduct_ProductExists() {
         when(productRepository.existsById(1L)).thenReturn(true);
 
         productServices.deleteProduct(1L);
@@ -87,7 +87,7 @@ import static org.mockito.Mockito.*;
     }
 
     @Test
-     void testDeleteProduct_ProductNotFound() {
+    void testDeleteProduct_ProductNotFound() {
         when(productRepository.existsById(1L)).thenReturn(false);
 
         assertThrows(EntityNotFoundException.class, () -> productServices.deleteProduct(1L));
@@ -115,7 +115,7 @@ import static org.mockito.Mockito.*;
 
 
     @Test
-     void testCheckAndNotifyLowStock() {
+    void testCheckAndNotifyLowStock() {
         Product product1 = new Product();
         product1.setTitle("Product 1");
         product1.setStock(5L);
@@ -132,7 +132,7 @@ import static org.mockito.Mockito.*;
 
     }
     @Test
-     void testAdvancedProductAction_UpdatePrice() {
+    void testAdvancedProductAction_UpdatePrice() {
 
         Product product = new Product();
         product.setProductId(1L);
@@ -150,7 +150,7 @@ import static org.mockito.Mockito.*;
     }
 
     @Test
-   void testAdvancedProductAction_CheckStock_LowStock() {
+    void testAdvancedProductAction_CheckStock_LowStock() {
 
         Product product = new Product();
         product.setProductId(1L);

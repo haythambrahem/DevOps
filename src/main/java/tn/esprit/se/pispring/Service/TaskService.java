@@ -31,7 +31,10 @@ public class TaskService implements ITaskService{
         return taskRepository.save(task);
     }
 
-
+    @Override
+    public Task updateTask(Task task) {
+        return taskRepository.save(task);
+    }
 
     @Override
     public void deleteTask(Long task_id) {
@@ -144,6 +147,7 @@ public class TaskService implements ITaskService{
             }
         }
     }
+
     @Override
     public void updateBudgetReel(Long projectId) {
         try {
