@@ -17,7 +17,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://192.168.111.128:4200")
 @RestController
 @RequiredArgsConstructor
 @Slf4j
