@@ -13,6 +13,7 @@ import tn.esprit.se.pispring.Repository.LikeDislikeRepository;
 import tn.esprit.se.pispring.Repository.ProductRepository;
 import tn.esprit.se.pispring.Repository.ProductionRepository;
 import tn.esprit.se.pispring.Service.BarCode.BarcodeServiceImpl;
+import tn.esprit.se.pispring.Service.Product.IProductServices;
 import tn.esprit.se.pispring.entities.Product;
 import tn.esprit.se.pispring.entities.Production;
 import tn.esprit.se.pispring.entities.Rating.LikeDislike;
@@ -23,13 +24,13 @@ import java.util.Base64;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.stream.Collectors;
+
 
 
 @Service
 @Slf4j
 @AllArgsConstructor
-public class ProductServices implements IProductServices{
+public class ProductServices implements IProductServices {
     private final CartItemRepository cartItemRepository;
     private final LikeDislikeRepository likeDislikeRepository;
    private final ProductRepository productRepository;
@@ -81,7 +82,7 @@ public Product addProductWithBarcodeAndAssignProduction(Product product, Long pr
     @Override
     public Product getProductById(Long id) {
         return productRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Product not found for this id :: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("NoProduct " + id));
     }
 
   @Override
@@ -98,7 +99,7 @@ public Product addProductWithBarcodeAndAssignProduction(Product product, Long pr
 
     @Override
     public List<Product> getAllProducts(String searchKey){
-        if (searchKey.equals("")) {
+        if (searchKey.isEmpty()) {
             return productRepository.findAll();
         }else{
             return productRepository.findByTitleContainingIgnoreCaseOrDescriptionContainingIgnoreCase(searchKey, searchKey);
@@ -110,26 +111,35 @@ public Product addProductWithBarcodeAndAssignProduction(Product product, Long pr
 public List<Object[]> calculateAveragePriceByType() {
     return productRepository.calculateAveragePriceByType();
 }
-@Override
-    public int numberOfLikes(Long productId){
-        Product product=productRepository.findById(productId).get();
-        int likes=0;
-        for (LikeDislike e:product.getLikeDislikeProducts()){
-            if(e.getProductRating().equals(ProductRating.LIKE)){
-                likes++;
-            }
-        }
-        return  likes;
-    }
     @Override
-    public List<Product> top3MostLikedProducts(){
-        List<Product> top3MostLikedProducts= productRepository.findAll()
-                .stream()
-                .sorted((a,b)->this.numberOfLikes(b.getProductId())-this.numberOfLikes(a.getProductId()))
-                .limit(3)
-                .collect(Collectors.toList());
-        return top3MostLikedProducts;
+    public int numberOfLikes(Long productId) {
+        Optional<Product> optionalProduct = productRepository.findById(productId);
+
+        if (optionalProduct.isPresent()) {
+            Product product = optionalProduct.get();
+            int likes = 0;
+
+            for (LikeDislike e : product.getLikeDislikeProducts()) {
+                if (e.getProductRating().equals(ProductRating.LIKE)) {
+                    likes++;
+                }
+            }
+            return likes;
+        } else {
+
+            throw new NoSuchElementException("Product not found with id: " + productId);
+        }
     }
+
+    @Override
+    public List<Product> top3MostLikedProducts() {
+        return productRepository.findAll()
+                .stream()
+                .sorted((a, b) -> this.numberOfLikes(b.getProductId()) - this.numberOfLikes(a.getProductId()))
+                .limit(3)
+                .toList();
+    }
+
 
     @Override
     @Scheduled(fixedRate = 3600000)
@@ -183,22 +193,35 @@ public List<Object[]> calculateAveragePriceByType() {
                 return "Invalid action type provided.";
         }
     }
-    public float calculateDiscountedPrice(float price, float discount) {
+    public static float calculateDiscountedPrice(float price, float discount) {
         if (discount < 0 || discount > 1) {
             throw new IllegalArgumentException("Discount must be between 0 and 1");
         }
-        return price * (1 - discount);
-    }
 
 
-    public float calculateDiscountedPrices(long productId, float discountRate) {
-        Optional<Product> productOpt = productRepository.findById(productId);
-        if (productOpt.isPresent()) {
-            Product product = productOpt.get();
-            return product.getPrice() - (product.getPrice() * discountRate);
+        if (discount == 0) {
+            return price;
+        } else if (discount < 0.1) {
+
+            return price * 0.95f;
+        } else if (discount < 0.25) {
+
+            return price * (1 - discount);
+        } else {
+
+            return switch ((int) (discount * 100)) {
+                case 25 -> price * 0.70f;
+                case 50 -> price * 0.50f;
+                case 75 -> price * 0.25f;
+                default -> price * (1 - discount);
+            };
+
         }
-        throw new NoSuchElementException("Product not found");
     }
+
+
+
+
 
 
 

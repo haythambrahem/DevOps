@@ -27,11 +27,11 @@ public class CartController {
     private final ProductRepository productRepository;
     private final CartRepository cartRepository;
 
-@PostMapping("/addCart")
-public Cart addCart(@RequestBody Cart cart) {
+    @PostMapping("/addCart")
+    public Cart addCart(@RequestBody Cart cart) {
 
-    return cartRepository.save(cart);
-}
+        return cartRepository.save(cart);
+    }
 
     @PostMapping("/cartItem/{cartId}/{productId}/{quantity}")
     public ResponseEntity<Void> addProductToCart(@PathVariable Long cartId, @PathVariable Long productId, @PathVariable Long quantity) {

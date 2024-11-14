@@ -112,7 +112,7 @@ public class StockServiceImpl implements IStockService {
         } else {
             throw new EntityNotFoundException("Product not found with ID: " + productId);
         }
-}
+    }
     @Override
     public double calculateAverageConsumptionForProduct(Long productId) {
         Optional<Product> optionalProduct = productRepository.findById(productId);

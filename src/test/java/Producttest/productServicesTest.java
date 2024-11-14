@@ -1,4 +1,4 @@
-
+package Producttest;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -7,7 +7,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import tn.esprit.se.pispring.Repository.*;
-import tn.esprit.se.pispring.Service.Product.ProductServices;
 import tn.esprit.se.pispring.entities.Product;
 import tn.esprit.se.pispring.entities.Rating.LikeDislike;
 import tn.esprit.se.pispring.entities.Rating.ProductRating;
@@ -16,7 +15,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class ProductServicesTest {
+ class ProductServicesTest {
     private AutoCloseable closeable;
     @Mock
     private ProductRepository productRepository;
@@ -32,7 +31,7 @@ public class ProductServicesTest {
 
 
     @InjectMocks
-    private ProductServices productServices;
+    private tn.esprit.se.pispring.Service.Product.ProductServices productServices;
 
     @BeforeEach
     public void setup() {
@@ -45,7 +44,7 @@ public class ProductServicesTest {
     }
 
     @Test
-    public void testAddProduct() {
+    void testAddProduct() {
         Product product = new Product();
         product.setTitle("Test Product");
         when(productRepository.save(product)).thenReturn(product);
@@ -58,7 +57,7 @@ public class ProductServicesTest {
     }
 
     @Test
-    public void testGetProductById_ProductExists() {
+  void testGetProductById_ProductExists() {
         Product product = new Product();
         product.setProductId(1L);
         when(productRepository.findById(1L)).thenReturn(Optional.of(product));
@@ -70,14 +69,14 @@ public class ProductServicesTest {
     }
 
     @Test
-    public void testGetProductById_ProductNotFound() {
+ void testGetProductById_ProductNotFound() {
         when(productRepository.findById(1L)).thenReturn(Optional.empty());
 
         assertThrows(EntityNotFoundException.class, () -> productServices.getProductById(1L));
     }
 
     @Test
-    public void testDeleteProduct_ProductExists() {
+ void testDeleteProduct_ProductExists() {
         when(productRepository.existsById(1L)).thenReturn(true);
 
         productServices.deleteProduct(1L);
@@ -88,7 +87,7 @@ public class ProductServicesTest {
     }
 
     @Test
-    public void testDeleteProduct_ProductNotFound() {
+     void testDeleteProduct_ProductNotFound() {
         when(productRepository.existsById(1L)).thenReturn(false);
 
         assertThrows(EntityNotFoundException.class, () -> productServices.deleteProduct(1L));
@@ -97,7 +96,7 @@ public class ProductServicesTest {
 
 
     @Test
-    public void testNumberOfLikes() {
+    void testNumberOfLikes() {
         Product product = new Product();
         LikeDislike like1 = new LikeDislike();
         like1.setProductRating(ProductRating.LIKE);
@@ -116,7 +115,7 @@ public class ProductServicesTest {
 
 
     @Test
-    public void testCheckAndNotifyLowStock() {
+     void testCheckAndNotifyLowStock() {
         Product product1 = new Product();
         product1.setTitle("Product 1");
         product1.setStock(5L);
@@ -133,7 +132,7 @@ public class ProductServicesTest {
 
     }
     @Test
-    public void testAdvancedProductAction_UpdatePrice() {
+     void testAdvancedProductAction_UpdatePrice() {
 
         Product product = new Product();
         product.setProductId(1L);
@@ -151,7 +150,7 @@ public class ProductServicesTest {
     }
 
     @Test
-    public void testAdvancedProductAction_CheckStock_LowStock() {
+   void testAdvancedProductAction_CheckStock_LowStock() {
 
         Product product = new Product();
         product.setProductId(1L);

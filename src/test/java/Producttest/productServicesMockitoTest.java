@@ -1,3 +1,5 @@
+package Producttest;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -6,24 +8,24 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import tn.esprit.se.pispring.Repository.ProductRepository;
 
-import tn.esprit.se.pispring.Service.Product.ProductServices;
 import tn.esprit.se.pispring.entities.Product;
 
 
-import java.util.Date;
+import javax.persistence.EntityNotFoundException;
+
 import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ProductServicesMockitoTest {
+ class productServicesMockitoTest {
     private AutoCloseable closeable;
     @Mock
     private ProductRepository productRepository;
 
 
     @InjectMocks
-    private ProductServices productServices;
+    private tn.esprit.se.pispring.Service.Product.productServices productServices;
 
     @BeforeEach
     public void setup() {
@@ -36,7 +38,7 @@ public class ProductServicesMockitoTest {
     }
 
     @Test
-    public void testAdvancedProductAction_UpdatePrice() {
+   void testAdvancedProductAction_UpdatePrice() {
 
         Product product = new Product();
         product.setProductId(1L);
@@ -54,11 +56,11 @@ public class ProductServicesMockitoTest {
     }
 
     @Test
-    public void testAdvancedProductAction_CheckStock_LowStock() {
+     void testAdvancedProductAction_CheckStock_LowStock() {
 
         Product product = new Product();
         product.setProductId(1L);
-        product.setStock(5L);  // Simulate low stock
+        product.setStock(5L);
         when(productRepository.findById(1L)).thenReturn(Optional.of(product));
 
 
@@ -68,35 +70,16 @@ public class ProductServicesMockitoTest {
         assertEquals("Product stock is low!", response);
         verify(productRepository, times(1)).findById(1L);
     }
+     @Test
+      void testAdvancedProductAction_ProductNotFound() {
+         when(productRepository.findById(1L)).thenReturn(Optional.empty());
+
+         assertThrows(EntityNotFoundException.class, () ->
+                 productServices.advancedProductAction(1L, "UPDATE_PRICE")
+         );
+     }
 
 
-    @Test
-    public void testCalculateDiscountedPrice_WithMocksOnly() {
-
-        Product mockProduct = Product.builder()
-                .productId(1L)
-                .reference("Ref123")
-                .title("Product Name")
-                .image("imageUrl")
-                .description("Description")
-                .stock(100L)
-                .price(150.0f)
-                .TVA(20L)
-                .productType(Product.ProductType.ELECTRONICS)
-                .createdAt(new Date())
-                .build();
-
-        when(productRepository.findById(1L)).thenReturn(Optional.of(mockProduct));
-
-
-        float discountedPrice = productServices.calculateDiscountedPrices(1L, 0.1f);
-
-
-        assertEquals(135.0f, discountedPrice, 0.01f);
-
-
-        verify(productRepository).findById(1L);
-    }
 
 
 
