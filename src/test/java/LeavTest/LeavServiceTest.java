@@ -1,3 +1,5 @@
+package LeavTest;
+
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,7 +16,7 @@ import java.util.Date;
 import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
-public class LeavServiceTest {
+ class LeavServiceTest {
 
     @Mock
     private LeavRepository leavRepository;
@@ -127,16 +129,17 @@ public class LeavServiceTest {
 
     @Test
     void testCalculateRemainingLeaveDays() {
-        LeavService leavService = new LeavService(userRepository, leavRepository, notificationRepository);
+        LeavService newLeavService = new LeavService(userRepository, leavRepository, notificationRepository);
 
         LocalDate leaveStartDate = LocalDate.of(2024, 11, 1);
         LocalDate leaveEndDate = LocalDate.of(2024, 11, 5);
 
-        int result = leavService.calculateRemainingLeaveDays(
+        int result = newLeavService.calculateRemainingLeaveDays(
                 java.sql.Date.valueOf(leaveStartDate),
                 java.sql.Date.valueOf(leaveEndDate)
         );
 
         assertEquals(4, result);
     }
+
 }

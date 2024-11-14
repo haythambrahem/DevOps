@@ -168,7 +168,7 @@ public class LeavService implements ILeavService {
     @Transactional
     public Leav processLeaveRequest(Long leaveId) {
         Leav leav = leavRepository.findById(leaveId)
-                .orElseThrow(() -> new EntityNotFoundException("Leave not found with ID: " + leaveId));
+                .orElseThrow(() -> new EntityNotFoundException("Leav not found with ID: " + leaveId));
 
         if (leav.getLeaveType() == null) {
             throw new UnsupportedOperationException("Unknown leave type: null");
