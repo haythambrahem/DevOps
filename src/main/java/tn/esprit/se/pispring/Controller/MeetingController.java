@@ -2,7 +2,7 @@ package tn.esprit.se.pispring.Controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.format.annotation.DateTimeFormat;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,10 +12,7 @@ import tn.esprit.se.pispring.Service.MeetService;
 import tn.esprit.se.pispring.entities.Consultant;
 import tn.esprit.se.pispring.entities.Meeting;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
-import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
 
@@ -25,7 +22,7 @@ import java.util.Map;
 @Slf4j
 @RequestMapping("/meet")
 public class MeetingController {
-  //  private MeetInterface meetInterface;
+
     private final MeetInterface meetInterface;
     private final MeetService meetService ;
     private  final ConsultantService consultantService ;
@@ -44,7 +41,7 @@ public class MeetingController {
 
     @PutMapping("/{meetId}")
     public ResponseEntity<Meeting> updateMeeting(@PathVariable Long meetId, @RequestBody Meeting meeting) {
-        meeting.setMeetId(meetId); // Assurez-vous que l'ID de la réunion est correctement défini
+        meeting.setMeetId(meetId);
         Meeting updatedMeeting = meetInterface.updateMeeting(meeting);
         return new ResponseEntity<>(updatedMeeting, HttpStatus.OK);
     }
@@ -92,14 +89,7 @@ public class MeetingController {
         Meeting newMeeting = meetService.planifierMeeting(meeting, consultantId,userId);
         return ResponseEntity.ok(newMeeting);
     }
-  /*  @GetMapping("/count/{consultantId}/{dateBegin}/{dateEnd}")
-    public Map<LocalDate, Long> countMeetingsByDateAndConsultantId(
-            @PathVariable Long consultantId,
-            @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateBegin,
-            @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateEnd) {
 
-        return meetService.countMeetingsByDateAndConsultantId(consultantId, dateBegin, dateEnd);
-    }*/
 
  @GetMapping("/meetings/{consultantId}")
  public List<Meeting> getMeetingsByConsultantId(@PathVariable Long consultantId) {
@@ -114,10 +104,6 @@ public class MeetingController {
         return  meetService.meetingsPourUser(userId);
     }
 
-    /*@GetMapping("/meetingstats/{consultantId}")
-    public Map<String, Map<String, Long>> calculateStatisticsForMonth(@PathVariable Long consultantId) {
-        return meetService.calculateStatisticsForMonth(consultantId);
-    }*/
 
 
     @GetMapping("/statss/{consultantId}")

@@ -1,6 +1,6 @@
 package tn.esprit.se.pispring.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 

@@ -40,7 +40,7 @@ public class ReviewController {
         return reviewServices.numberOfDisikes(productId);
     }
 
-    //REVIEWW
+
     @PostMapping("/reviewtoproduct/{idUser}/{idprod}")
     public Review addReviewToProduct(@PathVariable("idUser") Long idUser, @PathVariable("idprod") Long productId, @RequestBody Review review) {
         return reviewServices.addReviewToProduct(idUser, productId, review);

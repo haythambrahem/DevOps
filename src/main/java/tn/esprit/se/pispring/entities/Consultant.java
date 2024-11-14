@@ -3,7 +3,7 @@ package tn.esprit.se.pispring.entities;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.*;
 
 import java.time.Duration;

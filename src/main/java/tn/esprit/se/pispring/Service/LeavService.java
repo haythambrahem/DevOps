@@ -48,7 +48,7 @@ public class LeavService implements ILeavService {
         User user = userRepository.findById(id).orElse(null);
 
         if (leav != null && user != null) {
-            // verif q le statut du congé est "approved"
+
             if (leav.getLeaveStatus() == LeaveStatus.APPROVED) {
                 leav.setUser(user);
                 leavRepository.save(leav);
@@ -59,7 +59,7 @@ public class LeavService implements ILeavService {
                 notificationRepository.save(notification);
                 return leav;
             } else {
-                // sinon n pas affecter le congé
+
                 log.error("Leave with ID {} cannot be assigned to user with ID {}. Leave status is not approved.", leaveId, id);
                 throw new IllegalStateException("Leave with ID " + leaveId + " cannot be assigned. Leave status is not approved.");
             }
@@ -70,28 +70,7 @@ public class LeavService implements ILeavService {
     }
 
 
-    //    @Scheduled(fixedRate = 60000)
-//    public void sendScheduledNotifications() {
-//        LocalDateTime currentTime = LocalDateTime.now();
-//
-//        // Convert LocalDateTime to Date
-//        Date currentDateTime = Date.from(currentTime.atZone(ZoneId.systemDefault()).toInstant());
-//        List<Leav> upcomingLeave = leavRepository.findUpcomingLeave(currentDateTime);
-//
-//        for (Leav leav : upcomingLeave) {
-//            String notificationMessage = "Your leave is scheduled for " + leav.getLeaveStartdate() + ".";
-//            Notification notification = new Notification();
-//            notification.setMessage(notificationMessage);
-//            notification.setRecipient(leav.getUser());
-//            notificationRepository.save(notification);
-//        }
-//    // Methode pour calculer el duree mtaa el congé entre jour début et jour fin
-//    private int calculateLeaveDurationInDays(Date leaveStartDate, Date leaveEnddate) {
-//        LocalDate startLocalDate = leaveStartDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-//        LocalDate endLocalDate = leaveEnddate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-//        return (int) ChronoUnit.DAYS.between(startLocalDate, endLocalDate);
-//    }
-//accepter le congé par l'admin hr
+
     @Override
     @Transactional
     public Leav acceptLeaveRequest(Long leaveId) {
@@ -102,15 +81,13 @@ public class LeavService implements ILeavService {
                 throw new EntityNotFoundException("Leave not found with ID: " + leaveId);
             }
 
-            // Calculate leave duration in days
             int leaveDurationInDays = calculateLeaveDurationInDays(leav.getLeaveStartdate(), leav.getLeaveEnddate());
 
-            // Check if leave duration exceeds available leave days left
             if (leav.getLeaveDaysLeft() < leaveDurationInDays) {
                 throw new IllegalArgumentException("Leave duration exceeds available leave days left.");
             }
 
-            // Update leave status and approval
+
             leav.setLeaveStatus(LeaveStatus.APPROVED);
             leav.setLeaveApproved(true);
 
@@ -138,21 +115,20 @@ public class LeavService implements ILeavService {
     }
 
 
-    //refuser le congé par l'admin hr si le nbr de jours restants exceeds el nbr de jours demandés.
     @Override
     public Leav refuseLeaveRequest(Long leaveId) {
         Leav leav = leavRepository.findById(leaveId)
                 .orElseThrow(() -> new EntityNotFoundException("Leave not found with ID: " + leaveId));
 
-        // Calculate leave duration in days
+
         int leaveDurationInDays = calculateLeaveDurationInDays(leav.getLeaveStartdate(), leav.getLeaveEnddate());
 
-        // Check if leave duration exceeds available leave days left
+
         if (leav.getLeaveDaysLeft() < leaveDurationInDays) {
             throw new IllegalArgumentException("Leave duration exceeds available leave days left.");
         }
 
-        // Update leave status and approval
+
         leav.setLeaveStatus(LeaveStatus.REFUSED);
         leav.setLeaveApproved(false);
 

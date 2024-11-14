@@ -21,7 +21,7 @@ import java.nio.file.Paths;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Paragraph;
+
 import com.itextpdf.text.pdf.PdfWriter;
 import tn.esprit.se.pispring.Service.UserService;
 
@@ -50,14 +50,12 @@ public class ProfileUploadController {
     }
     @GetMapping(value = "/download/profile", produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<InputStreamResource> downloadProfile(@RequestHeader(name = "Authorization") String token) throws IOException {
-        // Generate the PDF document
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         Document document = new Document();
         try {
             PdfWriter.getInstance(document, outputStream);
             document.open();
             document.add((Element) userService.getCurrentUserInfos(token));
-            // Add more profile details here as paragraphs
             document.close();
         } catch (DocumentException e) {
             e.printStackTrace();
@@ -65,7 +63,6 @@ public class ProfileUploadController {
             throw new RuntimeException(e);
         }
 
-        // Return the PDF file as a response
         ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
         return ResponseEntity
                 .ok()

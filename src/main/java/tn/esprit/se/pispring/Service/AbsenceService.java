@@ -4,10 +4,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import tn.esprit.se.pispring.Repository.AbsenceRepository;
-import tn.esprit.se.pispring.Repository.LeavRepository;
+
 import tn.esprit.se.pispring.Repository.UserRepository;
 import tn.esprit.se.pispring.entities.Absence;
-import tn.esprit.se.pispring.entities.Recruitment;
+
 
 import java.util.List;
 

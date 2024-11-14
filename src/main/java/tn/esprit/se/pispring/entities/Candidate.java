@@ -24,9 +24,9 @@ public class Candidate {
     private String education;
     private String postTitleC;
     @Lob
-    private byte[] cv; // Byte array to store the file content
+    private byte[] cv;
 
-    private String cvFileName; // Name of the CV file
+    private String cvFileName;
     @ManyToOne
     @JoinColumn(name = "offerId", referencedColumnName = "offerId")
     private Recruitment recruitment;

@@ -2,7 +2,7 @@ package tn.esprit.se.pispring.Repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import tn.esprit.se.pispring.entities.Note;
+
 import tn.esprit.se.pispring.entities.NoteUser;
 import tn.esprit.se.pispring.entities.User;
 

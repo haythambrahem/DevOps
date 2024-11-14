@@ -3,7 +3,7 @@ package tn.esprit.se.pispring.Service.ProductionService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import tn.esprit.se.pispring.Repository.CommandRepository;
+
 import tn.esprit.se.pispring.Repository.ProductionRepository;
 import tn.esprit.se.pispring.entities.Production;
 import tn.esprit.se.pispring.entities.ProductionStatus;
@@ -16,11 +16,11 @@ import java.util.Optional;
 @Slf4j
 @AllArgsConstructor
 public class ProductionServiceImpl implements IProductionService {
-    private final CommandRepository commandRepository;
+
     private final ProductionRepository productionRepository;
 
 
-//CRUD
+
 
     @Override
     public List<Production> getAllProductions() {
@@ -65,7 +65,7 @@ public class ProductionServiceImpl implements IProductionService {
 
 
 
-    //Mesure du pourcentage de produits finis sans défaut par rapport au nombre total
+
     @Override
     public double calculateYieldRate(Production production) {
         int totalProducts = production.getTotalProducts();
@@ -90,14 +90,13 @@ public class ProductionServiceImpl implements IProductionService {
         return productionRepository.findTop5ByOrderByDefectiveProductsDesc();
     }
 
-/////////////////////////////////////////////////////////
-    //SOURCE: https://www.leanproduction.com/oee/
-@Override //ok
+
+@Override
 public double calculateQuality(Production production) {
     int totalProducts = production.getTotalProducts();
     int defectiveProducts = production.getDefectiveProducts();
     if (totalProducts == 0) {
-        return 0; // éviter une division par zéro
+        return 0;
     }
     return (double) (totalProducts - defectiveProducts) / totalProducts;
 }
@@ -112,50 +111,45 @@ public double calculateQuality(Production production) {
         return totalProductionTimeDays;
     }
 
-    @Override   //Ok mais ylzm condition sur stoppage date
+    @Override
     public double calculateAvailability(Production production) {
         long plannedProductionTimeDay = calculateTotalProductionTimeDays(production);
         long downtimeMilliseconds = production.getProductionStoppage(); // Convertir le temps d'arrêt de jours en millisecondes
         return (double) (plannedProductionTimeDay - downtimeMilliseconds) / plannedProductionTimeDay;
     }
-//Calcul de performance source link
-//https://www.spectraltms.com/blog/calcul-du-trs-d%C3%A9finitions-formules-et-exemples#:~:text=La%20fa%C3%A7on%20la%20plus%20simple,)%20%2F%20Temps%20de%20production%20planifi%C3%A9.
+
 
     @Override
     public double calculatePerformance(Production production) {
-        // Temps de cycle idéal (en millisecondes)
+
         double idealCycleTime = calculateIdealCycleTime(production);
 
-        // Temps d'exécution (en millisecondes)
+
         double executionTime = calculateExecutionTime(production);
 
-        // Nombre total de pièces
+
         int totalPieces = production.getTotalProducts();
 
-        // Calcul de la performance
+
         double performance = (idealCycleTime * totalPieces) / executionTime;
 
         return performance;
     }
 
-    // Méthode pour calculer le temps de cycle idéal
+
     private double calculateIdealCycleTime(Production production) {
-        // Vous devez définir le temps de cycle idéal pour votre processus de fabrication.
-        // Ce temps est le temps de cycle le plus rapide que votre processus peut atteindre
-        // dans des conditions optimales.
-        // Par exemple, si vous savez que le temps de cycle idéal est de 900 secondes (en millisecondes),
-        // vous pouvez le retourner ici.
-        double idealCycleTime = 900000; // 900 secondes en millisecondes
+
+        double idealCycleTime = 900000;
         return idealCycleTime;
     }
 
-    // Méthode pour calculer le temps d'exécution
+
     private double calculateExecutionTime(Production production) {
         double executionTime = calculateTotalProductionTimeMilliseconds(production);
         return executionTime;
     }
 
-    // Méthode pour calculer le temps de production total (en millisecondes)
+
     private long calculateTotalProductionTimeMilliseconds(Production production) {
         if (production.getStartDate() != null && production.getEndDate() != null) {
             return production.getEndDate().getTime() - production.getStartDate().getTime();
@@ -168,68 +162,13 @@ public double calculateQuality(Production production) {
         double performance = calculatePerformance(production);
         double quality = calculateQuality(production);
         double oee = availability * performance * quality;
-        return oee * 100; // Convertir en pourcentage
+        return oee * 100;
     }
 
     @Override
     public double calculateTotalProductionCost(Production production) {
         double totalCost = production.getLaborCost() + production.getRawMaterialCost() + production.getMachineMaintenanceCost();
         return totalCost;
-    }
-    //Coût de revient par produit ou bien l'indice de productivité
-    @Override //KPI  ne9s controlleur
-    public double calculateCostPerProduct(Production production) {
-        // Somme des coûts liés au cycle de production
-        double totalProductionCost = calculateTotalProductionCost(production);
-
-        // Nombre total de produits fabriqués
-        int totalProducts = production.getTotalProducts();
-
-        // Calcul du coût de revient par produit
-        double costPerProduct = totalProductionCost / totalProducts;
-
-        return costPerProduct;
-    }
-//KPI pourcentage  Défauts de fabrication
-    @Override
-    public double calculateScrapRate(Production production) {
-        int totalProducts = production.getTotalProducts();
-        int defectiveProducts = production.getDefectiveProducts();
-        if (totalProducts == 0) {
-            return 0.0; // éviter une division par zéro
-        }
-        return (double) defectiveProducts / totalProducts;
-    }
-
-
-
-
-
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-    public int calculateProductionEnCours(Date startDate, Date endDate) {
-        List<Production> productionsEnCours = productionRepository.findByProductionStatusAndStartDateBeforeAndEndDateAfter(
-                ProductionStatus.EN_COURS, endDate, startDate);
-        int totalProductionsEnCours = productionsEnCours.size();
-
-        return totalProductionsEnCours;
-    }
-    public int calculateProductionRéalisé(Date startDate, Date endDate) {
-        List<Production> productionsRéalisés = productionRepository.findByProductionStatusAndStartDateBeforeAndEndDateAfter(
-                ProductionStatus.TERMINE, endDate, startDate);
-        int totalProductionsEnCours = productionsRéalisés.size();
-
-        return totalProductionsEnCours;
-    }
-    @Override //KPI Densité des files d’attentes %
-    public double calculateQueueDensityPercentage(Date startDate, Date endDate) {
-        int productionInQueue = calculateProductionEnCours(startDate,endDate);
-        int totalProduction = calculateProductionRéalisé(startDate, endDate);
-        // Calculez le ratio de densité des files d'attente en pourcentage
-        double queueDensityPercentage = ((double) productionInQueue / totalProduction) * 100;
-
-        return queueDensityPercentage;
     }
 
     @Override
@@ -257,10 +196,3 @@ public double calculateQuality(Production production) {
 
 
 
-//    public void calculateProductionStats(Production production) {
-//        long totalProductionTime = calculateTotalProductionTime(production);
-//        double yieldRate = calculateYieldRate(production);
-//        production.setTotalProductionTime(totalProductionTime);
-//        production.setYieldRate(yieldRate);
-//        productionRepository.save(production);
-//    }

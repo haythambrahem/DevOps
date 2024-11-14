@@ -21,11 +21,11 @@ public class CartItem {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cart_id")
-    @JsonIgnore // kif kif
+    @JsonIgnore
     private Cart cart;
 
     @ManyToOne(fetch = FetchType.LAZY)
-//    @JsonIgnore
+
     @JoinColumn(name = "productId", referencedColumnName = "productId")
 
     private Product product;

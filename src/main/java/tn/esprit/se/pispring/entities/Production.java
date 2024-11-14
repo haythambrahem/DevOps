@@ -23,18 +23,18 @@ public class Production {
     private Date startDate;
     @Temporal(TemporalType.DATE)
     private Date endDate;
-    private int productionStoppage;  //arret de production en jours
+    private int productionStoppage;
 
-    // Attributs pour Quantités de Production
+
     private int totalProducts;
     private int defectiveProducts;
 
-    // Attributs pour Coûts de Production
+
     private double laborCost;
     private double rawMaterialCost;
     private double machineMaintenanceCost;
 
-    // Relation avec Product
+
     @OneToMany(mappedBy = "production", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Product> products;

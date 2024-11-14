@@ -2,19 +2,14 @@ package tn.esprit.se.pispring.Service;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import tn.esprit.se.pispring.Repository.PrimeRepository;
 import tn.esprit.se.pispring.Repository.UserRepository;
 import tn.esprit.se.pispring.entities.Prime;
 import tn.esprit.se.pispring.entities.User;
 
-import java.time.LocalDate;
-import java.time.Year;
-import java.time.format.TextStyle;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+
 
 @Service
 @AllArgsConstructor
@@ -70,45 +65,8 @@ public class PrimeImp implements PrimeService {
     public List<Prime> getListPrimeByUserAndMonth(User user, String primeMonth, Integer primeYear) {
         return primeRepository.findPrimesByUserAndMonthAndYear(user,primeMonth,primeYear);
     }
-    //@Scheduled(cron = "*/10 * * * * *") // Execute at 00:00:00 on the 26th of each month
-    public void generatePrimeForCurrentMonth() {
-        String monthName = LocalDate.now().getMonth().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
-        int year = Year.now().getValue();
-        String designation = "Prime de transport";
-        Float amount = 100F;
-        List<User> users = userRepository.findAll();
-        for (User user : users
-        ) {
-            Prime prime = new Prime();
-            prime.setPrime_month(monthName);
-            prime.setPrime_year(year);
-            prime.setUser(user);
-            prime.setPrime_designation(designation);
-            prime.setValue_amount(amount);
-            primeRepository.save(prime);
-            log.info("############# Cron tab job ####################");
-        }
-    }
 
-    //@Scheduled(cron = "*/7 * * * * *")
-    public void primeByNotePerfermance(){
-        Map<User, Long> notes = noteService.countUserOccurrencesForNote1();
-        String monthName = LocalDate.now().getMonth().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
-        int year = Year.now().getValue();
-        String designation = "Performance prime";
-        notes.forEach((k,v) -> {
-            System.out.println("User "+k.getFirstName()+" "+k.getLastName()+" "+k.getId());
-            System.out.println("Note "+v);
-            User user = userRepository.findById(k.getId()).get();
-            Prime prime = new Prime();
-            long amount = k.getSalaire()*v;
-            prime.setPrime_month(monthName);
-            prime.setPrime_year(year);
-            prime.setPrime_designation(designation);
-            prime.setValue_amount((float)amount);
-            prime.setUser(user);
-            primeRepository.save(prime);
-        });
-    }
+
+
 
     }

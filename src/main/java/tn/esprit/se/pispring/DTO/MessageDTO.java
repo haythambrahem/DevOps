@@ -4,9 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import tn.esprit.se.pispring.entities.Chat;
 
-import java.util.Optional;
 
 @AllArgsConstructor
 @NoArgsConstructor

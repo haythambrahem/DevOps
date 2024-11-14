@@ -63,11 +63,7 @@ public class BudgetService implements IBudegetService{
 
 
 
-    @Override
-    public Budget getBudgetByProjectId(Long projectId) {
-        Project project = projectRepository.findById(projectId).orElse(null);
-        return project != null ? project.getBudget() : null;
-    }
+
     @Override
     public Double calculateBudgetVariance(Long budgetId) {
         Budget budget = budgetRepository.findById(budgetId).orElse(null);
@@ -80,22 +76,21 @@ public class BudgetService implements IBudegetService{
     public Map<String, Integer> calculateBudgetVarianceHistogram() {
         List<Budget> budgets = budgetRepository.findAll();
 
-        // Filtrer les budgets avec un budget réel non nul et un montant de budget non nul
         List<Budget> validBudgets = budgets.stream()
                 .filter(budget -> budget.getBudgetReel() != null && budget.getBudget_amount() != null)
                 .collect(Collectors.toList());
 
-        // Calculer les écarts budgétaires en pourcentage et construire l'histogramme
+
         Map<String, Integer> histogram = new HashMap<>();
-        int intervalSize = 5; // Taille de l'intervalle en pourcentage
+        int intervalSize = 5;
 
         for (Budget budget : validBudgets) {
             double budgetAmount = budget.getBudget_amount();
             double budgetReel = budget.getBudgetReel();
 
-            // Gérer les cas où le montant du budget ou le budget réel est nul
+
             if (budgetAmount == 0 || budgetReel == 0) {
-                // Ignorer ce budget et passer au suivant
+
                 continue;
             }
 
@@ -114,9 +109,9 @@ public class BudgetService implements IBudegetService{
         return "[" + intervalLowerBound + "%, " + intervalUpperBound + "%]";
 }
 
-    @Scheduled(fixedRate = 60000) // Exécute toutes les 5 minutes (300 000 millisecondes)
+    @Scheduled(fixedRate = 60000)
     public void updateBudgetVariances() {
-        // Obtenez tous les budgets
+
         List<Budget> budgets = budgetRepository.findAll();
         for (Budget budget : budgets) {
             if (budget.getBudgetReel() != null) {
@@ -127,7 +122,7 @@ public class BudgetService implements IBudegetService{
                         updateBudget(budget);
                     }
                 } catch (Exception e) {
-                    // Gérer les erreurs
+
                     e.printStackTrace();
                 }
             }
@@ -147,19 +142,18 @@ public class BudgetService implements IBudegetService{
     @Override
 
     public List<Project> getProjectsAssociatedWithCloseBudgets() {
-        List<Budget> budgets = budgetRepository.findAll(); // Obtenez tous les budgets
+        List<Budget> budgets = budgetRepository.findAll();
 
-        // Filtrer les budgets dont la différence entre le montant et le budget réel est inférieure ou égale à 10%
         List<Budget> closeBudgets = budgets.stream()
                 .filter(budget -> {
                     double diff = Math.abs(budget.getBudget_amount() - budget.getBudgetReel());
-                    return diff <= (budget.getBudget_amount() * 0.1); // 10% du montant
+                    return diff <= (budget.getBudget_amount() * 0.1);
                 })
                 .collect(Collectors.toList());
 
         List<Project> associatedProjects = new ArrayList<>();
 
-        // Pour chaque budget proche, récupérez les projets associés
+
         for (Budget budget : closeBudgets) {
             List<Project> projects = projectRepository.findProjectsByBudgetId(budget.getBudget_id());
             associatedProjects.addAll(projects);

@@ -27,6 +27,5 @@ public class RecruitmentRequest {
     private String requirements;
     private String hiringManager;
     private String recruiter;
-    // Assuming CV is stored as a byte array in the database
     private byte[] cv;
 }

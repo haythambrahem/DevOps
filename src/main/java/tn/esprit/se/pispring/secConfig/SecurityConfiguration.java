@@ -10,7 +10,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
+
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -19,7 +19,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import javax.servlet.http.HttpServletResponse;
+
 import java.util.Arrays;
 
 @EnableWebSecurity
@@ -41,7 +41,7 @@ public class SecurityConfiguration {
         http.csrf().disable()
                 .cors().and()  // Enable CORS support
                 .authorizeRequests()
-                .antMatchers("/**", "/product/**", "/cart/**", "/review/**", "/command/**").permitAll() // Allow specific paths
+                .antMatchers("/**", "/product/**", "/cart/**", "/review/**", "/command/**").permitAll()
                 .anyRequest().authenticated() // Require authentication for other requests
                 .and()
                 .authenticationProvider(authenticationProvider())
@@ -67,14 +67,14 @@ public class SecurityConfiguration {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        // Allow the frontend URL to access the backend
+
         configuration.setAllowedOrigins(Arrays.asList("http://192.168.111.128:4200"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration); // Apply CORS to all endpoints
+        source.registerCorsConfiguration("/**", configuration);
         return source;
     }
 }

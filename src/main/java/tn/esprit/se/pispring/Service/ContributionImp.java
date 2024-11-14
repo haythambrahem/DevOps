@@ -2,19 +2,17 @@ package tn.esprit.se.pispring.Service;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Scheduled;
+
 import org.springframework.stereotype.Service;
 import tn.esprit.se.pispring.Repository.ContributionRepository;
 import tn.esprit.se.pispring.Repository.UserRepository;
 import tn.esprit.se.pispring.entities.Contribution;
-import tn.esprit.se.pispring.entities.Prime;
+
 import tn.esprit.se.pispring.entities.User;
 
-import java.time.LocalDate;
-import java.time.Year;
-import java.time.format.TextStyle;
+
 import java.util.List;
-import java.util.Locale;
+
 
 @Service
 @AllArgsConstructor
@@ -66,24 +64,6 @@ public class ContributionImp implements ContributionService{
     public List<Contribution> getListContributionByUserAndMonth(User user, String contribution_month, Integer contribution_year) {
         return contributionRepository.findByUserAndContributionMonthAndContributionYear(user,contribution_month,contribution_year);
     }
-    //@Scheduled(cron = "*/5 * * * * *") // Execute at 00:00:00 on the 26th of each month
-    public void generateContributionForCurrentMonth() {
-        String monthName = LocalDate.now().getMonth().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
-        int year = Year.now().getValue();
-        String designation = "CNSS";
-        Float amount = 100F;
-        List<User> users = userRepository.findAll();
-        for (User user : users
-        ) {
-            Contribution contribution = new Contribution();
-            contribution.setContribution_month(monthName);
-            contribution.setContribution_year(year);
-            contribution.setUser(user);
-            contribution.setContribution_designation(designation);
-            contribution.setContribution_amount(amount);
-            contributionRepository.save(contribution);
-            log.info("############# Cron tab job ####################");
-        }
-    }
+
 
 }

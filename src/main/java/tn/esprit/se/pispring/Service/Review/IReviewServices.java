@@ -9,8 +9,7 @@ public interface IReviewServices {
     @Transactional
     void userLikesProduct(Long productId, Long userId);
 
- //   @Transactional
-    //void userDislikesProduct(Long productId, Long userId);
+
 
     @Transactional
     void userDislikesProduct(Long productId, Long userId);
@@ -22,7 +21,7 @@ public interface IReviewServices {
     @Transactional
     Review addReviewToProduct(Long userId, Long productId, Review review);
 
-    @Transactional //okk
+    @Transactional
     void deleteReviewsByProductId(Long productId);
 
     List<Review> getReviewsByProductId(Long productId);

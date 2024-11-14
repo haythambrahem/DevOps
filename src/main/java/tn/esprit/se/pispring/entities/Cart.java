@@ -8,7 +8,7 @@ import lombok.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
+
 
 @Builder
 @Getter
@@ -37,8 +37,6 @@ public class Cart {
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CartItem> items = new ArrayList<>();
 
-    public List<CartItem> getCartItems() {
-        return items;
-    }
+
 
 }

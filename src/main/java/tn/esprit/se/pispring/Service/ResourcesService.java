@@ -58,11 +58,11 @@ public class ResourcesService implements IResourceService {
             resource.getTasks().add(task);
             task.getResourcess().add(resource);
 
-            // Sauvegarder la ressource et la tâche dans une transaction
+
             resourceRepository.save(resource);
             taskRepository.save(task);
         } else {
-            // Gérer les cas où la ressource ou la tâche n'existe pas
+
             log.error("Resource or Task not found!");
         }
 
@@ -73,15 +73,15 @@ public class ResourcesService implements IResourceService {
     public Map<String, Object> getResourceStats() {
         Map<String, Object> stats = new HashMap<>();
 
-        // Nombre total de ressources
+
         Long totalResources = resourceRepository.countTotalResources();
         stats.put("totalResources", totalResources);
 
-        // Coût total des ressources
+
         Double totalCost = resourceRepository.sumTotalCost();
         stats.put("totalCost", totalCost);
 
-        // Coût des ressources par projet
+
         List<Object[]> costByProject = resourceRepository.sumCostByProject();
         Map<String, Double> costByProjectMap = new HashMap<>();
         for (Object[] result : costByProject) {
@@ -91,7 +91,6 @@ public class ResourcesService implements IResourceService {
         }
         stats.put("costByProject", costByProjectMap);
 
-        // Nombre de ressources par type
         List<Object[]> resourcesByType = resourceRepository.countResourcesByType();
         Map<String, Long> resourcesByTypeMap = new HashMap<>();
         for (Object[] result : resourcesByType) {
@@ -99,14 +98,14 @@ public class ResourcesService implements IResourceService {
         }
         stats.put("resourcesByType", resourcesByTypeMap);
 
-        // Ressources ajoutées par mois
+
         LocalDate currentDate = LocalDate.now();
         int currentYear = currentDate.getYear();
         List<Object[]> resourcesAddedByMonth = resourceRepository.countResourcesAddedByMonth(currentYear);
         Map<Integer, Long> resourcesAddedByMonthMap = parseMonthlyStats(resourcesAddedByMonth);
         stats.put("resourcesAddedByMonth", resourcesAddedByMonthMap);
 
-        // Ressources modifiées par mois
+
         List<Object[]> resourcesModifiedByMonth = resourceRepository.countResourcesModifiedByMonth(currentYear);
         Map<Integer, Long> resourcesModifiedByMonthMap = parseMonthlyStats(resourcesModifiedByMonth);
         stats.put("resourcesModifiedByMonth", resourcesModifiedByMonthMap);
@@ -127,7 +126,7 @@ public class ResourcesService implements IResourceService {
 
     @Override
     public List<Resources> getResourcesForProject(Long projectId) {
-        // Utilisez votre repository pour récupérer les ressources associées à ce projet
+
         return resourceRepository.findAllByTasksProjectProjectId(projectId);
     }
     @Override

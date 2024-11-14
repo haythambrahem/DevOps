@@ -19,7 +19,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/PORTFOLIO")
 @Slf4j
-//@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
+
 @CrossOrigin(origins = "http://localhost:4200")
 
 public class PortfolioController {

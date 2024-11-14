@@ -19,11 +19,6 @@ public class MvtStockController {
 
    @Autowired StockServiceImpl stockService;
 
-//    @PostMapping("/addMvt") //CREATED
-//    public ResponseEntity<MouvementStock> addMouvement(@RequestBody MouvementStock mouvementStock) {
-//        MouvementStock newMouvement = stockService.addMvt(mouvementStock);
-//        return new ResponseEntity<>(newMouvement, HttpStatus.CREATED);
-//    }
 
     @PostMapping("/addMvt/{productId}")
     public ResponseEntity<MouvementStock> addMvt(@RequestBody MouvementStock mouvementStock, @PathVariable Long productId) {
@@ -31,17 +26,17 @@ public class MvtStockController {
         return ResponseEntity.ok(newMvt);
     }
 
-    @PutMapping("/updateMvt") //ok
+    @PutMapping("/updateMvt")
     public MouvementStock updateMouvement(@RequestBody MouvementStock mouvementStock) {
         return stockService.updateMvt(mouvementStock);
     }
-    @GetMapping("/allMvt") //ok
+    @GetMapping("/allMvt")
     public ResponseEntity<List<MouvementStock>> getAllMouvements() {
         List<MouvementStock> mouvements = stockService.getAllMouvements();
         return new ResponseEntity<>(mouvements, HttpStatus.OK);
     }
 
-    @GetMapping("/retrieve/{mvtId}") //ok
+    @GetMapping("/retrieve/{mvtId}")
     public ResponseEntity<MouvementStock> getMouvementById(@PathVariable("mvtId") Long mvtId) {
         MouvementStock mouvement = stockService.getMouvementById(mvtId);
         return new ResponseEntity<>(mouvement, HttpStatus.OK);
@@ -56,7 +51,7 @@ public class MvtStockController {
         List<MouvementStock> movements = stockService.getMovementsByType(type);
         return new ResponseEntity<>(movements, HttpStatus.OK);
     }
-    @GetMapping("/currentStock/{productId}") //Ok mais lezm association avec product
+    @GetMapping("/currentStock/{productId}")
     public ResponseEntity<Long> getCurrentStock(@PathVariable Long productId) {
         Long currentStock = stockService.calculateCurrentStock(productId);
         if (currentStock != null) {

@@ -1,6 +1,6 @@
 package tn.esprit.se.pispring.Service.Command;
 
-import tn.esprit.se.pispring.entities.Cart;
+
 import tn.esprit.se.pispring.entities.Command;
 import tn.esprit.se.pispring.entities.CommandPayment;
 import tn.esprit.se.pispring.entities.CommandStatus;
@@ -27,11 +27,11 @@ public interface ICommandService {
 
     List<Command> findCommandsBetweenDates(Date start, Date end);
 
-    //calculer le chiffre d'affaires total pour un mois donné
+
     Double calculateMonthlySalesAmount(int year, int month);
 
 
-  //  Command createCommandAndAssignCart(Long cartId);
 
-    Command createCommandAndAssignCart(Long cartId, String userEmail);
+
+
 }

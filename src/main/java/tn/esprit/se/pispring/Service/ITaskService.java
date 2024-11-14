@@ -1,6 +1,6 @@
 package tn.esprit.se.pispring.Service;
 
-import tn.esprit.se.pispring.entities.Project;
+
 import tn.esprit.se.pispring.entities.Task;
 import tn.esprit.se.pispring.entities.TaskStatus;
 import tn.esprit.se.pispring.entities.User;
@@ -14,10 +14,10 @@ public interface ITaskService {
 
 
     Task addTask (Task task);
-    Task  updateTask (Task task);
+
     void   deleteTask (Long task_id);
     Task getTask (Long task_id);
-    public List<Task > getAllTask ();
+   List<Task > getAllTask ();
 
     List<Task> getTasksByProject(Long projectId);
 

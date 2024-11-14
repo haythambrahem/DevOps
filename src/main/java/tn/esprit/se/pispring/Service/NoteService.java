@@ -29,18 +29,17 @@ public class NoteService implements INoteService {
         List<Project> completedProjects = iProjectService.getCompletedProjects();
         log.info("Nombre de projets terminés : {}", completedProjects.size());
 
-        // Créer une map pour stocker les utilisateurs par projet
+
         Map<Long, List<User>> usersByProject = new HashMap<>();
 
         for (Project project : completedProjects) {
             Set<User> projectUsersSet = iTaskService.getProjectTeam(project.getProjectId());
             List<User> projectUsers = new ArrayList<>(projectUsersSet);
 
-            // Stocker les utilisateurs dans la map en utilisant l'ID du projet comme clé
+
             usersByProject.put(project.getProjectId(), projectUsers);
         }
 
-        // Parcourir la map et afficher les utilisateurs par projet
         for (Map.Entry<Long, List<User>> entry : usersByProject.entrySet()) {
             Long projectId = entry.getKey();
             List<User> projectUsers = entry.getValue();
@@ -55,22 +54,8 @@ public class NoteService implements INoteService {
         }
     }
 
-    @Override
-    public Map<Long, List<User>> getCompletedProjectsAndUsers() {
-        List<Project> completedProjects = iProjectService.getCompletedProjects();
-        Map<Long, List<User>> projectUsersMap = new HashMap<>();
 
-        for (Project project : completedProjects) {
-            Set<User> projectUsersSet = iTaskService.getProjectTeam(project.getProjectId());
-            List<User> projectUsers = new ArrayList<>(projectUsersSet);
-            projectUsersMap.put(project.getProjectId(), projectUsers);
 
-            log.info("Projet terminé: {}", project.getProject_name());
-            log.info("Utilisateurs associés: {}", projectUsers);
-        }
-
-        return projectUsersMap;
-    }
 
     @Override
     public Map<Long, List<User>> getretardProjectsAndUsers() {
@@ -167,40 +152,24 @@ public class NoteService implements INoteService {
 
         return userOccurrencesMap;
     }
-    @Override
-    public Map<User, Long> countUserOccurrencesForNote3() {
-        List<Object[]> userOccurrencesList = noteUserRepository.countUserOccurrencesForNote3();
 
-        Map<User, Long> userOccurrencesMap = new HashMap<>();
-
-        for (Object[] result : userOccurrencesList) {
-            User user = (User) result[0];
-            Long count = (Long) result[1];
-            userOccurrencesMap.put(user, count);
-        }
-
-        return userOccurrencesMap;
-    }
     @Override
     public Map<User, Map<String, Long>> countNoteOccurrencesForEachUser() {
 
 
         List<User> users = noteUserRepository.findAllUser();
 
-        // Initialiser une carte pour stocker les informations de chaque utilisateur
+
         Map<User, Map<String, Long>> userNoteOccurrencesMap = new HashMap<>();
 
-        // Pour chaque utilisateur, compter le nombre de notes 1 et 3
         for (User user : users) {
             Long countNote1 = noteUserRepository.countByUserIdAndNoteId(user.getId(), 1L);
             Long countNote3 = noteUserRepository.countByUserIdAndNoteId(user.getId(), 3L);
 
-            // Créer une sous-carte pour stocker le nombre de chaque type de note pour cet utilisateur
             Map<String, Long> noteOccurrencesMap = new HashMap<>();
             noteOccurrencesMap.put("Note 1", countNote1);
             noteOccurrencesMap.put("Note 3", countNote3);
 
-            // Ajouter les informations de l'utilisateur à la carte principale
             userNoteOccurrencesMap.put(user, noteOccurrencesMap);
         }
 

@@ -25,12 +25,12 @@ public class JwtUtils implements Serializable {
     @Value("${jwt.secret}")
     private String secret;
 
-    //retrieve username from jwt token
+
     public String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
     }
 
-    //retrieve expiration date from jwt token
+
     public Date getExpirationDateFromToken(String token) {
         return getClaimFromToken(token, Claims::getExpiration);
     }
@@ -39,19 +39,18 @@ public class JwtUtils implements Serializable {
         final Claims claims = getAllClaimsFromToken(token);
         return claimsResolver.apply(claims);
     }
-    //for retrieving any information from token we will need the secret key
+
     private Claims getAllClaimsFromToken(String token) {
-        // parser is deprecated instead use parserBuilder and same for set signingKey with string parameter so use the one with bytes array
         return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
     }
 
-    //check if the token has expired
+
     private Boolean isTokenExpired(String token) {
         final Date expiration = getExpirationDateFromToken(token);
         return expiration.before(new Date());
     }
 
-    //generate token for user
+
     public String generateToken(UserDetails userDetails, Map<String, Object> claims) {
 
         return doGenerateToken(claims, userDetails.getUsername(), JWT_TOKEN_VALIDITY);
@@ -62,14 +61,9 @@ public class JwtUtils implements Serializable {
         return doGenerateToken(new HashMap<>(), userDetails.getUsername(), REFRESH_JWT_TOKEN_VALIDITY);
     }
 
-    //while creating the token -
-    //1. Define  claims of the token, like Issuer, Expiration, Subject, and the ID
-    //2. Sign the JWT using the HS512 algorithm and secret key.
-    //3. According to JWS Compact Serialization(https://tools.ietf.org/html/draft-ietf-jose-json-web-signature-41#section-3.1)
-    //   compaction of the JWT to a URL-safe string
+
     private String doGenerateToken(Map<String, Object> claims, String subject, Long expiration) {
 
-        // the method signWith is deprecated use the method that takes key as argument in addition to the algorith
         return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expiration * 1000))
                 .signWith(SignatureAlgorithm.HS512, secret).compact();
@@ -77,7 +71,6 @@ public class JwtUtils implements Serializable {
 
     }
 
-    //validate token
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = getUsernameFromToken(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));

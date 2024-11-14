@@ -25,27 +25,23 @@ public class BarcodeServiceImpl implements IBarCode{
     @Override
     public ResponseEntity<byte[]> generateBarcode(String barcodeValue) {
         try {
-            // Set barcode width and height
+
             int width = 300;
             int height = 100;
 
-            // Encode the barcode
+
             BitMatrix bitMatrix = new MultiFormatWriter().encode(
                     barcodeValue, BarcodeFormat.CODE_128, width, height);
 
-            // Convert bitMatrix to BufferedImage
             BufferedImage bufferedImage = MatrixToImageWriter.toBufferedImage(bitMatrix);
 
-            // Convert BufferedImage to byte array
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             javax.imageio.ImageIO.write(bufferedImage, "png", baos);
 
-            // Set response headers
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.IMAGE_PNG);
             headers.setContentLength(baos.size());
 
-            // Return image bytes with appropriate headers
             return new ResponseEntity<>(baos.toByteArray(), headers, HttpStatus.OK);
         } catch (WriterException | IOException e) {
             e.printStackTrace();

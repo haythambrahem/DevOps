@@ -7,8 +7,6 @@ import tn.esprit.se.pispring.entities.ProjectStatus;
 import tn.esprit.se.pispring.entities.User;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import tn.esprit.se.pispring.entities.Project;
-import tn.esprit.se.pispring.entities.ProjectStatus;
 import tn.esprit.se.pispring.entities.Resources;
 import tn.esprit.se.pispring.entities.Task;
 
@@ -17,9 +15,8 @@ import java.util.List;
 @Repository
 
 public interface ProjectRepository extends JpaRepository<Project,Long> {
-   // Project delete(Long projectId);
+
    List<Project> findByProjectEnddateBeforeAndProjectStatusNot(Date projectEnddate, ProjectStatus projectStatus);
-   List<Project> findByProjectEnddateBeforeAndProjectStatusNotAndProjectEnddateBefore(Date enddate, ProjectStatus status, Date estimatedEnddate);
    List<Project> findByProjectStatus(ProjectStatus status);
 
    List<Project> findByProjectManager(String potfolioManager);

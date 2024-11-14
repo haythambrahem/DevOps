@@ -123,17 +123,14 @@ public class RecruitmentController {
 
     @GetMapping("/recruitment/candidate/{offerId}/{idCandidate}/experience-matching")
     public ResponseEntity<Double> calculateExperienceMatching(@PathVariable Long offerId, @PathVariable Long idCandidate) {
-        // Récupérer l'expérience requise pour le recrutement
         int experienceRequired = recruitmentService.getExperienceRequired(offerId);
 
-        if (experienceRequired == -1) { // Mettez ici la valeur que vous utilisez pour indiquer une absence de données
+        if (experienceRequired == -1) {
             return ResponseEntity.notFound().build();
         }
 
-        // Récupérer l'expérience du candidat
         int experienceCand = recruitmentService.getExperience(idCandidate);
 
-        // Calculer le pourcentage de correspondance
         double percentage = ((double) Math.min(experienceRequired, experienceCand) / Math.max(experienceRequired, experienceCand)) * 100;
 
         return ResponseEntity.ok(percentage);

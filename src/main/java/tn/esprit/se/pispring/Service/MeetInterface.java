@@ -2,7 +2,7 @@ package tn.esprit.se.pispring.Service;
 
 import org.springframework.stereotype.Repository;
 import tn.esprit.se.pispring.entities.Meeting;
-import tn.esprit.se.pispring.entities.Product;
+
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ public interface MeetInterface {
     void validerMeeting( Long meetId) ;
     Meeting planifierMeeting(Meeting m, Long consultantId, Long userId) ;
 
-  //  void refuserMeet ( Long meetId) ;
+;
     void annulerMeet ( Long meetId) ;
 
 

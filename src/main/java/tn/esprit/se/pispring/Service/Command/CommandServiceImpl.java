@@ -67,53 +67,30 @@ public class CommandServiceImpl implements ICommandService{
         return commandRepository.findByCommandPayment(payment);
     }
 
-    @Override //ok
+    @Override
     public List<Command> findCommandsBetweenDates(Date start, Date end) {
         return commandRepository.findAllByDateCommandBetween(start, end);
     }
 
-    //calculer le chiffre d'affaires total pour un mois donné
+
     @Override
     public Double calculateMonthlySalesAmount(int year, int month) {
-        // Définir le début et la fin du mois
+
         LocalDate startOfMonth = LocalDate.of(year, month, 1);
         LocalDate endOfMonth = startOfMonth.withDayOfMonth(startOfMonth.lengthOfMonth());
-        // Convertir LocalDate en Date
+
         Date startDate = Date.from(startOfMonth.atStartOfDay(ZoneId.systemDefault()).toInstant());
         Date endDate = Date.from(endOfMonth.atStartOfDay(ZoneId.systemDefault()).toInstant());
-        // Récupérer les commandes payées dans l'intervalle de temps
+
         List<Command> commands = commandRepository.findByCommandStatusAndDateCommandBetween(CommandStatus.PAID, startDate, endDate);
-        // Calculer le chiffre d'affaires total
+
         return commands.stream()
                 .mapToDouble(command -> command.getCart().getCartAmount())
                 .sum();
     }
 
 
-    @Override
 
-    public Command createCommandAndAssignCart(Long cartId, String userEmail) {
-        // Récupérer le panier à partir de l'identifiant du panier
-        Cart cart = cartRepository.findById(cartId)
-                .orElseThrow(() -> new RuntimeException("Cart not found with id " + cartId));
-
-        // Récupérer l'utilisateur à partir de son email
-        User user = userRepository.findByEmail(userEmail);
-
-        // Créer une nouvelle commande
-        Command command = new Command();
-        command.setDateCommand(new Date()); // Définir la date de la commande
-        // Autres attributs de la commande
-
-        // Associer l'utilisateur à la commande
-        command.setUser(user);
-
-        // Associer le panier à la commande
-        cart.setCommand(command);
-
-        // Enregistrer la commande en base de données
-        return commandRepository.save(command);
-    }
 
 
 }

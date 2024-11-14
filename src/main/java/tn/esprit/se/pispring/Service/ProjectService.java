@@ -26,12 +26,11 @@ public class ProjectService implements IProjectService{
 
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private ProductRepository productRepository;
+
 
 
     @Override
-public List<Project> getProjectsByBudgetId(Long budgetId) {
+    public List<Project> getProjectsByBudgetId(Long budgetId) {
     return projectRepository.findProjectsByBudgetId(budgetId);
 }
     @Override
@@ -91,7 +90,6 @@ public List<Project> getProjectsByBudgetId(Long budgetId) {
     @Override
     public Date findLatestTaskEndDate(Project project) {
         Date latestTaskEndDate = null;
-        // Assurez-vous que la méthode getTasks() renvoie la liste des tâches associées au projet
         for (Task task : project.getTasks()) {
             if (latestTaskEndDate == null || task.getTaskEnddate().after(latestTaskEndDate)) {
                 latestTaskEndDate = task.getTaskEnddate();
@@ -127,16 +125,12 @@ public List<Project> getProjectsByBudgetId(Long budgetId) {
 
     @Override
     public List<Project> getProjectsForCurrentUser() {
-        // Obtenez l'authentification de l'utilisateur actuellement connecté
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        // Obtenez le nom d'utilisateur de l'utilisateur actuellement connecté
         String currentUsername = authentication.getName();
 
-        // Recherchez l'utilisateur dans la base de données en utilisant le nom d'utilisateur
         User currentUser = userRepository.findByEmail(currentUsername);
 
-        // Si l'utilisateur existe, récupérez les projets associés à cet utilisateur
         if (currentUser != null) {
             return projectRepository.findByUserEmail(currentUser.getEmail());
         }

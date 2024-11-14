@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 public class FileDownloadController {
     private final FileStorageService fileStorageService;
 
-    // Autowire the FileStorageService in the constructor
     public FileDownloadController(FileStorageService fileStorageService) {
         this.fileStorageService = fileStorageService;
     }
@@ -23,15 +22,12 @@ public class FileDownloadController {
 
     @GetMapping("/downloadFile/{fileName}")
     public ResponseEntity<Resource> downloadFile(@PathVariable("fileName") String fileName, HttpServletRequest request) {
-        // Load file as Resource
         Resource resource = fileStorageService.loadFileAsResource(fileName);
 
-        // Try to determine file's content type
         String contentType = null;
         try {
             contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
         } catch (Exception ex) {
-            // Fallback to the default content type if type could not be determined
             contentType = "application/octet-stream";
         }
 

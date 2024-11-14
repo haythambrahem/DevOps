@@ -1,9 +1,6 @@
 package tn.esprit.se.pispring.startup;
 
-import com.twilio.Twilio;
-import com.twilio.rest.api.v2010.account.Message;
-import com.twilio.rest.verify.v2.service.Verification;
-import com.twilio.type.PhoneNumber;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -90,7 +87,7 @@ public class runner implements CommandLineRunner {
       }
 
       if (userRepo.findAll().isEmpty()) {
-        // Add a new Admin
+
         User admin = new User();
         admin.setFirstName("first");
         admin.setLastName("admin");
@@ -107,7 +104,7 @@ public class runner implements CommandLineRunner {
         userRepo.save(admin);
 
 
-        // Add a new HR_ADMIN
+
         User hrAdmin = new User();
         hrAdmin.setFirstName("first hr");
         hrAdmin.setLastName("admin");
@@ -117,7 +114,7 @@ public class runner implements CommandLineRunner {
         hrAdmin.setRoles(rolesss);
         hrAdmin.setEmail("hrAdmin@email.com");
         userRepo.save(hrAdmin);
-//HR_ROLE
+
         User hr = new User();
         hr.setFirstName("first hr");
         hr.setLastName("hr");
@@ -128,7 +125,6 @@ public class runner implements CommandLineRunner {
         hr.setEmail("hr@email.com");
         userRepo.save(hr);
 
-// Add a new HRE_ADMIN
 
         User hr1 = new User();
         hr1.setFirstName("first project user");
@@ -139,9 +135,9 @@ public class runner implements CommandLineRunner {
         hr1.setRoles(roleHr);
         hr1.setEmail("pr@email.com");
         userRepo.save(hr1);
-        // Add a list of users
 
-        // Add a PRODUCT_ADMIN
+
+
 
         User pAdmin = new User();
         pAdmin.setFirstName("first product");
@@ -153,7 +149,6 @@ public class runner implements CommandLineRunner {
         pAdmin.setEmail("pAdmin@email.com");
         userRepo.save(pAdmin);
 
-        // Add a project admin
 
         User projAdmin = new User();
         projAdmin.setFirstName("project");
@@ -173,7 +168,7 @@ public class runner implements CommandLineRunner {
         crmAdmin.setRoles(rolessssss);
         crmAdmin.setEmail("crmAdmin@email.com");
         userRepo.save(crmAdmin);
-        // Add a list of users
+
 
 
         IntStream.rangeClosed(1, 15).boxed().forEach(num -> {

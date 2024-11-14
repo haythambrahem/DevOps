@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.se.pispring.Service.ITaskService;
-import tn.esprit.se.pispring.entities.Project;
 import tn.esprit.se.pispring.entities.Task;
 import tn.esprit.se.pispring.entities.User;
 

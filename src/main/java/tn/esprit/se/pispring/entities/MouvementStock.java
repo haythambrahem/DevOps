@@ -23,11 +23,8 @@ public class MouvementStock implements Serializable {
     private Date dateMouvement;
     @Enumerated(EnumType.STRING)
     private TypeMouvement typeMouvement;
-    private double quantite; // Autorise les valeurs négatives
+    private double quantite;
 
-//    @JsonBackReference
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    private Product produit;
 @JsonBackReference
 @ManyToOne
 @JoinColumn(name = "product_id")

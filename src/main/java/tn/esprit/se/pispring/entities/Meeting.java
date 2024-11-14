@@ -1,11 +1,10 @@
 package tn.esprit.se.pispring.entities;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.Duration;
-import java.time.LocalTime;
+
 import java.util.Date;
 
 @Builder

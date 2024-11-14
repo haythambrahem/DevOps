@@ -27,15 +27,6 @@ public class CartController {
     private final ProductRepository productRepository;
     private final CartRepository cartRepository;
 
-    //    @PostMapping("/add-to-cart/{cartId}/{productId}/{quantity}")
-//    public ResponseEntity<Cart> addToCart(@PathVariable("cartId") Long cartId, @PathVariable("productId") Long productId, @PathVariable("quantity") Long quantity) {
-//        Cart cart = cartService.addToCart(cartId, productId, quantity);
-//        return ResponseEntity.ok(cart);
-//    }
-//    @PostMapping("/cartItem/{cartId}/{productId}/{quantity}") //OK
-//    public void addProductToCart(@PathVariable("cartId") Long cartId, @PathVariable("productId") Long productId, @PathVariable("quantity") Long quantity) {
-//    cartService.addProductToCart(cartId,productId,quantity);
-//    }
 @PostMapping("/addCart")
 public Cart addCart(@RequestBody Cart cart) {
 
@@ -49,7 +40,7 @@ public Cart addCart(@RequestBody Cart cart) {
     }
 
 
-    @GetMapping("/calculate-subtotals/{cartId}")  //OK
+    @GetMapping("/calculate-subtotals/{cartId}")
     public ResponseEntity<Float> calculateSubtotals(@PathVariable("cartId") Long cartId) {
         float total = cartService.calculateTotalPrice(cartId);
         return ResponseEntity.ok(total);
@@ -63,7 +54,7 @@ public Cart addCart(@RequestBody Cart cart) {
 
 
 
-    @PutMapping("/update-item-quantity/{cartId}/{cartItemId}/{newQuantity}")   //OKKK
+    @PutMapping("/update-item-quantity/{cartId}/{cartItemId}/{newQuantity}")
     public ResponseEntity<?> updateItemQuantity(@PathVariable("cartId") Long cartId, @PathVariable("cartItemId") Long  cartItemId, @PathVariable("newQuantity") Long newQuantity) {
         Cart cart = cartService.updateCartItemQuantity(cartId, cartItemId, newQuantity);
         return ResponseEntity.ok().body("Quantity updated successfully");
@@ -78,17 +69,6 @@ public Cart addCart(@RequestBody Cart cart) {
         return ResponseEntity.ok(cart);
     }
 
-//    @GetMapping("/items-with-products/{cartId}")
-//    public ResponseEntity<List<CartItem>> getCartItemsWithProducts(@PathVariable("cartId") Long cartId) {
-//        List<CartItem> cartItems = cartService.getCartItemsWithProducts(cartId);
-//
-//        if (!cartItems.isEmpty()) {
-//            return ResponseEntity.ok(cartItems);
-//        } else {
-//            // Retournez un statut 404 (Not Found) si le panier n'est pas trouvé
-//            return ResponseEntity.notFound().build();
-//        }
-//    }
 
     @GetMapping("/getCartItemsWithProducts/{cartId}")  //OKKK
     public List<CartItem> getCartItemsWithProducts(@PathVariable Long cartId) {
@@ -99,13 +79,5 @@ public Cart addCart(@RequestBody Cart cart) {
         return productServices.getProductById(productId);
     }
 
-//    @PostMapping("/updateCartItemCount/{cartId}")
-//    public ResponseEntity<?> updateCartItemCount(@PathVariable Long cartId, @RequestBody int itemCount) {
-//        boolean updateSuccessful = cartService.updateCartItemCount(cartId, itemCount);
-//        if (updateSuccessful) {
-//            return ResponseEntity.ok().body("Number of items updated successfully.");
-//        } else {
-//            return ResponseEntity.notFound().build();
-//        }
-//    }
+
 }

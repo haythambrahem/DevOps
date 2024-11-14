@@ -8,9 +8,7 @@ import tn.esprit.se.pispring.Repository.ProductRepository;
 import tn.esprit.se.pispring.Service.Product.ProductServices;
 import tn.esprit.se.pispring.Service.ProductionService.ProductionServiceImpl;
 import tn.esprit.se.pispring.entities.Product;
-import tn.esprit.se.pispring.entities.Production;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @RestController
@@ -49,20 +47,17 @@ public class ProductController {
     public ResponseEntity<?> deleteProduct(@PathVariable Long productId) {
         try {
             productServices.deleteProduct(productId);
-            // Return a success response indicating the product was deleted
+
             return ResponseEntity.ok().body("Product successfully deleted");
         } catch (Exception e) {
-            // Log the exception for debugging purposes
+
             System.err.println("Error deleting product: " + e.getMessage());
-            // Return an error response indicating the deletion failed
+
             return ResponseEntity.internalServerError().body("Error deleting product: " + e.getMessage());
         }
     }
 
-    //    @GetMapping("/getproductdetails/{productId}")
-//    public Product getProductDetailsById(@PathVariable("productId")Long productId){
-//        return productRepository.findById(productId).get();
-//    }
+
     @GetMapping("/getProductById/{id}")
     public Product getProductById(@PathVariable("id") Long productId) {
         return productServices.getProductById(productId);
@@ -79,15 +74,6 @@ public class ProductController {
     }
 
 
-//    @PostMapping("/products/add-with-barcode")
-//    public ResponseEntity<Product> addProductWithBarcode(@RequestBody Product product) {
-//        Product addedProduct = productServices.addProductWithBarcode(product);
-//        if (addedProduct != null) {
-//            return new ResponseEntity<>(addedProduct, HttpStatus.CREATED);
-//        } else {
-//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
 
 
     @PostMapping("/add-with-barcode/{productionId}")
@@ -101,7 +87,7 @@ public class ProductController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-    ////////////////////////////////function avancee
+
     @PostMapping("/advancedAction")
     public ResponseEntity<String> advancedAction(@RequestParam Long productId, @RequestParam String actionType) {
         String response = productServices.advancedProductAction(productId, actionType);

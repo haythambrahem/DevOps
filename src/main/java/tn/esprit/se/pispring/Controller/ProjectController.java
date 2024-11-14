@@ -4,17 +4,17 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.se.pispring.Service.IProjectService;
 import tn.esprit.se.pispring.Service.ITaskService;
 import tn.esprit.se.pispring.entities.*;
 
-import java.util.Date;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
+
 
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 @RestController

@@ -2,11 +2,11 @@ package tn.esprit.se.pispring.entities;
 
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
-import java.time.LocalDate;
+
 import java.util.Date;
 
 @Builder
@@ -44,7 +44,7 @@ public class Leav {
 
     private String comments;
 
-    private Integer leaveDaysLeft; // Number of leave days left for the employee
+    private Integer leaveDaysLeft;
 
 
 

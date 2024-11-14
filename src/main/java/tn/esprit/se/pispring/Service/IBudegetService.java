@@ -11,10 +11,10 @@ public interface IBudegetService {
     Budget updateBudget(Budget budget);
     void deleteBudget(Long budget_id);
     Budget getBudget(Long budget_id);
-    public List<Budget> getAllBudget();
+    List<Budget> getAllBudget();
 
     Budget assignBudgetToProject(Long budget_id, Long projectId);
-    Budget getBudgetByProjectId(Long projectId);
+
 
 
     Double calculateBudgetVariance(Long budgetId);

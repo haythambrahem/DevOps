@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import tn.esprit.se.pispring.Service.ICandidateService;
 import tn.esprit.se.pispring.Service.IRecruitmentService;
 import tn.esprit.se.pispring.entities.Candidate;
-import tn.esprit.se.pispring.entities.Leav;
-
 import javax.validation.Valid;
 import java.util.List;
 

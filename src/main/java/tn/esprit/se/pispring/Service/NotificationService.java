@@ -2,7 +2,7 @@ package tn.esprit.se.pispring.Service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import tn.esprit.se.pispring.Repository.LeavRepository;
@@ -32,7 +32,6 @@ public class NotificationService {
         LocalDateTime currentTime = LocalDateTime.now();
         Date currentDateTime = Date.from(currentTime.atZone(ZoneId.systemDefault()).toInstant());
 
-        // Calculate the end time (e.g., one hour from the current time)
         LocalDateTime endTime = currentTime.plusHours(1);
         Date endDateTime = Date.from(endTime.atZone(ZoneId.systemDefault()).toInstant());
 

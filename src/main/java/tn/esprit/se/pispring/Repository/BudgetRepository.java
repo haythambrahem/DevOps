@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import tn.esprit.se.pispring.entities.Budget;
-import tn.esprit.se.pispring.entities.Project;
+
 
 import java.util.List;
 

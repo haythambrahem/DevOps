@@ -23,11 +23,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class PayrollExportToExcel extends ReportAbstract {
     private void writePayrollTableData(Object data) {
         Set<Payroll> list = (Set<Payroll>) data;
-        // font style content
         CellStyle style = getFontContentExcel();
-        // starting write on row
         int startRow = 2;
-        // write content
         for (Payroll payroll : list) {
             Row row = sheet.createRow(startRow++);
             int columnCount = 0;
@@ -43,11 +40,8 @@ public class PayrollExportToExcel extends ReportAbstract {
 
     private void writeUsersTableData(Object data) {
         Map<String, Float> payrollList = (Map<String, Float>) data;
-        // font style content
         CellStyle style = getFontContentExcel();
-        // starting write on row
         AtomicInteger startRow = new AtomicInteger(2);
-        // write content
         payrollList.forEach((k,v) -> {
                     Row row = sheet.createRow(startRow.getAndIncrement());
                     int columnCount = 0;
@@ -64,14 +58,11 @@ public class PayrollExportToExcel extends ReportAbstract {
 
     public void exportToExcel(HttpServletResponse response, Object data, Map<String, Float> data1) throws IOException {
         newReportExcel();
-        // response  writer to excel
         response = initResponseForExportExcel(response, "Payroll Report");
         ServletOutputStream outputStream = response.getOutputStream();
-        // write sheet, title & header
         String[] firstSheetheaders = new String[]{"Employee Name", "Expenses"};
         String[] headers = new String[]{"Month", "Seniority","Working Days","Base Salary","Brut Salary","Net Salary"};
         writeTableHeaderExcel("Employee list", "Employee List", firstSheetheaders);
-        // write content row
         writeUsersTableData(data1);
 
         List<User> list = (List<User>) data;

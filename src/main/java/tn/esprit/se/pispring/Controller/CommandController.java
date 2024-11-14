@@ -2,13 +2,13 @@ package tn.esprit.se.pispring.Controller;
 
 import lombok.AllArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpStatus;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.se.pispring.Repository.CommandRepository;
 import tn.esprit.se.pispring.Repository.UserRepository;
 import tn.esprit.se.pispring.Service.Command.CommandServiceImpl;
-import tn.esprit.se.pispring.entities.Cart;
+
 import tn.esprit.se.pispring.entities.Command;
 import tn.esprit.se.pispring.entities.CommandPayment;
 import tn.esprit.se.pispring.entities.CommandStatus;
@@ -40,18 +40,18 @@ public class CommandController {
     public Command addCommand(@RequestBody Command command){
         return commandService.add(command);
     }
-    ///////////////////////////
+
 
     @PutMapping("/updateCommande")
     public Command updateCommand(@RequestBody Command command){
         return commandService.update(command);
     }
-    //OK
+
     @DeleteMapping("/deleteCommande/{commandId}")
     public void deleteCommand(@PathVariable("commandId") Long commandId){
         commandService.delete(commandId);
     }
-    @PutMapping("/{commandId}/assignCart/{cartId}") // ca marche pas
+    @PutMapping("/{commandId}/assignCart/{cartId}")
     public ResponseEntity<Command> assignCartToCommand(@PathVariable Long commandId, @PathVariable Long cartId) {
         Command updatedCommand = commandService.assignCartToCommand(commandId, cartId);
         return ResponseEntity.ok(updatedCommand);
@@ -65,7 +65,7 @@ public class CommandController {
         Double salesAmount = commandService.calculateMonthlySalesAmount(year, month);
         return ResponseEntity.ok(salesAmount);
     }
-    //OK
+
     @GetMapping("/commands/between-dates/{start}/{end}")
     public ResponseEntity<List<Command>> findCommandsBetweenDates(
             @PathVariable("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date start,
@@ -85,9 +85,5 @@ public class CommandController {
         List<Command> commands = commandService.findCommandsByPaymentMethod(payment);
         return ResponseEntity.ok(commands);
     }
-//    @PostMapping("/commands/{cartId}/{userEmail}")
-//    public ResponseEntity<Command> createCommandAndAssignCart(@PathVariable Long cartId, @PathVariable String userEmail) {
-//        Command command = commandService.createCommandAndAssignCart(cartId, userEmail);
-//        return new ResponseEntity<>(command, HttpStatus.CREATED);
-//    }
+
 }

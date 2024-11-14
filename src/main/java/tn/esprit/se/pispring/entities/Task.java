@@ -35,7 +35,6 @@ public class Task {
     private Set<User> users;
     @ManyToOne
     @JsonIgnore
-    //@JoinColumn(name = "project_id")
     Project project;
 
 }

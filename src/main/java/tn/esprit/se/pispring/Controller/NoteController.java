@@ -8,17 +8,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.se.pispring.Repository.NoteRepository;
-import tn.esprit.se.pispring.Service.IProjectService;
-import tn.esprit.se.pispring.Service.ITaskService;
+
 import tn.esprit.se.pispring.Service.INoteService;
 import tn.esprit.se.pispring.Service.NoteService;
 import tn.esprit.se.pispring.entities.Note;
-import tn.esprit.se.pispring.entities.Project;
+
 import tn.esprit.se.pispring.entities.User;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+
 
 @RestController
 @AllArgsConstructor
@@ -31,11 +30,9 @@ public class NoteController {
     @Autowired
     private NoteService noteService;
     INoteService iNoteService;
-    @Autowired
-    private IProjectService projectService;
 
-    @Autowired
-    private ITaskService taskService;
+
+
     @Autowired
     NoteRepository noteRepository;
 

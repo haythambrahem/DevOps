@@ -50,7 +50,6 @@ public class CandidateService implements ICandidateService {
         return candidateRepository.countCandidatesByRecruitment(offerId);
     }
 
-    public static class FileStorageService {
-    }
+
 }
 

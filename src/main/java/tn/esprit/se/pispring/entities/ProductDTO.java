@@ -20,11 +20,7 @@ public class ProductDTO {
     private long id;
     private String title;
     private Long quantity;
-    public ProductDTO(Long productId, String title, String description, float price, ProductType productType) {
-    }
 
-    public ProductDTO(String title, Long quantity) {
-        this.title = title;
-        this.quantity = quantity;
-    }
+
+
 }

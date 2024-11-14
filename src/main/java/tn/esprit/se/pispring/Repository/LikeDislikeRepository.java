@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import tn.esprit.se.pispring.entities.Product;
 import tn.esprit.se.pispring.entities.Rating.LikeDislike;
-import tn.esprit.se.pispring.entities.Rating.ProductRating;
+
 import tn.esprit.se.pispring.entities.Rating.Review;
 import tn.esprit.se.pispring.entities.User;
 

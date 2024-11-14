@@ -31,7 +31,7 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
 
-        //get authorization Header and validate it
+
         final String header = request.getHeader(HttpHeaders.AUTHORIZATION);
         if(!(header != null && header != "" && header.startsWith("Bearer "))){
             filterChain.doFilter(request,response);
@@ -40,11 +40,11 @@ public class JwtFilter extends OncePerRequestFilter {
 
         final String token = header.split(" ")[1].trim();
 
-        // get user identity and find the user in the database
+
         UserDetails userDetails = userDetailsService.loadUserByUsername(jwtUtils.getUsernameFromToken(token));
 
 
-        //validate token
+
         if(!jwtUtils.validateToken(token, userDetails)){
             filterChain.doFilter(request, response);
             return;

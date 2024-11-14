@@ -36,8 +36,6 @@ public interface IRecruitmentService {
 
     Optional<Recruitment> getRecruitmentByPostTitle(String postTitle);
 
-    // Méthode pour calculer le pourcentage de correspondance entre l'expérience requise et l'expérience du candidat
-    double calculateExperienceMatch(int experienceRequired, int experienceCand);
 
     int getExperienceRequired(Long offerId);
 

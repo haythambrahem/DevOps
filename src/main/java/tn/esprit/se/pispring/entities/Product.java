@@ -9,7 +9,7 @@ import tn.esprit.se.pispring.entities.Rating.Review;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
+
 
 @Builder
 @Getter
@@ -22,9 +22,9 @@ public class Product {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long productId;
-    //    private Integer quantity;
+
     private String reference;
-  //  private String barcode;
+
     private String title;
 
     @Column(columnDefinition = "MEDIUMTEXT")
@@ -55,12 +55,11 @@ public class Product {
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "product")
     List<Review> reviews;
 
-    /////////////////////////////////
-    // Relation avec Production
+
     @ManyToOne
     @JoinColumn(name = "production_id")
     private Production production;
-    //relation avec MvtStock
+
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "product")
     private List<MouvementStock> mouvementsStock;
@@ -87,8 +86,8 @@ public class Product {
   }
 
   public enum ProductType {
-    ELECTRONICS, CLOTHING, FURNITURE, // example values
-    // other product types...
+    ELECTRONICS, CLOTHING, FURNITURE,
+
   }
 
 }

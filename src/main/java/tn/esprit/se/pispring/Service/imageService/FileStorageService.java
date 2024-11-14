@@ -12,7 +12,7 @@ import java.nio.file.StandardCopyOption;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import java.net.MalformedURLException;
-import org.springframework.stereotype.Service;
+
 
 @Service
 public class FileStorageService {
@@ -31,16 +31,16 @@ public class FileStorageService {
     }
 
     public String storeFile(MultipartFile file) {
-        // Normalize file name
+
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
         try {
-            // Check if the file's name contains invalid characters
+
             if (fileName.contains("..")) {
                 throw new RuntimeException("Sorry! Filename contains invalid path sequence " + fileName);
             }
 
-            // Copy file to the target location (Replacing existing file with the same name)
+
             Path targetLocation = this.fileStorageLocation.resolve(fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 

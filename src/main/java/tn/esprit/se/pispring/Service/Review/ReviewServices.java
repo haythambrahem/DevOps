@@ -30,7 +30,7 @@ public class ReviewServices implements IReviewServices{
         Product product=productRepository.findById(productId).get();
         LikeDislike previousLike = (LikeDislike) likeDislikeRepository.findByProductAndUser(product, user);
         if (previousLike != null) {
-            // Delete the previous like
+
             product.getLikeDislikeProducts().remove(previousLike);
             user.getLikeDislikeProductList().remove(previousLike);
             likeDislikeRepository.delete(previousLike);
@@ -48,7 +48,7 @@ public class ReviewServices implements IReviewServices{
         Product product=productRepository.findById(productId).get();
         LikeDislike previousLike = (LikeDislike) likeDislikeRepository.findByProductAndUser(product, user);
         if (previousLike != null) {
-            // Delete the previous like
+
             product.getLikeDislikeProducts().remove(previousLike);
             user.getLikeDislikeProductList().remove(previousLike);
             likeDislikeRepository.delete(previousLike);
@@ -98,7 +98,7 @@ public class ReviewServices implements IReviewServices{
         return review;
     }
     @Override
-    @Transactional //okk
+    @Transactional
     public void deleteReviewsByProductId(Long productId) {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new RuntimeException("Product not found with id: " + productId));

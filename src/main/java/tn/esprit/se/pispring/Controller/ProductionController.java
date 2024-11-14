@@ -18,28 +18,28 @@ public class ProductionController {
 
 @Autowired ProductionServiceImpl productionService;
 
-//CRUUUUUUUUUUUUUUUUUUUUD
 
 
-    @PostMapping("/add") //OK
+
+    @PostMapping("/add")
     public Production addProduction(@RequestBody Production production) {
         return productionService.addProduction(production);
     }
-    @GetMapping("/all") //OK
+    @GetMapping("/all")
     public List<Production> getAllProductions() {
         return productionService.getAllProductions();
     }
 
-    @GetMapping("/{productionId}") //OK
+    @GetMapping("/{productionId}")
     public Production getProductionById(@PathVariable Long productionId) {
         return productionService.getProductionById(productionId);
     }
-    @PutMapping("/update") //OK
+    @PutMapping("/update")
     public Production updateProduction(@RequestBody Production production) {
         return productionService.updateProduction(production);
     }
 
-    @DeleteMapping("/delete/{productionId}") //Ok
+    @DeleteMapping("/delete/{productionId}")
     public void deleteProduction(@PathVariable Long productionId) {
         productionService.deleteProduction(productionId);
     }
@@ -54,7 +54,7 @@ public class ProductionController {
             return ResponseEntity.notFound().build();
         }
     }
-    //LOGIQUE   METIERR
+
     @GetMapping("/totalProductionTimedayss/{id}")
     public int getTotalProductionTime(@PathVariable("id") Long productionId) {
 
@@ -62,7 +62,7 @@ public class ProductionController {
         return productionService.calculateTotalProductionTime(production);
     }
 
-    @GetMapping("/production/yield-rate/{id}") //OK
+    @GetMapping("/production/yield-rate/{id}")
     public double getProductionYieldRate(@PathVariable("id") long id) {
         Production production = productionService.getProductionById(id);
         if (production == null) {
@@ -70,7 +70,7 @@ public class ProductionController {
         }
         return productionService.calculateYieldRate(production);
     }
-    @GetMapping("/production/machine-maintenance-cost") //OK
+    @GetMapping("/production/machine-maintenance-cost")
     public double getTotalMachineMaintenanceCost() {
         List<Production> productions = productionService.getAllProductions();
         if (productions.isEmpty()) {
@@ -78,7 +78,7 @@ public class ProductionController {
         }
         return productionService.calculateTotalMachineMaintenanceCost(productions);
     }
-    @GetMapping("/productions/most-defective") //OK
+    @GetMapping("/productions/most-defective")
     public List<Production> getProductionsWithMostDefectiveProducts() {
         return productionService.findProductionsWithMostDefectiveProducts();
     }
@@ -95,13 +95,13 @@ public class ProductionController {
         return ResponseEntity.ok(oee);
     }
 
-    @GetMapping("/calculateQualité/{productionId}") //mrigla
+    @GetMapping("/calculateQualité/{productionId}")
     public ResponseEntity<Double> calculateQuality(@PathVariable Long productionId) {
         Production production = productionService.getProductionById(productionId);
         double quality = productionService.calculateQuality(production);
         return ResponseEntity.ok(quality);
     }
-    @GetMapping("/calculateAvailability/{productionId}") //OK
+    @GetMapping("/calculateAvailability/{productionId}")
     public ResponseEntity<Double> calculateAvailability(@PathVariable Long productionId) {
         Production production = productionService.getProductionById(productionId);
         double availability = productionService.calculateAvailability(production);
@@ -127,33 +127,5 @@ public class ProductionController {
         return ResponseEntity.ok(oee);
     }
 
-//    @PostMapping("/calculate-stats")
-//    public void calculateProductionStats(@RequestBody Production production) {
-//        productionService.calculateProductionStats(production);
-//    }
 
-
-
-//
-//    @GetMapping("/overall-equipment-effectiveness")
-//    public double calculateOverallEquipmentEffectiveness(@RequestBody Production production) {
-//        return productionService.calculateOverallEquipmentEffectiveness(production);
-//    }
-//
-//    @GetMapping("/average-cycle-time")
-//    public long calculateAverageCycleTime(@RequestBody List<Production> productions) {
-//        return productionService.calculateAverageCycleTime(productions);
-//    }
-//
-//    @GetMapping("/average-availability")
-//    public double calculateAverageAvailability(@RequestBody List<Production> productions) {
-//        return productionService.calculateAverageAvailability(productions);
-//    }
-
-
-//
-//    @GetMapping("/total-maintenance-cost")
-//    public double calculateTotalMachineMaintenanceCost(@RequestBody List<Production> productions) {
-//        return productionService.calculateTotalMachineMaintenanceCost(productions);
-//    }
 }

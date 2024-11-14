@@ -17,7 +17,7 @@ import tn.esprit.se.pispring.Service.RoleService;
 import tn.esprit.se.pispring.Service.UserService;
 import tn.esprit.se.pispring.entities.Role;
 import tn.esprit.se.pispring.entities.ERole;
-import tn.esprit.se.pispring.entities.TaskStatus;
+
 import tn.esprit.se.pispring.entities.User;
 import tn.esprit.se.pispring.events.NewUserAddedEvent;
 
@@ -73,10 +73,6 @@ public class UserController {
         }
     }
 
-//    @GetMapping("/getCurrent")
-//    public ResponseEntity<?> test () {
-//        return ResponseEntity.ok("hello word");
-//    }
 
     @PutMapping("/editCurrent")
     public ResponseEntity<?> editCurrent(@RequestHeader(name = "Authorization") String token, @RequestBody CurrentUserRequest request) throws Exception {
@@ -111,7 +107,6 @@ public class UserController {
     }
 
     @PostMapping("/search")
-    // @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_HR_ADMIN', 'ROLE_CRM_ADMIN', 'ROLE_PROJECT_ADMIN', 'ROLE_PRODUCT_ADMIN')")
     public ResponseEntity<?> searchUsers(@RequestHeader(name = "Authorization") String token, @RequestBody SearchRequest searchRequest) throws Exception {
 
         try {
@@ -138,7 +133,6 @@ public class UserController {
     }
 
     @PostMapping("/delete")
-    //@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_HR_ADMIN', 'ROLE_CRM_ADMIN', 'ROLE_PROJECT_ADMIN', 'ROLE_PRODUCT_ADMIN')")
     public ResponseEntity<?> deleteUser(@RequestBody @Valid DeleteUsersRequest deleteUsersRequest) throws Exception {
 
         try {
@@ -151,21 +145,7 @@ public class UserController {
 
     }
 
-//    @GetMapping("/{userId}/tasks-by-status")
-//    public ResponseEntity<Map<TaskStatus, Integer>> getTasksByStatus(@PathVariable Long userId) {
-//        Map<TaskStatus, Integer> tasksByStatus = userService.getTasksByStatus(userId);
-//        if (tasksByStatus == null) {
-//            // Handle case where user is not found
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//        return new ResponseEntity<>(tasksByStatus, HttpStatus.OK);
-//    }
 
-    //    @GetMapping("/users-per-project-and-tasks")
-//    public ResponseEntity<List<ProjectUserTask>> getUsersPerProjectAndTasks() {
-//        List<ProjectUserTask> result = userService.getUsersPerProjectAndTasks();
-//        return ResponseEntity.ok(result);
-//    }
     @GetMapping("/user-task-status")
     public ResponseEntity<List<UserTaskCountDTO>> getUsersWithTaskStatus() {
         List<UserTaskCountDTO> userTaskCountDTOs = userService.getUsersWithTaskStatus();

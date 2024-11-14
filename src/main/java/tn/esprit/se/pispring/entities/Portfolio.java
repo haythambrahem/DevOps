@@ -23,10 +23,10 @@ public class Portfolio {
     private String potfolio_name;
     private String client_name;
     @Temporal(TemporalType.DATE)
-    private Date creation_date; // condition date
+    private Date creation_date;
     private String potfolio_manager;
     private String potfolio_description;
-    private Integer  nbr_client ; // supprimer deccriment // ajout incrementer
+    private Integer  nbr_client ;
     @Enumerated(EnumType.STRING)
     private PortfolioDomain domain;
     @OneToOne(mappedBy="portfolio")
@@ -37,7 +37,7 @@ public class Portfolio {
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="portfolio",fetch = FetchType.EAGER)
-    private Set<User> Users; // kol metsir affcetation nbr client increment auto
+    private Set<User> Users;
 
 
 

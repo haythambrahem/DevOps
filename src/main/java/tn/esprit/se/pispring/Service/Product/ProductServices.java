@@ -2,7 +2,7 @@ package tn.esprit.se.pispring.Service.Product;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.NoSuchElementException;
+
 
 @Service
 @Slf4j
@@ -44,32 +44,32 @@ private final ProductionRepository productionRepository;
 @Override
 public Product addProductWithBarcodeAndAssignProduction(Product product, Long productionId) {
     try {
-        // Générer le code-barres pour la référence du produit
+
         ResponseEntity<byte[]> response = barcodeService.generateBarcode(product.getReference());
 
         if (response.getStatusCode() == HttpStatus.OK) {
-            // Récupérer le code-barres sous forme d'octets
+
             byte[] barcodeBytes = response.getBody();
 
-            // Associer le code-barres au produit
+
             product.setBarcode(Base64.getEncoder().encodeToString(barcodeBytes));
 
-            // Récupérer la production à associer au produit
+
             Production production = productionRepository.findById(productionId)
                     .orElseThrow(() -> new EntityNotFoundException("Production not found for id: " + productionId));
 
-            // Associer la production au produit
+
             product.setProduction(production);
 
-            // Enregistrer le produit dans la base de données
+
             return productRepository.save(product);
         } else {
             log.error("Failed to generate barcode for product reference: {}", product.getReference());
-            return null; // Ou lancez une exception appropriée si nécessaire
+            return null;
         }
     } catch (Exception e) {
         log.error("Error adding product with barcode and assigning production: {}", e.getMessage());
-        return null; // Ou lancez une exception appropriée si nécessaire
+        return null;
     }
 }
 
@@ -77,10 +77,7 @@ public Product addProductWithBarcodeAndAssignProduction(Product product, Long pr
     public Product updateProduct(Product product) {
         return productRepository.save(product);
     }
-    @Override
-    public List<Product> retrieveAllProducts() {
-        return productRepository.findAll();
-    }
+
     @Override
     public Product getProductById(Long id) {
         return productRepository.findById(id)
@@ -107,7 +104,7 @@ public Product addProductWithBarcodeAndAssignProduction(Product product, Long pr
             return productRepository.findByTitleContainingIgnoreCaseOrDescriptionContainingIgnoreCase(searchKey, searchKey);
         }
   }
-////////////////fct avancee//////////////////
+
 @Override
 
 public List<Object[]> calculateAveragePriceByType() {
@@ -135,9 +132,9 @@ public List<Object[]> calculateAveragePriceByType() {
     }
 
     @Override
-    @Scheduled(fixedRate = 3600000) //1h
+    @Scheduled(fixedRate = 3600000)
     public void checkAndNotifyLowStock() {
-        int lowStockThreshold = 10; // seuil de stock bas
+        int lowStockThreshold = 10;
         List<Product> allProducts = productRepository.findAll();
         for (Product product : allProducts) {
             if (product.getStock() < lowStockThreshold) {
@@ -147,38 +144,26 @@ public List<Object[]> calculateAveragePriceByType() {
     }
 
     private void notifyLowStock(Product product) {
-        // Ici, implémentez la logique pour notifier du stock bas,
-        // par exemple, envoyer un email, créer un événement, etc.
+
         log.info("Stock faible pour le produit {} - Quantité restante: {}", product.getTitle(), product.getStock());
     }
 
-    @Override
-    public Product assignProductionToProduct(Long productId, Production production) {
-        // Récupérer le produit par son identifiant
-        Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new EntityNotFoundException("Product not found for this id :: " + productId));
 
-        // Affecter la production au produit
-        product.setProduction(production);
-
-        // Enregistrer le produit mis à jour dans la base de données
-        return productRepository.save(product);
-    }
     @Override
     public String advancedProductAction(Long productId, String actionType) {
-        // Retrieve the product by ID
+
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new EntityNotFoundException("Product not found for this id :: " + productId));
 
         switch (actionType.toUpperCase()) {
             case "UPDATE_PRICE":
-                // Logic to update the product price
-                product.setPrice(product.getPrice() * 1.1f); // Example: increase price by 10%
+
+                product.setPrice(product.getPrice() * 1.1f);
                 productRepository.save(product);
                 return "Product price updated successfully.";
 
             case "CHECK_STOCK":
-                // Logic to check stock and notify if low stock
+
                 if (product.getStock() < 10) {
                     return "Product stock is low!";
                 } else {
@@ -187,7 +172,7 @@ public List<Object[]> calculateAveragePriceByType() {
 
             case "ASSIGN_PRODUCTION":
 
-                // Logic to assign a production to a product
+
                 Production production = productionRepository.findById(product.getProduction().getProductionId())
                         .orElseThrow(() -> new EntityNotFoundException("Production not found for this id"));
                 product.setProduction(production);

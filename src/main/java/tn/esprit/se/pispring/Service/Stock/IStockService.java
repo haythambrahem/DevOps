@@ -7,7 +7,7 @@ import tn.esprit.se.pispring.entities.TypeMouvement;
 import java.util.List;
 
 public interface IStockService {
-   // MouvementStock addMvt(MouvementStock mouvementStock);
+
 
     MouvementStock updateMvt(MouvementStock mouvementStock);
 
@@ -25,11 +25,8 @@ public interface IStockService {
     double calculateAverageStockValue();
 
 
-    //Stock moyen = (Stock initial + Stock final)/2
     double calculateAverageStockValueForPeriods(Long productId);
 
-    //Consommation moyenne=	Somme totale des consommations / nombre total des consommations
-   // double calculateAverageConsumption();
 
     double calculateAverageConsumptionForProduct(Long productId);
 

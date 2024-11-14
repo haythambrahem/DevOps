@@ -2,8 +2,7 @@ package tn.esprit.se.pispring.Service;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
+
 import org.springframework.stereotype.Service;
 import tn.esprit.se.pispring.Repository.ConsultantRepository;
 import tn.esprit.se.pispring.Repository.CustomerTrackingRepository;
@@ -11,11 +10,8 @@ import tn.esprit.se.pispring.Repository.PortfilioRepository;
 import tn.esprit.se.pispring.Repository.UserRepository;
 import tn.esprit.se.pispring.entities.*;
 
-import java.time.LocalDate;
-import java.time.YearMonth;
-import java.time.ZoneId;
 import java.util.*;
-import java.util.stream.Collectors;
+
 
 @Service
 @AllArgsConstructor
@@ -55,7 +51,6 @@ public class ConsultantService implements ConsultantInterface{
         Portfolio p = portfilioRepository.findById(idPortfolio).orElseThrow(() -> new IllegalArgumentException("Portfolio with id " + idPortfolio + " not found"));
         Consultant c = consultantRepository.findById(idConsultant).orElseThrow(() -> new IllegalArgumentException("Consultant with id " + idConsultant + " not found"));
 
-        // Vérifier que la date de création du portefeuille est après la date d'embauche du consultant
         if (p.getCreation_date().after(c.getHireDate())) {
             c.setPortfolio(p);
             consultantRepository.save(c);
@@ -63,30 +58,13 @@ public class ConsultantService implements ConsultantInterface{
             throw new IllegalArgumentException("Portfolio creation date must be after consultant hire date");
         }
     }
-    /*public void affectPortfolioaConsultant(Long idConsultant, Long idPortfolio) {
-        Portfolio portfolio = portfilioRepository.findById(idPortfolio)
-                .orElseThrow(() -> new IllegalArgumentException("Portfolio with id " + idPortfolio + " not found"));
-        Consultant consultant = consultantRepository.findById(idConsultant)
-                .orElseThrow(() -> new IllegalArgumentException("Consultant with id " + idConsultant + " not found"));
 
-        // Vérifier que la date de création du portefeuille est après la date d'embauche du consultant
-        if (portfolio.getCreation_date().after(consultant.getHireDate())) {
-            Consultant updatedConsultant = Consultant.builder()
-                    .consultant_id(idConsultant)
-                    .portfolio(portfolio)
-                    .build();
-            consultantRepository.save(updatedConsultant);
-        } else {
-            throw new IllegalArgumentException("Portfolio creation date must be after consultant hire date");
-        }
-    }*/
 
 
     @Override
     public Map<String, Integer> countMeetingsPerUser(Long consultantId) {
         Map<String, Integer> meetingsPerUser = new HashMap<>();
        List<CustomerTracking>  customerTrackings = customerTrackingRepository.findByConsultantId(consultantId) ;
-        // Parcourir toutes les entrées de CustomerTracking
         for (CustomerTracking tracking : customerTrackings ) {
             if (tracking.getUser().getPortfolio().getConsultant().getConsultant_id().equals(consultantId)) {
                 String userName = tracking.getUser().getFirstName() + " " + tracking.getUser().getLastName();
@@ -134,7 +112,7 @@ public class ConsultantService implements ConsultantInterface{
 
         List<Consultant> allConsultants = consultantRepository.findAll();
 
-        // Compter le nombre de consultants pour chaque genre
+
         int maleCount = 0;
         int femaleCount = 0;
         for (Consultant consultant : allConsultants) {
@@ -172,7 +150,6 @@ public class ConsultantService implements ConsultantInterface{
             }
         }
 
-        // Ajouter les résultats au map
         skillCounts.put("oneStar", oneStarCount);
         skillCounts.put("twoStar", twoStarCount);
         skillCounts.put("threeStar", threeStarCount);
@@ -200,15 +177,12 @@ public class ConsultantService implements ConsultantInterface{
 
     @Override
     public List<Consultant> getConsultantsBySkillAndSeniority() {
-        // Récupérer tous les consultants triés par skill et seniority
         List<Consultant> consultants = consultantRepository.findAllByOrderBySkillAscHireDateAsc();
 
-        // Créer des listes pour chaque niveau de compétence
         List<Consultant> threeStarConsultants = new ArrayList<>();
         List<Consultant> twoStarConsultants = new ArrayList<>();
         List<Consultant> oneStarConsultants = new ArrayList<>();
 
-        // Parcourir la liste des consultants et les trier par niveau de compétence et seniority
         for (Consultant consultant : consultants) {
             switch (consultant.getSkill()) {
                 case THREE_STAR:
@@ -225,7 +199,6 @@ public class ConsultantService implements ConsultantInterface{
             }
         }
 
-        // Fusionner les listes triées par seniority
         List<Consultant> sortedConsultants = new ArrayList<>();
         sortedConsultants.addAll(threeStarConsultants);
         sortedConsultants.addAll(twoStarConsultants);

@@ -21,7 +21,7 @@ IContact iContact;
             iContact.sendContactEmail(name, email, subject, messageBody);
             return ResponseEntity.ok("Email sent successfully");
         } catch (MessagingException e) {
-            // Log the exception
+
             return ResponseEntity.status(500).body("Failed to send email");
         }
     }

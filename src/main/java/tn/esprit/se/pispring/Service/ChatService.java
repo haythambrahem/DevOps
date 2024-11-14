@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface ChatService {
 
-    public Chat addChat(Chat chat) throws ChatAlreadyExistException;
+     Chat addChat(Chat chat) throws ChatAlreadyExistException;
 
     List<Chat> findallchats() throws NoChatExistsInTheRepository;
 
