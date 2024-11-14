@@ -37,24 +37,18 @@ public class SecurityConfiguration {
     private final PasswordEncoder passwordEncoder;
 
     @Bean
-    public SecurityFilterChain securityFilterChain (HttpSecurity http) throws Exception {
-        http.csrf().disable().cors().and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .exceptionHandling()
-                .authenticationEntryPoint((request, response, exception) -> {
-                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, exception.getMessage());
-                }).and()
-
-                .authorizeRequests().antMatchers("/**","/product/**","/cart/**","/review/**","/command/**")
-                .permitAll()
-                .anyRequest()
-                .authenticated()
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.csrf().disable()
+                .cors().and()  // Enable CORS
+                .authorizeRequests()
+                .anyRequest().authenticated()
                 .and()
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
+
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
@@ -71,17 +65,16 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    CorsConfigurationSource corsConfigurationSource() {
+    public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOriginPattern("*"); // Permet toutes les origines pour tester
-       // configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-       // configuration.setAllowedHeaders(Arrays.asList("Authorization", "content-type"));
-        configuration.setAllowedMethods(Arrays.asList("*")); // Pour tester, autoriser toutes les méthodes
-        configuration.setAllowedHeaders(Arrays.asList("*")); // Autoriser tous les en-têtes
-        configuration.setAllowCredentials(true); // Pour les requêtes avec authentification
+        configuration.setAllowedOrigins(Arrays.asList("http://192.168.111.128:4200")); // Your frontend URL
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
+        configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
+        source.registerCorsConfiguration("/**", configuration); // Apply to all endpoints
         return source;
     }
+
 }
