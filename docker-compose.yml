@@ -1,8 +1,8 @@
 version: '3.1'
 services:
-  db:
+  database:
     image: mysql:8.0
-    container_name: db
+    container_name: database
     restart: unless-stopped
     ports:
       - "3306:3306"
@@ -21,7 +21,7 @@ services:
     ports:
       - "7070:8089"
     depends_on:
-      - db
+      - database
     networks:
       - mynetwork
 
