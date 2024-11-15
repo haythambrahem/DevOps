@@ -7,6 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import tn.esprit.se.pispring.Repository.*;
+import tn.esprit.se.pispring.Service.Product.ProductServices;
 import tn.esprit.se.pispring.entities.Product;
 import tn.esprit.se.pispring.entities.Rating.LikeDislike;
 import tn.esprit.se.pispring.entities.Rating.ProductRating;
@@ -31,7 +32,7 @@ class ProductServicesTest {
 
 
     @InjectMocks
-    private tn.esprit.se.pispring.Service.Product.ProductServices productServices;
+    private ProductServices productServices;
 
     @BeforeEach
     public void setup() {
@@ -154,7 +155,7 @@ class ProductServicesTest {
 
         Product product = new Product();
         product.setProductId(1L);
-        product.setStock(5L);  // Simulate low stock
+        product.setStock(5L);
         when(productRepository.findById(1L)).thenReturn(Optional.of(product));
 
 

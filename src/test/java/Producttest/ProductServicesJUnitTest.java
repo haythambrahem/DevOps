@@ -16,7 +16,7 @@ class ProductServicesJUnitTest {
     @Test
     void testCalculateDiscountedPrice_SmallDiscount() {
         float result = ProductServices.calculateDiscountedPrice(100f, 0.05f);
-        assertEquals(95f, result, 0.01);  // 5% discount
+        assertEquals(95f, result, 0.01);
     }
 
     @Test

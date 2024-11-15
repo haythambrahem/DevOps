@@ -16,16 +16,16 @@ services:
     restart: unless-stopped
 
     ports:
-        - "3306:3306"  # Expose le port MySQL
+        - "3306:3306"
     volumes:
           - mysql_data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: root  # Base de données par défaut
+      MYSQL_DATABASE: root
 
     networks:
       - mynetwork
-    # Persistance des données
+
   backend:
     image: syrineahmed/syrineahmed-5se1-g3-devops:latest
     container_name: backend
