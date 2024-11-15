@@ -14,9 +14,9 @@ services:
     networks:
       - mynetwork
 
-  backend:
+  pi:
     image: onsmaddouri/5se1-g3-devops:latest
-    container_name: backend
+    container_name: pi
     restart: on-failure
     ports:
       - "7070:8089"
