@@ -204,7 +204,7 @@
                 </configuration>
             </plugin>
         </plugins>
-        <finalName>DevOps</finalName>
+        <finalName>maddouri</finalName>
     </build>
 
 </project>
