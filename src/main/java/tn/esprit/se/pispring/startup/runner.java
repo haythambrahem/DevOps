@@ -15,13 +15,10 @@ import tn.esprit.se.pispring.Repository.UserRepository;
 import tn.esprit.se.pispring.entities.ERole;
 import tn.esprit.se.pispring.entities.Permission;
 import tn.esprit.se.pispring.entities.Role;
-
 import tn.esprit.se.pispring.entities.User;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
-
 import static tn.esprit.se.pispring.entities.EPermission.ROLE_ADMIN_READ;
 import static tn.esprit.se.pispring.entities.ERole.ROLE_ADMIN;
 
