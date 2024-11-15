@@ -51,5 +51,17 @@ public class Leav {
     User user;
 
 
+    public boolean getLeaveApproved() {
+        return leaveApproved;
+    }
+
+    public void setLeaveApproved(boolean leaveApproved) {
+        this.leaveApproved = leaveApproved;
+    }
+
+    public boolean isLeaveApproved() {
+        return leaveApproved;
+    }
+
 
 }

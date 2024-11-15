@@ -19,7 +19,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class LeavServiceTest1 {
+ class LeavServiceTest1 {
 
     @Mock
     private LeavRepository leavRepository;
