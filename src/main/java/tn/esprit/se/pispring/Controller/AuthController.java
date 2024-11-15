@@ -2,7 +2,6 @@ package tn.esprit.se.pispring.Controller;
 
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,8 +21,6 @@ import tn.esprit.se.pispring.Service.UserStatisticsService;
 import tn.esprit.se.pispring.entities.User;
 import tn.esprit.se.pispring.secConfig.JwtUtils;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -33,20 +30,23 @@ import java.util.stream.Collectors;
 @Slf4j
 public class AuthController {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
+    private final UserDetailsService userDetailsService;
+    private final JwtUtils jwtUtils;
+    private final UserService userService;
+    private final UserStatisticsService userStatisticsService;
 
-    @Autowired
-    private UserDetailsService userDetailsService;
-
-    @Autowired
-    private JwtUtils jwtUtils;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private UserStatisticsService userStatisticsService;
+    public AuthController(AuthenticationManager authenticationManager,
+                          UserDetailsService userDetailsService,
+                          JwtUtils jwtUtils,
+                          UserService userService,
+                          UserStatisticsService userStatisticsService) {
+        this.authenticationManager = authenticationManager;
+        this.userDetailsService = userDetailsService;
+        this.jwtUtils = jwtUtils;
+        this.userService = userService;
+        this.userStatisticsService = userStatisticsService;
+    }
 
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody UserSignupRequest userReq) throws Exception {
@@ -62,7 +62,7 @@ public class AuthController {
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<?> authenticate(@RequestBody AuthenticationRequest authenticationRequest, final HttpServletResponse response) throws Exception {
+    public ResponseEntity<?> authenticate(@RequestBody AuthenticationRequest authenticationRequest)  {
 
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(), authenticationRequest.getPassword()));
@@ -99,12 +99,12 @@ public class AuthController {
     }
 
     @GetMapping("/verifyRegistration")
-    public String verifyRegistration(@RequestParam("token") String token) throws Exception {
+    public String verifyRegistration(@RequestParam("token") String token)  {
         return null; //userService.validateVerificationTokenForUser(token);
     }
 
     @GetMapping("/resendVerification")
-    public String resendVerificationToken(@RequestParam("token") String oldToken, final HttpServletRequest httpServletRequest) throws Exception {
+    public String resendVerificationToken(@RequestParam("token") String oldToken)  {
 
         return oldToken;
     }

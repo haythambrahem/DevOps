@@ -1,9 +1,6 @@
 package tn.esprit.se.pispring.startup;
 
-import com.twilio.Twilio;
-import com.twilio.rest.api.v2010.account.Message;
-import com.twilio.rest.verify.v2.service.Verification;
-import com.twilio.type.PhoneNumber;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
