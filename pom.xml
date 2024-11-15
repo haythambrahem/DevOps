@@ -197,6 +197,8 @@
                 <configuration>
                     <failOnError>false</failOnError>
                     <xmlOutput>true</xmlOutput>
+                    <outputDirectory>${project.build.directory}/spotbugs</outputDirectory> <!-- Output location -->
+
                 </configuration>
                 <executions>
                     <execution>
